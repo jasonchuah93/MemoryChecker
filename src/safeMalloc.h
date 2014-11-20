@@ -1,16 +1,11 @@
 #ifndef safeMalloc_H
 #define safeMalloc_H
 
-typedef struct Record Record;
+#include"MemoryRecord.h"
 
-struct Record{
-    unsigned int size;
-    int lineNumber;
-    char *filename;
-};
-    
-
-void _safeMalloc(unsigned int size,int lineNumber, char *filename);
-void *safeMalloc(unsigned int size,int lineNumber, char *filename);
+int *preMemorySize(int size);
+int *postMemorySize(int size);
+void *_safeMalloc(int size,int lineNumber, char *fileName);
+void safeFree(void *memoryToFree);
 
 #endif // safeMalloc_H
