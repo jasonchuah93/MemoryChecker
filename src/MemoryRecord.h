@@ -10,8 +10,6 @@ struct Record{
     char *fileName;
 };
 
-void *addRecord(void *memory,int size,int lineNumber,char *fileName);
-Record *delRecord(void *memory,int size,int lineNumber,char *fileName);
-Record *findRecord(void *memory,int size,int lineNumber,char *fileName);
+Record *createRecord(void *memory,int size,int lineNumber,char *fileName);
 
 #endif // MemoryRecord_H
