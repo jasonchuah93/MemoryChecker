@@ -16,15 +16,18 @@ void tearDown(void){}
 
 void test_safeMalloc_should_throw_error_if_size_of_memory_cross_the_internal_memory_size(void){
     CEXCEPTION_T err;
-    Record *info;
     char *memory;
-    info->size = 100;
     Try{
-        memory = safeMalloc(150);
+        memory = safeMalloc(1100);
         TEST_FAIL_MESSAGE("Expected ERR_EXCEED_ALLOCATED_MEMORY to be thrown.But receive none");
     }Catch(err){
         TEST_ASSERT_EQUAL(ERR_EXCEED_ALLOCATED_MEMORY,err);
     }
 }
 
+void test_safeMalloc_should_create_memory_record(void){
+    Record *record;
+    char *memory = safeMalloc(500);
+    //TEST_ASSERT_EQUAL_STRING("5A5A5A",record->memory);
+}
 

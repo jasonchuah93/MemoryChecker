@@ -13,15 +13,25 @@
 #define createRecord(memory,size) _createRecord(memory,size,__LINE__,__FILE__)
 
 void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
-    Record *record;
+    int i; Record *record;
     printf("Requested to allocate %d size of memory\n and called "
 			"from %s at %d line number\n",size,fileName,lineNumber);
     void *memory = allocateMemory(BUFFER_SIZE+size+BUFFER_SIZE);
-    record = createRecord(memory,size);
-    if(size > 100){
+    if(size > 1000){
         Throw(ERR_EXCEED_ALLOCATED_MEMORY);
         return 0;
     }
+    *((char*)memory)='5';
+    for(i=0;i<256;i++){
+        if(*((char*)memory)=='5')
+            *((char*)memory) = 'A';
+        else
+            *((char*)memory)='5';
+    }
+    printf("first byte : %c \n",*((char*)memory));
+    printf("second byte : %c \n",!*((char*)memory));
+    record = createRecord(memory,size);
+    
 }
 
 void safeFree(void *memoryToFree){
