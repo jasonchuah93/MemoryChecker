@@ -3,6 +3,9 @@
 #include "MemoryRecord.h"
 #include "mock_redBlackTree.h"
 #include "memoryManager.h"
+#include "ErrorCode.h"
+#include "CException.h"
+
 
 void setUp(void){}
 

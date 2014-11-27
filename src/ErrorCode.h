@@ -4,7 +4,8 @@
 typedef enum{
 	ERR_NO_ERROR,
 	ERR_EXCEED_ALLOCATED_MEMORY,
-    ERR_BUFFER_SIZE
+    ERR_BUFFER_SIZE,
+	ERR_EQUIVALENT_NODE
 }ErrorCode;
 
 #endif // ErrorCode_H

@@ -8,5 +8,5 @@
 void *memoryManagerAddRecord(Record *record){
     Record *recordCompare;
     Node *nodeRecord =(Node*)record;
-    genericAddRedBlackTree(nodeRecord,recordCompare);
+    
 }

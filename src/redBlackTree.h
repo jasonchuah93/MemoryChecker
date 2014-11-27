@@ -1,10 +1,13 @@
 #ifndef redBlackTree_H
 #define redBlackTree_H
 
-#include "MemoryRecord.h"
+#include "Node.h"
 
-void genericAddRedBlackTree(Node *record,Record *recordCompare);
-void genericFindRedBlackTree(Node *record,Record *recordCompare);
-Node *genericDelRedBlackTree(Node *record,Record *recordCompare);
+#define addRedBlackTree(rooPtr,addNode) \
+	genericAddBlackTree(rootPtr,addNode,addDelRecordCompare);
+
+void handleColor(Node **rootPtr,Node *deleteNode);
+void genericAddRedBlackTree(Node **rootPtr,void *addNode,int(*priorityCompare)(void *target,void *fromRedBlackTree));
+void _addRedBlackTree(Node **rootPtr,Node *addNode);
 
 #endif // redBlackTree_H
