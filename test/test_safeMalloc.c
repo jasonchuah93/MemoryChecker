@@ -26,8 +26,8 @@ void test_safeMalloc_should_throw_error_if_size_of_memory_cross_the_internal_mem
 }
 
 void test_safeMalloc_should_create_memory_record(void){
-    Record *record;
-    char *memory = safeMalloc(500);
-    //TEST_ASSERT_EQUAL_STRING("5A5A5A",record->memory);
+    int i;Record *record;
+    char *memory = safeMalloc(300);
+    
 }
 

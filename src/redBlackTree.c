@@ -4,6 +4,7 @@
 #include "MemoryRecord.h"
 #include "redBlackTree.h"
 
+
 void genericAddRedBlackTree(Node *record,Record *recordCompare){
 
 }
@@ -11,3 +12,5 @@ void genericAddRedBlackTree(Node *record,Record *recordCompare){
 Node *genericDelRedBlackTree(Node *record,Record *recordCompare){
 
 }
+
+

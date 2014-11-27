@@ -14,5 +14,7 @@ struct Record{
 };
 
 Record *_createRecord(void *memory,int size,int lineNumber,char *fileName);
+int findRecordCompare(void *memory,void *memoryFromRedBlackTree);
+int addDelRecordCompare(void *memory,void *memoryFromRedBlackTree);
 
 #endif // MemoryRecord_H

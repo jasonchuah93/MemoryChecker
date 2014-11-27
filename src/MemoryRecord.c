@@ -17,6 +17,30 @@ Record *_createRecord(void *memory,int size,int lineNumber,char *fileName){
     return record;
 }
 
+int findRecordCompare(void *memory,void *memoryFromRedBlackTree){
+	char *_memory = (char *)memory;
+	Record *_memoryFromRedBlackTree = (Record *)memoryFromRedBlackTree;
+	
+	if(_memory > (char*)_memoryFromRedBlackTree->memory){
+		return 1;
+	}else if(_memory < (char*)_memoryFromRedBlackTree->memory){
+		return -1;
+	}else{
+		return 0;
+	}
+}
 
+int addDelRecordCompare(void *memory,void *memoryFromRedBlackTree){
+	Record *_memory = (Record *)memory;
+	Record *_memoryFromRedBlackTree = (Record *)memoryFromRedBlackTree;
+	
+	if(_memory > (Record*)_memoryFromRedBlackTree->memory){
+		return 1;
+	}else if(_memory < (Record*)_memoryFromRedBlackTree->memory){
+		return -1;
+	}else{
+		return 0;
+	}
+}
 
 
