@@ -9,6 +9,7 @@
   
 void *allocateMemory(unsigned int size){
     void *memory = malloc(size);
+	return memory;
 }
 
 void freeMemory(void *memory){

@@ -5,8 +5,7 @@
 #include "redBlackTree.h"
 #include "memoryManager.h"
 
-void *memoryManagerAddRecord(Record *record){
-    Record *recordCompare;
-    Node *nodeRecord =(Node*)record;
-    
+void memoryManagerAddRecord(Record *record){
+	
 }
+

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Node.h"
+#include "Rotation.h"
 #include "memoryManager.h"
 #include "MemoryRecord.h"
 #include "redBlackTree.h"
@@ -10,7 +11,7 @@
 #include "CException.h"
 
 #define BUFFER_SIZE 256 
-#define createRecord(memory,size) _createRecord(memory,size,__LINE__,__FILE__)
+
 
 void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
     int i; Record *record;
@@ -22,14 +23,17 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
         return 0;
     }
     *((char*)memory)='5';
-	for(i=0;i<256;i++){
+	for(i=0;i<BUFFER_SIZE;i++){
         if(*((char*)memory)=='5'){
             *((char*)memory) = 'A';
 		}else if(*((char*)memory)=='A')
             *((char*)memory)='5';
 	}
-    record = createRecord(memory,size);
-    
+	
+	record = (Record*)createRecord(((char*)memory),size);
+    memoryManagerAddRecord(record);
+	
+	return record;
 }
 
 void safeFree(void *memoryToFree){

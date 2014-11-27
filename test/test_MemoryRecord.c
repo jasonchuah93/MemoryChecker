@@ -43,7 +43,7 @@ void test_addDelRecordCompare_should_return_1_if_memory_is_larger_than_memoryFro
 	Record *memory = (Record*)0x456;
 	Record record ={.memory=(Record*)0x123};
 	
-	TEST_ASSERT_EQUAL(1,findRecordCompare(memory,&record));
+	TEST_ASSERT_EQUAL(1,addDelRecordCompare(memory,&record));
 }
 
 
@@ -51,14 +51,14 @@ void test_addDelRecordCompare_should_return_negative_1_if_memory_is_smaller_than
 	Record *memory = (Record*)0x123;
 	Record record ={.memory=(Record*)0x789};
 	
-	TEST_ASSERT_EQUAL(-1,findRecordCompare(memory,&record));
+	TEST_ASSERT_EQUAL(-1,addDelRecordCompare(memory,&record));
 }
 
 void test_addDelRecordCompare_should_return_0_if_memory_is_equal_than_memoryFromRedBlackTree(void){
 	Record *memory = (Record*)0x456;
 	Record record ={.memory=(Record*)0x456};
 	
-	TEST_ASSERT_EQUAL(0,findRecordCompare(memory,&record));
+	TEST_ASSERT_EQUAL(0,addDelRecordCompare(memory,&record));
 }
 
 

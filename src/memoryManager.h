@@ -3,6 +3,6 @@
 
 #include "MemoryRecord.h"
 
-void *memoryManagerAddRecord(Record *record);
+void memoryManagerAddRecord(Record *record);
 
 #endif // memoryManager_H

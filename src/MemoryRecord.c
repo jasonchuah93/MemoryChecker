@@ -7,10 +7,10 @@
     This function will create record for the input parameter.
     Return record when the function end.
 **/
-Record *_createRecord(void *memory,int size,int lineNumber,char *fileName){
+Record *_createRecord(char *memory,int size,int lineNumber,char *fileName){
     Record *record;
     record = malloc(size);
-    record->memory =(char*)memory;
+    record->memory =memory;
     record->size = size;
     record->lineNumber = lineNumber;
     record->fileName = fileName;
