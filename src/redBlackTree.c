@@ -15,17 +15,54 @@ void handleColor(Node **rootPtr,Node *deleteNode){
         root->color ='r';
       }
 }
-void _genericAddRedBlackTree(Node **rootPtr,void *addNode,int(*addDelRecordCompare)(void *target,void* fromRedBlackTree)){
-	Node *root = *rootPtr;
-	if(root == NULL){
-		*rootPtr = addNode;
-		return;
-	}
-	
+
+void genericAddRedBlackTree(Node **rootPtr,Node *addNode, int(*addDelRecordCompare)(void *newNode,void **rootPtr)){
+    _genericAddRedBlackTree(rootPtr,addNode,addDelRecordCompare);    
+    (*rootPtr)->color='b';
 }
 
-void addRedBlackTree(Node **rootPtr,Node *deleteNode){
-	_addRedBlackTree(rootPtr,deleteNode);
+void _genericAddRedBlackTree(Node **rootPtr,Node *addNode, int(*memoryCompare)(void *newNode,void **rootPtr)){
+  Node *root = *rootPtr;
+  if(root == NULL){
+	*rootPtr = addNode;
+    return;
+  }
+  if (root->left!=NULL && root->right!=NULL){
+    handleColor(rootPtr,addNode); 
+  }
+  if(memoryCompare((void*)root,addNode)){
+	_genericAddRedBlackTree(&root->left,addNode,addDelRecordCompare);
+  }else if(!memoryCompare((void*)root,addNode)){
+	_genericAddRedBlackTree(&root->right,addNode,addDelRecordCompare);
+  }else{
+	Throw(ERR_EQUIVALENT_NODE);
+  }
+  if(root->left!=NULL && root->right==NULL){
+	if(root->left->left !=NULL){
+		if(root->left->color == 'r' && root->left->left->color == 'r'){
+			rightRotate(rootPtr);
+		}
+	}else if(root->left->right !=NULL){
+		if(root->left->color == 'r' && root->left->right->color == 'r'){
+			leftRightRotate(rootPtr);
+		}
+	}
+  }else if(root->left==NULL && root->right!=NULL){
+	if(root->right->right !=NULL){
+		if(root->right->color == 'r' && root->right->right->color == 'r'){
+			leftRotate(rootPtr);
+		}
+	}else if(root->right->left !=NULL){
+		if(root->right->color == 'r' && root->right->left->color == 'r'){
+			rightLeftRotate(rootPtr);
+		}
+	}
+  }
+}
+
+
+void addRedBlackTree(Node **rootPtr,Node *addNode){
+	_addRedBlackTree(rootPtr,addNode);
 	(*rootPtr)->color='b';
 }
 
@@ -68,6 +105,3 @@ void _addRedBlackTree(Node **rootPtr,Node *addNode){
   }
 }
 
-Node *genericDelRedBlackTree(Node *record,Record *recordCompare){
-
-}

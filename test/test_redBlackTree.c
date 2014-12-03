@@ -1,9 +1,13 @@
+#include <stdio.h>
 #include "unity.h"
 #include "Node.h"
 #include "InitNode.h"
 #include "Rotation.h"
+#include "MemoryRecord.h"
 #include "redBlackTree.h"
 #include "CustomAssertions.h"
+#include "ErrorCode.h"
+#include "CException.h"
 
 Node node5,node7,node10;
 
@@ -14,6 +18,27 @@ void setUp(void){
 }
 
 void tearDown(void){}
+
+/*****************************************
+
+	1 NODE tests
+
+*******************************************/
+/**
+*	root		root
+*	 |    add 10	|
+*	 v    ------>   v
+*	NULL          10(b)
+**/
+
+void test_genericAddRedBlackTree_add_10(void){
+  setNode(&node10,NULL,NULL,'r');
+  Node *root = NULL;
+
+  addRedBlackTree(&root,&node10);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',root);
+}
+
 
 /**
 *		root			      		 root

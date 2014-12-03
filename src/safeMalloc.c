@@ -22,16 +22,9 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
         Throw(ERR_EXCEED_ALLOCATED_MEMORY);
         return 0;
     }
-    *((char*)memory)='5';
-	for(i=0;i<BUFFER_SIZE;i++){
-        if(*((char*)memory)=='5'){
-            *((char*)memory) = 'A';
-		}else if(*((char*)memory)=='A')
-            *((char*)memory)='5';
-	}
-	
-	record = (Record*)createRecord(((char*)memory),size);
+    record = (Record*)createRecord(((char*)memory),size);
     memoryManagerAddRecord(record);
+    
 	
 	return record;
 }

@@ -8,6 +8,7 @@ struct Node {
  Node *right;
  char color; // 'b' or 'r'(black or red)
  int data;
+ void *memoryData;
 };
 
 #endif // Node_H

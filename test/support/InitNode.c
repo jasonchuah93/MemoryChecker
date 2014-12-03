@@ -14,3 +14,10 @@ void resetNode(Node *target, int data){
 	target->color = 'b';
 	target->data = data;
 }
+
+void genericResetNode(Node *target, void *data){
+	target->left = NULL;
+	target->right = NULL;
+	target->color = 'b';
+	target->memoryData = data;
+}
