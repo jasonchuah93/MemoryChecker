@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "Node.h"
 #include "InitNode.h"
 
 void setNode(Node *target, Node *left, Node *right, char color){
@@ -15,9 +14,11 @@ void resetNode(Node *target, int data){
 	target->data = data;
 }
 
-void genericResetNode(Node *target, void *data){
+void setGenericNode(Node *target,void *data){
 	target->left = NULL;
 	target->right = NULL;
 	target->color = 'b';
-	target->memoryData = data;
+	target->dataPtr = data;
 }
+
+

@@ -10,7 +10,7 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-#define BUFFER_SIZE 256 
+
 
 
 void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){

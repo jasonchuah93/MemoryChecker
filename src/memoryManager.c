@@ -9,7 +9,7 @@
 
 void memoryManagerAddRecord(Record *record){
 	Node *rootPtr;
-    genericAddRedBlackTree((Node*)record);
+    
     
 }
 
