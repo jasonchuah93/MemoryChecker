@@ -38,7 +38,7 @@ void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compare)(void **
     }else if(_compare == -1){
         _addRedBlackTree(&root->right,newNode);
     }else if(_compare == 0){
-        Throw(ERR_EQUIVALENT_NODE);
+        Throw(ERR_EQUIVALENT_MEMORY);
     }
     if(root->left!=NULL && root->right==NULL){
         if(root->left->left !=NULL){

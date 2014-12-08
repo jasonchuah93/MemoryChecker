@@ -454,5 +454,101 @@ void test_genericAddRedBlackTree_add_subRightNodeChild_into_2_node_redBlackTree_
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',&subRightNodeChild);
 }
 
+/**
+*	     root		                    root                                       root
+*	      |    add subRightNodeChild	 |                                          |
+*	      v    -------------------->     v                  leftRotate              v  
+*	   mainNode                       mainNode              at mainNode         subLeftNode
+*     /        \                      /      \            ------------->          /   \
+*    -        subRightNode           -  subRightNode                        mainNode subRightNodeChild
+*                                            /
+*                                    subLeftNodeChild                                 
+*
+**/
+void test_genericAddRedBlackTree_add_subLeftNodeChild_into_2_node_redBlackTree_and_rightLeftRotate(void){
+    Record *mainRecord = createRecord("0x123",100);
+    Record *subRightRecord = createRecord("0x789",250);
+    Record *subLeftRecordChild = createRecord("0x456",200);
+    
+    setGenericNode(&mainNode,mainRecord);
+    setGenericNode(&subRightNode,subRightRecord);
+    setGenericNode(&subLeftNodeChild,subLeftRecordChild);
+    Node *rootPtr = &mainNode;
+    addMemory(&rootPtr,&subRightNode);
+    addMemory(&rootPtr->right,&subLeftNodeChild);
+    
+    //MainNode
+    TEST_ASSERT_NOT_NULL(rootPtr);
+    TEST_ASSERT_NOT_NULL(rootPtr->dataPtr);
+    TEST_ASSERT_NOT_NULL(rightChild);
+    TEST_ASSERT_NULL(leftChild);
+    
+    Record *readMainRecord =(Record*)rootPtr->dataPtr;
+    TEST_ASSERT_EQUAL_STRING("0x123",readMainRecord->memory);
+    TEST_ASSERT_EQUAL(100,readMainRecord->size);
+    TEST_ASSERT_EQUAL(469,readMainRecord->lineNumber);
+    TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readMainRecord->fileName);
+    
+    //SubRightNode
+    TEST_ASSERT_NOT_NULL(rightChild->dataPtr);
+    TEST_ASSERT_NOT_NULL(rightLeftGrandChild);
+    TEST_ASSERT_NULL(rightGrandChild);
+    
+    Record *readSubRightRecord =(Record*)rightChild->dataPtr;
+    TEST_ASSERT_EQUAL_STRING("0x789",readSubRightRecord->memory);
+    TEST_ASSERT_EQUAL(250,readSubRightRecord->size);
+    TEST_ASSERT_EQUAL(470,readSubRightRecord->lineNumber);
+    TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubRightRecord->fileName);
+    
+    //SubLeftNodeChild
+    TEST_ASSERT_NOT_NULL(rightLeftGrandChild->dataPtr);
+    TEST_ASSERT_NULL(rightLeftGrandChild->left);
+    TEST_ASSERT_NULL(rightLeftGrandChild->right);
+    
+    Record *readSubLeftRecordChild =(Record*)rightLeftGrandChild->dataPtr;
+    TEST_ASSERT_EQUAL_STRING("0x456",readSubLeftRecordChild->memory);
+    TEST_ASSERT_EQUAL(200,readSubLeftRecordChild->size);
+    TEST_ASSERT_EQUAL(471,readSubLeftRecordChild->lineNumber);
+    TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubLeftRecordChild->fileName);
+    
+    TEST_ASSERT_EQUAL_NODE(NULL,&subRightNode,'b',rootPtr);
+    TEST_ASSERT_EQUAL_NODE(&subLeftNodeChild,NULL,'b',&subRightNode);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',&subLeftNodeChild);
+}
+
+/*****************************************
+
+	Error tests
+
+*******************************************/
+
+/**
+*		root	             root
+*		 |	add subLeftNode	  |
+*		 v   ----------->	  v
+*	 mainNode              mainNode
+*				             /
+*			           subLeftNode   (Throw Error)
+**/
+
+void test_genericAddRedBlackTree_should_throw_equivalent_error_for_node_with_same_infomation(void){
+	Record *mainRecord = createRecord("0x123",100);
+    Record *subLeftRecord = createRecord("0x123",100);
+	setGenericNode(&mainNode,mainRecord);
+    setGenericNode(&subLeftNode,subLeftRecord);
+    Node *root = &mainNode;
+
+	ErrorCode e;
+
+	Try
+	{
+        addMemory(&root,&subLeftNode);
+		TEST_FAIL_MESSAGE("Should throw equivalent error ");
+	}
+	Catch(e)
+	{
+		TEST_ASSERT_EQUAL(ERR_EQUIVALENT_MEMORY ,e);
+	}
+}
 
 
