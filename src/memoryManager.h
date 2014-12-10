@@ -3,8 +3,8 @@
 
 #include "MemoryRecord.h"
 
-void memoryManagerAddRecord(Record *record);
-void memoryManagerFindRecord(Record *record);
+void *memoryManagerAddRecord(Record *record);
+void memoryManagerFindRecord(Node *root,void *targetRecord);
 Record *memoryManagerDelRecord(Record *record);
 
 #endif // memoryManager_H
