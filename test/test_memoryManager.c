@@ -28,7 +28,6 @@ void test_memoryManagerAddRecord_should_throw_error_if_the_record_is_empty(void)
     
 }
 
-/*
 void test_memoryManagerAddRecord_should_throw_error_if_the_root_is_not_empty(void){
     CEXCEPTION_T err;
     Record *record1 = createRecord("5A5A5A5A",100);
@@ -36,13 +35,13 @@ void test_memoryManagerAddRecord_should_throw_error_if_the_root_is_not_empty(voi
     Node *rootPtr = &mainNode;
     Record *record2 = createRecord("5A5A5A5A5A",110);
     Try{
-        memoryManagerAddRecord(rootPtr,record2);
+        rootPtr=memoryManagerAddRecord(record2);
         TEST_FAIL_MESSAGE("Should throw ERR_RECORD_EXISTED");
     }Catch(err){
         TEST_ASSERT_EQUAL(ERR_RECORD_EXISTED,err);
     }    
 }
-
+/*
 void test_memoryManagerAddRecord_should_add_record_into_generic_red_black_tree_if_node_is_empty(void){
     Node *root=NULL; 
     Record *record = createRecord("5A5A5A",100);

@@ -10,9 +10,14 @@
 #include "CException.h"
 
 void *memoryManagerAddRecord(Record *record){
+    Node *root;
     if(record == NULL){
         Throw(ERR_EMPTY_RECORD);
     }
+    if(root != NULL){
+        Throw(ERR_RECORD_EXISTED);
+    }
+    
     
     
 }
