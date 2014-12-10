@@ -15,7 +15,6 @@ void setUp(void){}
 
 void tearDown(void){}
 
-
 void test_memoryManagerAddRecord_should_throw_error_if_the_record_is_empty(void){
     CEXCEPTION_T err;
     Try{
@@ -24,8 +23,6 @@ void test_memoryManagerAddRecord_should_throw_error_if_the_record_is_empty(void)
     }Catch(err){
         TEST_ASSERT_EQUAL(ERR_EMPTY_RECORD,err);
     }
-    
-    
 }
 
 void test_memoryManagerAddRecord_should_throw_error_if_the_root_is_not_empty(void){
@@ -41,15 +38,16 @@ void test_memoryManagerAddRecord_should_throw_error_if_the_root_is_not_empty(voi
         TEST_ASSERT_EQUAL(ERR_RECORD_EXISTED,err);
     }    
 }
-/*
+
 void test_memoryManagerAddRecord_should_add_record_into_generic_red_black_tree_if_node_is_empty(void){
     Node *root=NULL; 
     Record *record = createRecord("5A5A5A",100);
-    memoryManagerAddRecord(root,record);
+    memoryManagerAddRecord(record);
     
     //TEST_ASSERT_NOT_NULL(root);
-    Record *addRecord = (Record*)&rootPtr->dataPtr;
+    //Record *addRecord = (Record*)root->dataPtr;
     //TEST_ASSERT_EQUAL_STRING("5A5A5A",addRecord->memory);
     //TEST_ASSERT_EQUAL(100,addRecord->size);
 }
-*/
+
+

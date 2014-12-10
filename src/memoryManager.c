@@ -10,16 +10,20 @@
 #include "CException.h"
 
 void *memoryManagerAddRecord(Record *record){
-    Node *root;
+    Node **root;
+    Node *rootRecord;
     if(record == NULL){
         Throw(ERR_EMPTY_RECORD);
     }
     if(root != NULL){
         Throw(ERR_RECORD_EXISTED);
+    }else{
+        rootRecord->dataPtr=record;
+        addMemory(root,rootRecord);
     }
     
     
-    
+    return root;
 }
 
 void memoryManagerFindRecord(Node *root,void *targetRecord){
