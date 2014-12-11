@@ -13,9 +13,6 @@
 #define leftRightGrandChild (rootPtr)->left->right
 #define rightLeftGrandChild (rootPtr)->right->left
 
-void handleColor(Node **rootPtr,Node *deleteNode);
-void addRedBlackTree(Node **rootPtr,Node *addNode);
-void _addRedBlackTree(Node **rootPtr,Node *addNode);
 void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addAndDelRecordCompare)(void **rootPtr,void *newNode));
 void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compare)(void **rootPtr,void *newNode));
   

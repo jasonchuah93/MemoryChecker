@@ -1,7 +1,5 @@
-#include <stdio.h>
 #include "unity.h"
 #include "Node.h"
-#include "NodePtr.h"
 #include "InitNode.h"
 #include "Rotation.h"
 #include "MemoryRecord.h"
@@ -46,7 +44,7 @@ void test_genericAddRedBlackTree_add_mainNode_into_empty_redBlackTree(void){
     Record *readRecord =(Record*)rootPtr->dataPtr;
     TEST_ASSERT_EQUAL_STRING("5555AAAA",readRecord->memory);
     TEST_ASSERT_EQUAL(100,readRecord->size);
-    TEST_ASSERT_EQUAL(35,readRecord->lineNumber);
+    TEST_ASSERT_EQUAL(33,readRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readRecord->fileName);
 }
 
@@ -82,7 +80,7 @@ void test_genericAddRedBlackTree_add_subLeftNode_into_redBlackTree(void){
     Record *readMainRecord =(Record*)rootPtr->dataPtr;
     TEST_ASSERT_EQUAL_STRING("5555AAAA",readMainRecord->memory);
     TEST_ASSERT_EQUAL(100,readMainRecord->size);
-    TEST_ASSERT_EQUAL(68,readMainRecord->lineNumber);
+    TEST_ASSERT_EQUAL(66,readMainRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readMainRecord->fileName);
     
     //SubLeftNode
@@ -94,7 +92,7 @@ void test_genericAddRedBlackTree_add_subLeftNode_into_redBlackTree(void){
     Record *readSubRecord =(Record*)rootPtr->left->dataPtr;
     TEST_ASSERT_EQUAL_STRING("5A5A5A",readSubRecord->memory);
     TEST_ASSERT_EQUAL(50,readSubRecord->size);
-    TEST_ASSERT_EQUAL(69,readSubRecord->lineNumber);
+    TEST_ASSERT_EQUAL(67,readSubRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubRecord->fileName);
     
 }
@@ -125,7 +123,7 @@ void test_genericAddRedBlackTree_add_subRightNode_into_redBlackTree(void){
     Record *readMainRecord =(Record*)rootPtr->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x123",readMainRecord->memory);
     TEST_ASSERT_EQUAL(100,readMainRecord->size);
-    TEST_ASSERT_EQUAL(111,readMainRecord->lineNumber);
+    TEST_ASSERT_EQUAL(109,readMainRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readMainRecord->fileName);
     
     //SubRightNode
@@ -136,7 +134,7 @@ void test_genericAddRedBlackTree_add_subRightNode_into_redBlackTree(void){
     Record *readSubRightRecord =(Record*)rootPtr->right->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x789",readSubRightRecord->memory);
     TEST_ASSERT_EQUAL(250,readSubRightRecord->size);
-    TEST_ASSERT_EQUAL(112,readSubRightRecord->lineNumber);
+    TEST_ASSERT_EQUAL(110,readSubRightRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubRightRecord->fileName);
     
     TEST_ASSERT_EQUAL_NODE(NULL,&subRightNode,'b',rootPtr);
@@ -177,7 +175,7 @@ void test_genericAddRedBlackTree_add_subRightNode_into_2_node_redBlackTree(void)
     Record *readMainRecord =(Record*)rootPtr->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x123",readMainRecord->memory);
     TEST_ASSERT_EQUAL(100,readMainRecord->size);
-    TEST_ASSERT_EQUAL(162,readMainRecord->lineNumber);
+    TEST_ASSERT_EQUAL(160,readMainRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readMainRecord->fileName);
     
     //SubLeftNode
@@ -188,7 +186,7 @@ void test_genericAddRedBlackTree_add_subRightNode_into_2_node_redBlackTree(void)
     Record *readSubLeftRecord =(Record*)rootPtr->left->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x456",readSubLeftRecord->memory);
     TEST_ASSERT_EQUAL(50,readSubLeftRecord->size);
-    TEST_ASSERT_EQUAL(163,readSubLeftRecord->lineNumber);
+    TEST_ASSERT_EQUAL(161,readSubLeftRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubLeftRecord->fileName);
     
     //SubRightNode
@@ -199,7 +197,7 @@ void test_genericAddRedBlackTree_add_subRightNode_into_2_node_redBlackTree(void)
     Record *readSubRightRecord =(Record*)rootPtr->right->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x789",readSubRightRecord->memory);
     TEST_ASSERT_EQUAL(250,readSubRightRecord->size);
-    TEST_ASSERT_EQUAL(164,readSubRightRecord->lineNumber);
+    TEST_ASSERT_EQUAL(162,readSubRightRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubRightRecord->fileName);
     
     TEST_ASSERT_EQUAL_NODE(&subLeftNode,&subRightNode,'b',rootPtr);
@@ -236,7 +234,7 @@ void test_genericAddRedBlackTree_add_subLeftNode_into_2_node_redBlackTree(void){
     Record *readMainRecord =(Record*)rootPtr->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x123",readMainRecord->memory);
     TEST_ASSERT_EQUAL(100,readMainRecord->size);
-    TEST_ASSERT_EQUAL(220,readMainRecord->lineNumber);
+    TEST_ASSERT_EQUAL(218,readMainRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readMainRecord->fileName);
     
     //SubRightNode
@@ -247,7 +245,7 @@ void test_genericAddRedBlackTree_add_subLeftNode_into_2_node_redBlackTree(void){
     Record *readSubRightRecord =(Record*)rootPtr->right->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x789",readSubRightRecord->memory);
     TEST_ASSERT_EQUAL(250,readSubRightRecord->size);
-    TEST_ASSERT_EQUAL(222,readSubRightRecord->lineNumber);
+    TEST_ASSERT_EQUAL(220,readSubRightRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubRightRecord->fileName);
     
     //SubLeftNode
@@ -258,7 +256,7 @@ void test_genericAddRedBlackTree_add_subLeftNode_into_2_node_redBlackTree(void){
     Record *readSubLeftRecord =(Record*)rootPtr->left->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x456",readSubLeftRecord->memory);
     TEST_ASSERT_EQUAL(50,readSubLeftRecord->size);
-    TEST_ASSERT_EQUAL(221,readSubLeftRecord->lineNumber);
+    TEST_ASSERT_EQUAL(219,readSubLeftRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubLeftRecord->fileName);
     
     TEST_ASSERT_EQUAL_NODE(&subLeftNode,&subRightNode,'b',rootPtr);
@@ -298,7 +296,7 @@ void test_genericAddRedBlackTree_add_subRightNodeChild_into_2_node_redBlackTree_
     Record *readMainRecord =(Record*)rootPtr->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x123",readMainRecord->memory);
     TEST_ASSERT_EQUAL(100,readMainRecord->size);
-    TEST_ASSERT_EQUAL(281,readMainRecord->lineNumber);
+    TEST_ASSERT_EQUAL(279,readMainRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readMainRecord->fileName);
     
     //SubRightNode
@@ -309,7 +307,7 @@ void test_genericAddRedBlackTree_add_subRightNodeChild_into_2_node_redBlackTree_
     Record *readSubRightRecord =(Record*)rightChild->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x789",readSubRightRecord->memory);
     TEST_ASSERT_EQUAL(250,readSubRightRecord->size);
-    TEST_ASSERT_EQUAL(282,readSubRightRecord->lineNumber);
+    TEST_ASSERT_EQUAL(280,readSubRightRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubRightRecord->fileName);
     
     //SubRightNodeChild
@@ -320,7 +318,7 @@ void test_genericAddRedBlackTree_add_subRightNodeChild_into_2_node_redBlackTree_
     Record *readSubRightRecordChild =(Record*)rightGrandChild->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x456778",readSubRightRecordChild->memory);
     TEST_ASSERT_EQUAL(500,readSubRightRecordChild->size);
-    TEST_ASSERT_EQUAL(283,readSubRightRecordChild->lineNumber);
+    TEST_ASSERT_EQUAL(281,readSubRightRecordChild->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubRightRecordChild->fileName);
     
     TEST_ASSERT_EQUAL_NODE(NULL,&subRightNode,'b',rootPtr);
@@ -361,7 +359,7 @@ void test_genericAddRedBlackTree_add_subLeftNodeChild_into_2_node_redBlackTree_a
     Record *readMainRecord =(Record*)rootPtr->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x123456789",readMainRecord->memory);
     TEST_ASSERT_EQUAL(1000,readMainRecord->size);
-    TEST_ASSERT_EQUAL(344,readMainRecord->lineNumber);
+    TEST_ASSERT_EQUAL(342,readMainRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readMainRecord->fileName);
     
     //SubLeftNode
@@ -372,7 +370,7 @@ void test_genericAddRedBlackTree_add_subLeftNodeChild_into_2_node_redBlackTree_a
     Record *readSubLeftRecord =(Record*)leftChild->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x789",readSubLeftRecord->memory);
     TEST_ASSERT_EQUAL(500,readSubLeftRecord->size);
-    TEST_ASSERT_EQUAL(345,readSubLeftRecord->lineNumber);
+    TEST_ASSERT_EQUAL(343,readSubLeftRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubLeftRecord->fileName);
     
     //SubLeftNodeChild
@@ -383,7 +381,7 @@ void test_genericAddRedBlackTree_add_subLeftNodeChild_into_2_node_redBlackTree_a
     Record *readSubLeftRecordChild =(Record*)leftGrandChild->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x45",readSubLeftRecordChild->memory);
     TEST_ASSERT_EQUAL(50,readSubLeftRecordChild->size);
-    TEST_ASSERT_EQUAL(346,readSubLeftRecordChild->lineNumber);
+    TEST_ASSERT_EQUAL(344,readSubLeftRecordChild->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubLeftRecordChild->fileName);
     
     TEST_ASSERT_EQUAL_NODE(&subLeftNode,NULL,'b',rootPtr);
@@ -424,7 +422,7 @@ void test_genericAddRedBlackTree_add_subRightNodeChild_into_2_node_redBlackTree_
     Record *readMainRecord =(Record*)rootPtr->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x123456789",readMainRecord->memory);
     TEST_ASSERT_EQUAL(1000,readMainRecord->size);
-    TEST_ASSERT_EQUAL(407,readMainRecord->lineNumber);
+    TEST_ASSERT_EQUAL(405,readMainRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readMainRecord->fileName);
     
     //SubLeftNode
@@ -435,7 +433,7 @@ void test_genericAddRedBlackTree_add_subRightNodeChild_into_2_node_redBlackTree_
     Record *readSubLeftRecord =(Record*)leftChild->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x789",readSubLeftRecord->memory);
     TEST_ASSERT_EQUAL(500,readSubLeftRecord->size);
-    TEST_ASSERT_EQUAL(408,readSubLeftRecord->lineNumber);
+    TEST_ASSERT_EQUAL(406,readSubLeftRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubLeftRecord->fileName);
     
     //SubRightNodeChild
@@ -446,7 +444,7 @@ void test_genericAddRedBlackTree_add_subRightNodeChild_into_2_node_redBlackTree_
     Record *readSubRightRecordChild =(Record*)leftRightGrandChild->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x4556",readSubRightRecordChild->memory);
     TEST_ASSERT_EQUAL(700,readSubRightRecordChild->size);
-    TEST_ASSERT_EQUAL(409,readSubRightRecordChild->lineNumber);
+    TEST_ASSERT_EQUAL(407,readSubRightRecordChild->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubRightRecordChild->fileName);
     
     TEST_ASSERT_EQUAL_NODE(&subLeftNode,NULL,'b',rootPtr);
@@ -486,7 +484,7 @@ void test_genericAddRedBlackTree_add_subLeftNodeChild_into_2_node_redBlackTree_a
     Record *readMainRecord =(Record*)rootPtr->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x123",readMainRecord->memory);
     TEST_ASSERT_EQUAL(100,readMainRecord->size);
-    TEST_ASSERT_EQUAL(469,readMainRecord->lineNumber);
+    TEST_ASSERT_EQUAL(467,readMainRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readMainRecord->fileName);
     
     //SubRightNode
@@ -497,7 +495,7 @@ void test_genericAddRedBlackTree_add_subLeftNodeChild_into_2_node_redBlackTree_a
     Record *readSubRightRecord =(Record*)rightChild->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x789",readSubRightRecord->memory);
     TEST_ASSERT_EQUAL(250,readSubRightRecord->size);
-    TEST_ASSERT_EQUAL(470,readSubRightRecord->lineNumber);
+    TEST_ASSERT_EQUAL(468,readSubRightRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubRightRecord->fileName);
     
     //SubLeftNodeChild
@@ -508,7 +506,7 @@ void test_genericAddRedBlackTree_add_subLeftNodeChild_into_2_node_redBlackTree_a
     Record *readSubLeftRecordChild =(Record*)rightLeftGrandChild->dataPtr;
     TEST_ASSERT_EQUAL_STRING("0x456",readSubLeftRecordChild->memory);
     TEST_ASSERT_EQUAL(200,readSubLeftRecordChild->size);
-    TEST_ASSERT_EQUAL(471,readSubLeftRecordChild->lineNumber);
+    TEST_ASSERT_EQUAL(469,readSubLeftRecordChild->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readSubLeftRecordChild->fileName);
     
     TEST_ASSERT_EQUAL_NODE(NULL,&subRightNode,'b',rootPtr);
@@ -539,8 +537,7 @@ void test_genericAddRedBlackTree_should_throw_equivalent_error_for_node_with_sam
     Node *root = &mainNode;
 
 	ErrorCode e;
-
-	Try
+    Try
 	{
         addMemory(&root,&subLeftNode);
 		TEST_FAIL_MESSAGE("Should throw equivalent error ");

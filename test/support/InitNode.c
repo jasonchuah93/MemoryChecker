@@ -14,7 +14,7 @@ void resetNode(Node *target, int data){
 	target->data = data;
 }
 
-void setGenericNode(Node *target,void *data){
+void resetGenericNode(Node *target,void *data){
 	target->left = NULL;
 	target->right = NULL;
 	target->color = 'b';

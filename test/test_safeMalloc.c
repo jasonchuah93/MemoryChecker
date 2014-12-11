@@ -3,6 +3,7 @@
 #include "Rotation.h"
 #include "memoryManager.h"
 #include "MemoryRecord.h"
+#include "compareRecord.h"
 #include "memoryAllocator.h"
 #include "redBlackTree.h"
 #include "safeMalloc.h"
@@ -16,19 +17,11 @@ void tearDown(void){}
 #define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
 
 void test_safeMalloc_should_throw_error_if_size_of_memory_cross_the_internal_memory_size(void){
-    CEXCEPTION_T err;
-    char *memory;
-    Try{
-        memory = safeMalloc(1100);
-        TEST_FAIL_MESSAGE("Expected ERR_EXCEED_ALLOCATED_MEMORY to be thrown.But receive none");
-    }Catch(err){
-        TEST_ASSERT_EQUAL(ERR_EXCEED_ALLOCATED_MEMORY,err);
-    }
+    
 }
 
 void test_safeMalloc_should_contain_information_of_the_size_input(void){
-    int i;
-	Record *record = safeMalloc(300);
+   
    
 }
 
