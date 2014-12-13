@@ -357,7 +357,6 @@ void test_genericAddRedBlackTree_should_throw_equivalent_error_for_node_with_equ
     resetGenericNode(&mainNode,mainRecord1);
     resetGenericNode(&mainNode2,mainRecord1);
     Node *root = &mainNode;
-    
     Try
 	{
         addMemory(&root,&mainNode2);
