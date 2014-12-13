@@ -21,7 +21,6 @@ int addAndDelRecordCompare(Node **recordFromRedBlackTree,Record *targetRecord){
         return -1;
     else
         return 0;
-    
 }
 
 

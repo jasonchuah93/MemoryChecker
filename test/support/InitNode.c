@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "InitNode.h"
 
-void setNode(Node *target, Node *left, Node *right, char color){
+void setGenericNode(Node *target, Node *left, Node *right, char color){
 	target->left = left;
 	target->right = right;
 	target->color = color;

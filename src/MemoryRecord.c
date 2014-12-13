@@ -16,6 +16,15 @@ Record *_createRecord(void *memory,int size,int lineNumber,char *fileName){
     return record;
 }
 
+void destroyRecord(Record *record){
+    if(record){
+        if(record->memory)
+           free(record->memory);
+        if(record->size)
+           record->size = 0;
+    }
+    free(record);
+}
 
 
 

@@ -21,5 +21,6 @@ struct Record{
 };
 
 Record *_createRecord(void *memory,int size,int lineNumber,char *fileName);
+void destroyRecord(Record *record);
 
 #endif // MemoryRecord_H

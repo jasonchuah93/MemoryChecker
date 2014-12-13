@@ -9,8 +9,7 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-Node mainNode,subLeftNode,subRightNode,subLeftNodeChild,subRightNodeChild;
-char buffer[20],buffer2[100];
+Node mainNode,leftNode,rightNode,leftNodeChild,rightNodeChild;
 
 void setUp(void){}
 
@@ -25,27 +24,83 @@ void tearDown(void){}
 *	root		    root
 *	 |    add record     |
 *	 v    ----------->   v
-*	NULL               record
+*	NULL               mainNode
 **/
 
 void test_genericAddRedBlackTree_add_record_into_redBlackTree(void){
+    char buffer[20];
     Record *record = createRecord(buffer,100);
-    Node *rootPtr = NULL;
+    resetGenericNode(&mainNode,record);
+    setGenericNode(&mainNode,NULL,NULL,'b');
+    Node *root = NULL;
+    addMemory(&root,&mainNode);
     
-    addMemory(&rootPtr,(Node*)&record);
-    //TEST_ASSERT_NOT_NULL(rootPtr);
-    //TEST_ASSERT_NOT_NULL(rootPtr->dataPtr);
-    //TEST_ASSERT_NULL(rootPtr->right);
-    //TEST_ASSERT_NULL(rootPtr->left);
-    //TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',rootPtr);
+    TEST_ASSERT_NOT_NULL(root);
+    TEST_ASSERT_NOT_NULL(root->dataPtr);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',root);
     
-    //Record *readRecord =(Record*)rootPtr->dataPtr;
-    //TEST_ASSERT_EQUAL_STRING("5555AAAA",readRecord->memory);
-    //TEST_ASSERT_EQUAL(100,readRecord->size);
-    //TEST_ASSERT_EQUAL(33,readRecord->lineNumber);
-    //TEST_ASSERT_EQUAL_STRING("test/test_redBlackTree.c",readRecord->fileName);
+    destroyRecord(record);
 }
 
+/*****************************************
 
+	2 NODE tests
 
+*******************************************/
+/**
+*    root		              root
+*     |    	add subLeftNode	 	|
+*     v    	--------------->      	v
+*  mainNode               	    mainNode
+*    / \                    	     /
+*   -   -                      subLeftNode
+**/
 
+void test_genericAddRedBlackTree_add_leftNode_into_redBlackTree(void){
+    char buffer[100],buffer2[200];
+    Record *leftRecord = createRecord(buffer,100);
+    Record *mainRecord = createRecord(buffer2,100);
+    resetGenericNode(&mainNode,mainRecord);
+    resetGenericNode(&leftNode,leftRecord);
+    setGenericNode(&mainNode,NULL,NULL,'b');
+    setGenericNode(&leftNode,NULL,NULL,'r');
+    Node *root = &mainNode;
+    addMemory(&root,&leftNode);
+    //Main node
+    TEST_ASSERT_EQUAL_PTR(&mainNode,root);
+    TEST_ASSERT_NOT_NULL(root->dataPtr);
+    TEST_ASSERT_EQUAL_NODE(&leftNode,NULL,'b',root);
+    //LeftNode 
+    TEST_ASSERT_NOT_NULL(root->left->dataPtr);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&leftNode);
+    
+    destroyRecord(leftRecord);
+    destroyRecord(mainRecord);
+}
+
+/**
+*	     root		                root
+*	      |    add subRightNode	         |
+*	      v    --------------->              v
+*	   mainNode                          mainNode
+*     	    /	\                            /      \
+*          -     -                          -   subRightNode
+**/
+void test_genericAddRedBlackTree_add_rightNode_into_redBlackTree(void){
+    char buffer[100],buffer2[200];
+    Record *mainRecord = createRecord(buffer,100);
+    Record *rightRecord = createRecord(buffer2,250);
+    resetGenericNode(&mainNode,mainRecord);
+    resetGenericNode(&rightNode,rightRecord);
+    setGenericNode(&mainNode,NULL,NULL,'b');
+    setGenericNode(&rightNode,NULL,NULL,'r');
+    Node *root = &mainNode;
+    addMemory(&root,&rightNode);
+    //MainNode
+    TEST_ASSERT_EQUAL_PTR(&mainNode,root);
+    TEST_ASSERT_NOT_NULL(root->dataPtr);
+    TEST_ASSERT_EQUAL_NODE(NULL,&rightNode,'b',root);
+    //RightNode
+    TEST_ASSERT_NOT_NULL(root->right->dataPtr);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&rightNode);
+}
