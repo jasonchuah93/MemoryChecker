@@ -35,8 +35,8 @@ void test_findRecordCompare_should_return_0_if_newMemory_is_equal_than_memoryFro
 void test_addAndDelRecordCompare_should_return_1_if_memoryInRedBlackTree_is_larger_than_newMemory(void){
     Record sizeOfMemoryFromRedBlackTree ={.size=600};
     Record sizeOfNewMemory = {.size=456};
-	setGenericNode(&node1,&sizeOfMemoryFromRedBlackTree);
-    setGenericNode(&node2,&sizeOfNewMemory);
+	resetGenericNode(&node1,&sizeOfMemoryFromRedBlackTree);
+    resetGenericNode(&node2,&sizeOfNewMemory);
     
     Node *mainNode = &node1;
     TEST_ASSERT_EQUAL(1,addAndDelRecordCompare((void*)&mainNode,&node2));
@@ -45,8 +45,8 @@ void test_addAndDelRecordCompare_should_return_1_if_memoryInRedBlackTree_is_larg
 void test_addAndDelRecordCompare_should_return_negative_1_if_memoryInRedBlackTree_is_smaller_than_newMemory(void){
     Record sizeOfMemoryFromRedBlackTree ={.size=60};
     Record sizeOfNewMemory = {.size=456};
-	setGenericNode(&node1,&sizeOfMemoryFromRedBlackTree);
-    setGenericNode(&node2,&sizeOfNewMemory);
+	resetGenericNode(&node1,&sizeOfMemoryFromRedBlackTree);
+    resetGenericNode(&node2,&sizeOfNewMemory);
     
     Node *mainNode = &node1;
     TEST_ASSERT_EQUAL(-1,addAndDelRecordCompare((void*)&mainNode,&node2));
@@ -56,8 +56,8 @@ void test_addAndDelRecordCompare_should_return_0_if_memoryInRedBlackTree_is_equa
     Record sizeOfMemoryFromRedBlackTree ={.size=456};
     Record sizeOfNewMemory = {.size=456};
 	
-    setGenericNode(&node1,&sizeOfMemoryFromRedBlackTree);
-    setGenericNode(&node2,&sizeOfNewMemory);
+    resetGenericNode(&node1,&sizeOfMemoryFromRedBlackTree);
+    resetGenericNode(&node2,&sizeOfNewMemory);
     
     Node *mainNode = &node1;
     TEST_ASSERT_EQUAL(0,addAndDelRecordCompare((void*)&mainNode,&node2));

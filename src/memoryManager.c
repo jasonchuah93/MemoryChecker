@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "MemoryRecord.h"
 #include "Node.h"
 #include "compareRecord.h"
@@ -10,10 +9,17 @@
 #include "CException.h"
 
 void *memoryManagerAddRecord(Record *record){
+    Node **rootPtr=NULL;
     Node *root;
-    if(root == NULL){
-        root = (Node*)record;
+    if(record->color == 'b'){
+        if(root == NULL){
+            *rootPtr = (Node*)record;
+        }
+    }else{
+        printf("come not NULL\n");
+       // genericAddRedBlackTree(&root,(Node*)record,addAndDelRecordCompare);  
     }
+    //return root;
 }
 
 void memoryManagerFindRecord(Node *root,void *targetRecord){

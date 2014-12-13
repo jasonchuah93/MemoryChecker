@@ -2,7 +2,6 @@
 #define MemoryRecord_H
 
 #include "Node.h"
-#include "NodePtr.h"
 
 #define createRecord(memory,size) _createRecord(memory,size,__LINE__,__FILE__)
 
@@ -21,6 +20,6 @@ struct Record{
     char *fileName;
 };
 
-Record *_createRecord(char *memory,int size,int lineNumber,char *fileName);
+Record *_createRecord(void *memory,int size,int lineNumber,char *fileName);
 
 #endif // MemoryRecord_H

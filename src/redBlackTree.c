@@ -7,6 +7,15 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
+void handleColor(Node **rootPtr,Node *deleteNode){
+  Node *root = *rootPtr;
+  if(root->left->color == 'r' && root->right->color == 'r'){
+        root->left->color ='b';
+        root->right->color ='b';
+        root->color ='r';
+      }
+}
+
 void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addAndDelRecordCompare)(void **rootPtr,void *newNode)){
     _genericAddRedBlackTree(rootPtr,newNode,addAndDelRecordCompare);    
     (*rootPtr)->color='b';
@@ -18,7 +27,10 @@ void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compare)(void **
     if(root == NULL){
         *rootPtr = newNode;
         return;
-    }    
+    }
+    if (root->left!=NULL && root->right!=NULL){
+        handleColor(rootPtr,newNode); 
+    }
     _compare = compare((void*)rootPtr,newNode);
     if(_compare == 1){
         _genericAddRedBlackTree(&root->left,newNode,compare);
@@ -29,15 +41,23 @@ void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compare)(void **
     }
     if(root->left!=NULL && root->right==NULL){
         if(root->left->left !=NULL){
-            rightRotate(rootPtr);
+            if(root->left->color == 'r' && root->left->left->color == 'r'){
+                rightRotate(rootPtr);
+            }
         }else if(root->left->right !=NULL){
-            leftRightRotate(rootPtr);
+            if(root->left->color == 'r' && root->left->right->color == 'r'){
+                leftRightRotate(rootPtr);
+            }
         }
     }else if(root->left==NULL && root->right!=NULL){
         if(root->right->right !=NULL){
-            leftRotate(rootPtr);
+            if(root->right->color == 'r' && root->right->right->color == 'r'){
+                leftRotate(rootPtr);
+            }
         }else if(root->right->left !=NULL){
-            rightLeftRotate(rootPtr);
+            if(root->right->color == 'r' && root->right->left->color == 'r'){
+                rightLeftRotate(rootPtr);
+            }
         }
     }
 }

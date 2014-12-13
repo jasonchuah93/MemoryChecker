@@ -31,7 +31,7 @@ void tearDown(void){}
 
 void test_genericAddRedBlackTree_add_mainNode_into_empty_redBlackTree(void){
     Record *record = createRecord("5555AAAA",100);
-    setGenericNode(&mainNode,record);
+    resetGenericNode(&mainNode,record);
     Node *rootPtr = NULL;
     
     addMemory(&rootPtr,&mainNode);
@@ -65,8 +65,8 @@ void test_genericAddRedBlackTree_add_mainNode_into_empty_redBlackTree(void){
 void test_genericAddRedBlackTree_add_subLeftNode_into_redBlackTree(void){
     Record *mainRecord = createRecord("5555AAAA",100);
     Record *subLeftRecord = createRecord("5A5A5A",50);
-    setGenericNode(&mainNode,mainRecord);
-    setGenericNode(&subLeftNode,subLeftRecord);
+    resetGenericNode(&mainNode,mainRecord);
+    resetGenericNode(&subLeftNode,subLeftRecord);
     Node *rootPtr = &mainNode;
     addMemory(&rootPtr,&subLeftNode);
     
@@ -109,8 +109,8 @@ void test_genericAddRedBlackTree_add_subRightNode_into_redBlackTree(void){
     Record *mainRecord = createRecord("0x123",100);
     Record *subRightRecord = createRecord("0x789",250);
     
-    setGenericNode(&mainNode,mainRecord);
-    setGenericNode(&subRightNode,subRightRecord);
+    resetGenericNode(&mainNode,mainRecord);
+    resetGenericNode(&subRightNode,subRightRecord);
     Node *rootPtr = &mainNode;
     addMemory(&rootPtr,&subRightNode);
     
@@ -161,9 +161,9 @@ void test_genericAddRedBlackTree_add_subRightNode_into_2_node_redBlackTree(void)
     Record *subLeftRecord = createRecord("0x456",50);
     Record *subRightRecord = createRecord("0x789",250);
     
-    setGenericNode(&mainNode,mainRecord);
-    setGenericNode(&subLeftNode,subLeftRecord);
-    setGenericNode(&subRightNode,subRightRecord);
+    resetGenericNode(&mainNode,mainRecord);
+    resetGenericNode(&subLeftNode,subLeftRecord);
+    resetGenericNode(&subRightNode,subRightRecord);
     Node *rootPtr = &mainNode;
     addMemory(&rootPtr,&subLeftNode);
     addMemory(&rootPtr,&subRightNode);
@@ -219,9 +219,9 @@ void test_genericAddRedBlackTree_add_subLeftNode_into_2_node_redBlackTree(void){
     Record *subLeftRecord = createRecord("0x456",50);
     Record *subRightRecord = createRecord("0x789",250);
     
-    setGenericNode(&mainNode,mainRecord);
-    setGenericNode(&subLeftNode,subLeftRecord);
-    setGenericNode(&subRightNode,subRightRecord);
+    resetGenericNode(&mainNode,mainRecord);
+    resetGenericNode(&subLeftNode,subLeftRecord);
+    resetGenericNode(&subRightNode,subRightRecord);
     Node *rootPtr = &mainNode;
     addMemory(&rootPtr,&subRightNode);
     addMemory(&rootPtr,&subLeftNode);
@@ -280,9 +280,9 @@ void test_genericAddRedBlackTree_add_subRightNodeChild_into_2_node_redBlackTree_
     Record *subRightRecord = createRecord("0x789",250);
     Record *subRightRecordChild = createRecord("0x456778",500);
     
-    setGenericNode(&mainNode,mainRecord);
-    setGenericNode(&subRightNode,subRightRecord);
-    setGenericNode(&subRightNodeChild,subRightRecordChild);
+    resetGenericNode(&mainNode,mainRecord);
+    resetGenericNode(&subRightNode,subRightRecord);
+    resetGenericNode(&subRightNodeChild,subRightRecordChild);
     Node *rootPtr = &mainNode;
     addMemory(&rootPtr,&subRightNode);
     addMemory(&rootPtr->right,&subRightNodeChild);
@@ -343,9 +343,9 @@ void test_genericAddRedBlackTree_add_subLeftNodeChild_into_2_node_redBlackTree_a
     Record *subLeftRecord = createRecord("0x789",500);
     Record *subLeftRecordChild = createRecord("0x45",50);
     
-    setGenericNode(&mainNode,mainRecord);
-    setGenericNode(&subLeftNode,subLeftRecord);
-    setGenericNode(&subLeftNodeChild,subLeftRecordChild);
+    resetGenericNode(&mainNode,mainRecord);
+    resetGenericNode(&subLeftNode,subLeftRecord);
+    resetGenericNode(&subLeftNodeChild,subLeftRecordChild);
     Node *rootPtr = &mainNode;
     addMemory(&rootPtr,&subLeftNode);
     addMemory(&rootPtr->left,&subLeftNodeChild);
@@ -406,9 +406,9 @@ void test_genericAddRedBlackTree_add_subRightNodeChild_into_2_node_redBlackTree_
     Record *subLeftRecord = createRecord("0x789",500);
     Record *subRightRecordChild = createRecord("0x4556",700);
     
-    setGenericNode(&mainNode,mainRecord);
-    setGenericNode(&subLeftNode,subLeftRecord);
-    setGenericNode(&subRightNodeChild,subRightRecordChild);
+    resetGenericNode(&mainNode,mainRecord);
+    resetGenericNode(&subLeftNode,subLeftRecord);
+    resetGenericNode(&subRightNodeChild,subRightRecordChild);
     Node *rootPtr = &mainNode;
     addMemory(&rootPtr,&subLeftNode);
     addMemory(&rootPtr->left,&subRightNodeChild);
@@ -468,9 +468,9 @@ void test_genericAddRedBlackTree_add_subLeftNodeChild_into_2_node_redBlackTree_a
     Record *subRightRecord = createRecord("0x789",250);
     Record *subLeftRecordChild = createRecord("0x456",200);
     
-    setGenericNode(&mainNode,mainRecord);
-    setGenericNode(&subRightNode,subRightRecord);
-    setGenericNode(&subLeftNodeChild,subLeftRecordChild);
+    resetGenericNode(&mainNode,mainRecord);
+    resetGenericNode(&subRightNode,subRightRecord);
+    resetGenericNode(&subLeftNodeChild,subLeftRecordChild);
     Node *rootPtr = &mainNode;
     addMemory(&rootPtr,&subRightNode);
     addMemory(&rootPtr->right,&subLeftNodeChild);
@@ -532,8 +532,8 @@ void test_genericAddRedBlackTree_add_subLeftNodeChild_into_2_node_redBlackTree_a
 void test_genericAddRedBlackTree_should_throw_equivalent_error_for_node_with_same_infomation(void){
 	Record *mainRecord = createRecord("0x123",100);
     Record *subLeftRecord = createRecord("0x123",100);
-	setGenericNode(&mainNode,mainRecord);
-    setGenericNode(&subLeftNode,subLeftRecord);
+	resetGenericNode(&mainNode,mainRecord);
+    resetGenericNode(&subLeftNode,subLeftRecord);
     Node *root = &mainNode;
 
 	ErrorCode e;
