@@ -18,12 +18,11 @@ Record *_createRecord(void *memory,int size,int lineNumber,char *fileName){
 
 void destroyRecord(Record *record){
     if(record){
-        if(record->memory)
-           free(record->memory);
-        if(record->size)
-           record->size = 0;
+        record->memory = NULL;
+        record->size = 0;
+        free(record);
     }
-    free(record);
+    
 }
 
 
