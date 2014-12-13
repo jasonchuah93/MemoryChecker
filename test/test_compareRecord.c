@@ -10,55 +10,63 @@ void setUp(void){}
 
 void tearDown(void){}
 
-void test_findRecordCompare_should_return_1_if_memoryInRedBlackTree_is_larger_than_newMemory(void){
-	Record sizeOfMemoryFromRedBlackTree = {.memory=(char*)0x45610};
-    char *sizeOfNewMemory = (char*)0x1234;
+void test_findRecordCompare_should_return_1_if_recordInRedBlackTree_is_larger_than_targetMemory(void){
+	char buffer[20]; char buffer2[10];
+    int compare=0;
+    Record *record = createRecord(buffer,200);
+    char *targetMemory = buffer2;
     
-    TEST_ASSERT_EQUAL(1,findRecordCompare(&sizeOfMemoryFromRedBlackTree,sizeOfNewMemory));
+    compare = findRecordCompare((Node*)record,targetMemory);
+    TEST_ASSERT_EQUAL(1,compare);
 }
 
-void test_findRecordCompare_should_return_negative_1_if_newMemory_is_larger_than_memoryFromRedBlackTree(void){
-	Record sizeOfMemoryFromRedBlackTree ={.memory=(char*)0x789};
-    char *sizeOfNewMemory = (char*)0x1234;
-	
-    TEST_ASSERT_EQUAL(-1,findRecordCompare(&sizeOfMemoryFromRedBlackTree,sizeOfNewMemory));
-}
-
-void test_findRecordCompare_should_return_0_if_newMemory_is_equal_than_memoryFromRedBlackTree(void){
-	Record sizeOfMemoryFromRedBlackTree ={.memory=(char*)0x456};
-    char *sizeOfNewMemory = (char*)0x456;
-	
-	TEST_ASSERT_EQUAL(0,findRecordCompare(&sizeOfMemoryFromRedBlackTree,sizeOfNewMemory));
-}
-
-
-void test_addAndDelRecordCompare_should_return_1_if_memoryInRedBlackTree_is_larger_than_newMemory(void){
-    Record sizeOfMemoryFromRedBlackTree ={.size=600};
-    Record sizeOfNewMemory = {.size=456};
-	resetGenericNode(&node1,&sizeOfMemoryFromRedBlackTree);
-    resetGenericNode(&node2,&sizeOfNewMemory);
+void test_findRecordCompare_should_return_negative_1_if_recordInRedBlackTree_is_smaller_than_targetMemory(void){
+	char buffer[20]; char buffer2[10];
+    int compare=0;
+    Record *record = createRecord(buffer2,200);
+    char *targetMemory = buffer;
     
-    Node *mainNode = &node1;
-    TEST_ASSERT_EQUAL(1,addAndDelRecordCompare((void*)&mainNode,&node2));
+    compare = findRecordCompare((Node*)record,targetMemory);
+    TEST_ASSERT_EQUAL(-1,compare);
+}    
+
+void test_findRecordCompare_should_return_0_if_recordInRedBlackTree_is_equal_to_targetMemory(void){
+	char buffer[20];
+    int compare=0;
+    Record *record = createRecord(buffer,200);
+    char *targetMemory = buffer;
+    
+    compare = findRecordCompare((Node*)record,targetMemory);
+    TEST_ASSERT_EQUAL(0,compare);
 }
 
-void test_addAndDelRecordCompare_should_return_negative_1_if_memoryInRedBlackTree_is_smaller_than_newMemory(void){
-    Record sizeOfMemoryFromRedBlackTree ={.size=60};
-    Record sizeOfNewMemory = {.size=456};
-	resetGenericNode(&node1,&sizeOfMemoryFromRedBlackTree);
-    resetGenericNode(&node2,&sizeOfNewMemory);
+
+void test_addAndDelRecordCompare_should_return_1_if_recordInRedBlackTree_is_larger_than_targetRecord(void){
+    char buffer[20]; char buffer2[10];
+    int compare=0;
+    Record *recordFromRedBlackTree = createRecord(buffer,300);
+    Record *targetRecord = createRecord(buffer2,200);
     
-    Node *mainNode = &node1;
-    TEST_ASSERT_EQUAL(-1,addAndDelRecordCompare((void*)&mainNode,&node2));
+    compare = addAndDelRecordCompare((Node*)recordFromRedBlackTree,targetRecord);
+    TEST_ASSERT_EQUAL(1,compare);
 }
 
-void test_addAndDelRecordCompare_should_return_0_if_memoryInRedBlackTree_is_equal_than_newMemory(void){
-    Record sizeOfMemoryFromRedBlackTree ={.size=456};
-    Record sizeOfNewMemory = {.size=456};
-	
-    resetGenericNode(&node1,&sizeOfMemoryFromRedBlackTree);
-    resetGenericNode(&node2,&sizeOfNewMemory);
+void test_addAndDelRecordCompare_should_return_negative_1_if_recordInRedBlackTree_is_smaller_than_targetRecord(void){
+    char buffer[20]; char buffer2[10];
+    int compare=0;
+    Record *recordFromRedBlackTree = createRecord(buffer2,300);
+    Record *targetRecord = createRecord(buffer,200);
     
-    Node *mainNode = &node1;
-    TEST_ASSERT_EQUAL(0,addAndDelRecordCompare((void*)&mainNode,&node2));
+    compare = addAndDelRecordCompare((Node*)recordFromRedBlackTree,targetRecord);
+    TEST_ASSERT_EQUAL(-1,compare);
+}
+
+void test_addAndDelRecordCompare_should_return_0_if_recordInRedBlackTree_is_equal_to_targetRecord(void){
+    char buffer[20];
+    int compare=0;
+    Record *recordFromRedBlackTree = createRecord(buffer,300);
+    Record *targetRecord = createRecord(buffer,200);
+    
+    compare = addAndDelRecordCompare((Node*)recordFromRedBlackTree,targetRecord);
+    TEST_ASSERT_EQUAL(0,compare);
 }

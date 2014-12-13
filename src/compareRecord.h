@@ -1,7 +1,7 @@
 #ifndef compareRecord_H
 #define compareRecord_H
 
-int findRecordCompare(void *memoryFromRedBlackTree,void *newMemory);
-int addAndDelRecordCompare(void **memoryFromRedBlackTree,void *memory);
+int findRecordCompare(Node *recordFromRedBlackTree,void *targetMemory);
+int addAndDelRecordCompare(Node *recordFromRedBlackTree,Record *targetRecord);
 	
 #endif // compareRecord_H
