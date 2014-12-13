@@ -9,7 +9,7 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-Node mainNode,leftNode,rightNode,leftNodeChild,rightNodeChild;
+Node mainNode,mainNode2,leftNode,rightNode,leftNodeChild,rightNodeChild;
 
 void setUp(void){}
 
@@ -334,4 +334,39 @@ void test_genericAddRedBlackTree_add_leftNodeChild_into_2_nodes_redBlackTree_and
     destroyRecord(leftRecordChild);    
     destroyRecord(rightRecord);
 }
+
+/*****************************************
+
+	Error tests
+
+*******************************************/
+
+/**
+*          root	                 root
+*            |	 add mainNode	  |
+*	     v   ----------->	  v
+*	 mainNode              mainNode
+*				  |
+*			       Throw Error
+**/
+
+void test_genericAddRedBlackTree_should_throw_equivalent_error_for_node_with_equal_address_of_memory(void){
+	char buffer[100];
+    ErrorCode e;
+    Record *mainRecord1 = createRecord(buffer,100);
+    resetGenericNode(&mainNode,mainRecord1);
+    resetGenericNode(&mainNode2,mainRecord1);
+    Node *root = &mainNode;
+    
+    Try
+	{
+        addMemory(&root,&mainNode2);
+		TEST_FAIL_MESSAGE("Should throw equivalent error ");
+	}
+	Catch(e)
+	{
+		TEST_ASSERT_EQUAL(ERR_EQUIVALENT_MEMORY,e);
+	}
+}
+
 
