@@ -16,18 +16,19 @@ void handleColor(Node **rootPtr,Node *deleteNode){
       }
 }
 
-void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addAndDelRecordCompare)(void **rootPtr,void *newNode)){
+void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addAndDelRecordCompare)(Node **rootPtr,Record *newNode)){
     _genericAddRedBlackTree(rootPtr,newNode,addAndDelRecordCompare);    
     (*rootPtr)->color='b';
 }
 
-void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compare)(void **rootPtr,void *newNode)){
+void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compare)(Node **rootPtr,Record *newNode)){
     Node *root = *rootPtr;
     int _compare;
     if(root == NULL){
         *rootPtr = newNode;
         return;
     }
+    /*
     if (root->left!=NULL && root->right!=NULL){
         handleColor(rootPtr,newNode); 
     }
@@ -60,5 +61,6 @@ void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compare)(void **
             }
         }
     }
+    */
 }
 
