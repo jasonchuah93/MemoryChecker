@@ -18,4 +18,11 @@ void tearDown(void){}
 void test_genericFindRedBlackTree_find_mainNode_in_redBlackTree(void){
     char buffer[20];
     Record *record = createRecord(buffer,20);
+    
+    resetGenericNode(&mainNode,record);
+    setGenericNode(&mainNode,NULL,NULL,'b');
+    
+    Node *root = NULL;
+    addMemory(&root,&mainNode);
+     
 }

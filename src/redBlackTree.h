@@ -5,7 +5,7 @@
 #include "MemoryRecord.h"
 #include "compareRecord.h"
 
-#define addMemory(rootPtr,newNode) genericAddRedBlackTree(rootPtr,newNode,addAndDelRecordCompare)
+#define addRecord(rootPtr,newNode) genericAddRedBlackTree(rootPtr,newNode,addAndDelRecordCompare)
 #define leftChild (rootPtr)->left
 #define rightChild (rootPtr)->right
 #define leftGrandChild (rootPtr)->left->left

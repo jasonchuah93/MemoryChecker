@@ -35,7 +35,7 @@ void test_genericAddRedBlackTree_add_record_into_redBlackTree(void){
     setGenericNode(&mainNode,NULL,NULL,'b');
     
     Node *root = NULL;
-    addMemory(&root,&mainNode);
+    addRecord(&root,&mainNode);
     
     TEST_ASSERT_NOT_NULL(root);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',root);
@@ -68,7 +68,7 @@ void test_genericAddRedBlackTree_add_leftNode_into_redBlackTree(void){
     setGenericNode(&leftNode,NULL,NULL,'r');
     
     Node *root = &mainNode;
-    addMemory(&root,&leftNode);
+    addRecord(&root,&leftNode);
     //Main node
     TEST_ASSERT_EQUAL_PTR(&mainNode,root);
     TEST_ASSERT_EQUAL_NODE(&leftNode,NULL,'b',root);
@@ -99,7 +99,7 @@ void test_genericAddRedBlackTree_add_rightNode_into_redBlackTree(void){
     setGenericNode(&rightNode,NULL,NULL,'r');
     
     Node *root = &mainNode;
-    addMemory(&root,&rightNode);
+    addRecord(&root,&rightNode);
     //MainNode
     TEST_ASSERT_EQUAL_PTR(&mainNode,root);
     TEST_ASSERT_EQUAL_NODE(NULL,&rightNode,'b',root);
@@ -139,7 +139,7 @@ void test_genericAddRedBlackTree_add_rightNode_into_2_nodes_redBlackTree(void){
     setGenericNode(&rightNode,NULL,NULL,'r');
     
     Node *root = &mainNode;
-    addMemory(&root,&rightNode);
+    addRecord(&root,&rightNode);
     
     TEST_ASSERT_EQUAL_PTR(&mainNode,root);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&leftNode);
@@ -174,7 +174,7 @@ void test_genericAddRedBlackTree_add_leftNode_into_2_nodes_redBlackTree(void){
     setGenericNode(&rightNode,NULL,NULL,'r');
     
     Node *root = &mainNode;
-    addMemory(&root,&leftNode);
+    addRecord(&root,&leftNode);
     
     TEST_ASSERT_EQUAL_PTR(&mainNode,root);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&leftNode);
@@ -211,7 +211,7 @@ void test_genericAddRedBlackTree_add_rightNodeChild_into_2_node_redBlackTree_and
     setGenericNode(&rightNodeChild,NULL,NULL,'r');
     
     Node *root = &mainNode;
-    addMemory(&root,&rightNodeChild);
+    addRecord(&root,&rightNodeChild);
     
     TEST_ASSERT_EQUAL_PTR(&rightNode,root);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&mainNode);
@@ -249,7 +249,7 @@ void test_genericAddRedBlackTree_add_leftNodeChild_into_2_nodes_redBlackTree_and
     setGenericNode(&leftNodeChild,NULL,NULL,'r');
     
     Node *root = &mainNode;
-    addMemory(&root,&leftNodeChild);
+    addRecord(&root,&leftNodeChild);
     
     TEST_ASSERT_EQUAL_PTR(&leftNode,root);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&mainNode);
@@ -287,7 +287,7 @@ void test_genericAddRedBlackTree_add_rightNodeChild_into_2_nodes_redBlackTree_an
     setGenericNode(&mainNode,&leftNode,NULL,'b');
     
     Node *root = &mainNode;
-    addMemory(&root,&rightNodeChild);
+    addRecord(&root,&rightNodeChild);
     
     TEST_ASSERT_EQUAL_PTR(&rightNodeChild,root);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&mainNode);
@@ -324,7 +324,7 @@ void test_genericAddRedBlackTree_add_leftNodeChild_into_2_nodes_redBlackTree_and
     setGenericNode(&mainNode,NULL,&rightNode,'b');
     
     Node *root = &mainNode;
-    addMemory(&root,&leftNodeChild);
+    addRecord(&root,&leftNodeChild);
     TEST_ASSERT_EQUAL_PTR(&leftNodeChild,root);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&mainNode);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&rightNode);
@@ -359,7 +359,7 @@ void test_genericAddRedBlackTree_should_throw_equivalent_error_for_node_with_equ
     Node *root = &mainNode;
     Try
 	{
-        addMemory(&root,&mainNode2);
+        addRecord(&root,&mainNode2);
 		TEST_FAIL_MESSAGE("Should throw equivalent error ");
 	}
 	Catch(e)
