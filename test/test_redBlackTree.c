@@ -103,4 +103,7 @@ void test_genericAddRedBlackTree_add_rightNode_into_redBlackTree(void){
     //RightNode
     TEST_ASSERT_NOT_NULL(root->right->dataPtr);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&rightNode);
+    
+    destroyRecord(rightRecord);
+    destroyRecord(mainRecord);
 }
