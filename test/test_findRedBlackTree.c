@@ -1,10 +1,10 @@
 #include "unity.h"
 #include "Node.h"
 #include "Rotation.h"
-#include "MemoryRecord.h"
-#include "compareRecord.h"
 #include "redBlackTree.h"
 #include "RestructureNode.h"
+#include "MemoryRecord.h"
+#include "compareRecord.h"
 #include "CustomAssertions.h"
 #include "ErrorCode.h"
 #include "CException.h"
@@ -23,7 +23,7 @@ void tearDown(void){}
 */
 
 void test_genericFindRedBlackTree_find_r100_in_redBlackTree(void){
-    Node *targetRecord=NULL;
+    Node *targetRecord;
     Record r100 = {.memory=(void*)100,.color='b'};
     Node *node100 =(Node*)&r100;
     Node *root = NULL;
@@ -38,8 +38,6 @@ void test_genericFindRedBlackTree_find_r100_in_redBlackTree(void){
     
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node100,targetRecord);
-    
-    destroyRecord(&r100);
 }
 
 /*
@@ -50,9 +48,9 @@ void test_genericFindRedBlackTree_find_r100_in_redBlackTree(void){
 *     /
 *   r50
 */
-
+/*
 void test_genericFindRedBlackTree_find_r50_in_r100_redBlackTree(void){
-    Node *targetRecord=NULL;
+    Node *targetRecord;
     Record r100 = {.memory=(void*)100,.color='b'};
     Record r50 = {.memory=(void*)50,.color='r'};
     Node *node100 =(Node*)&r100;
@@ -75,7 +73,7 @@ void test_genericFindRedBlackTree_find_r50_in_r100_redBlackTree(void){
     destroyRecord(&r50);
     destroyRecord(&r100);
 }
-
+*/
 /*
 *      root
 *       |
@@ -84,9 +82,9 @@ void test_genericFindRedBlackTree_find_r50_in_r100_redBlackTree(void){
 *          \
 *         r500
 */
-
+/*
 void test_genericFindRedBlackTree_find_r500_in_r100_redBlackTree(void){
-    Node *targetRecord=NULL;
+    Node *targetRecord;
     Record r100 = {.memory=(void*)100,.color='b'};
     Record r500 = {.memory=(void*)500,.color='r'};
     Node *node100 =(Node*)&r100;
@@ -109,7 +107,7 @@ void test_genericFindRedBlackTree_find_r500_in_r100_redBlackTree(void){
     destroyRecord(&r100);
     destroyRecord(&r500);
 }
-
+*/
 /*
 *      root                 root
 *       |                    |
@@ -120,9 +118,9 @@ void test_genericFindRedBlackTree_find_r500_in_r100_redBlackTree(void){
 *         /
 *       r300
 */
-
+/*
 void test_genericFindRedBlackTree_find_r300_in_r100_r300_record500_redBlackTree(void){
-    Node *targetRecord=NULL;
+    Node *targetRecord;
     Record record100 = {.memory=(void*)100,.color='b'};
     Record record300 = {.memory=(void*)300,.color='r'};
     Record record500 = {.memory=(void*)500,.color='r'};
@@ -151,7 +149,8 @@ void test_genericFindRedBlackTree_find_r300_in_r100_r300_record500_redBlackTree(
     destroyRecord(&record300);
     destroyRecord(&record500);
 }
-
+*/
+/*
 /*
 *      root                 root
 *       |                    |
@@ -162,9 +161,9 @@ void test_genericFindRedBlackTree_find_r300_in_r100_r300_record500_redBlackTree(
 *       \
 *       r80
 */
-
+/*
 void test_genericFindRedBlackTree_find_r100_in_r50_r80_r100_redBlackTree(void){
-    Node *targetRecord=NULL;
+    Node *targetRecord;
     Record record50 = {.memory=(void*)50,.color='r'};
     Record record80 = {.memory=(void*)80,.color='r'};
     Record record100 = {.memory=(void*)100,.color='b'};
@@ -189,11 +188,9 @@ void test_genericFindRedBlackTree_find_r100_in_r50_r80_r100_redBlackTree(void){
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node100,targetRecord);
     
-    destroyRecord(&record50);
-    destroyRecord(&record80);
-    destroyRecord(&record100);
+    
 }
-
+*/
 /**
 *                              root
 *                               |
@@ -209,9 +206,9 @@ void test_genericFindRedBlackTree_find_r100_in_r50_r80_r100_redBlackTree(void){
 *                        
 *
 **/
-
+/*
 void test_genericFindRedBlackTree_find_r1150_in_large_redBlackTree(void){
-    Node *targetRecord=NULL;
+    Node *targetRecord;
     Record r1000 = {.memory=(void*)1000,.color='b'};
     Record r500 = {.memory=(void*)500,.color='r'};
     Record r250 = {.memory=(void*)250,.color='r'};
@@ -302,29 +299,9 @@ void test_genericFindRedBlackTree_find_r1150_in_large_redBlackTree(void){
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node1150,targetRecord);
     
-    destroyRecord(&r1000);
-    destroyRecord(&r500); 
-    destroyRecord(&r250); 
-    destroyRecord(&r100); 
-    destroyRecord(&r50); 
-    destroyRecord(&r450); 
-    destroyRecord(&r300); 
-    destroyRecord(&r700); 
-    destroyRecord(&r630); 
-    destroyRecord(&r680); 
-    destroyRecord(&r950); 
-    destroyRecord(&r800); 
-    destroyRecord(&r1500); 
-    destroyRecord(&r1200); 
-    destroyRecord(&r1800); 
-    destroyRecord(&r1150); 
-    destroyRecord(&r1340); 
-    destroyRecord(&r1450);
-    destroyRecord(&r1600); 
-    destroyRecord(&r1950); 
-    destroyRecord(&r2000); 
+    
 }
-
+*/
 /**
 *                              root
 *                               |
@@ -340,9 +317,9 @@ void test_genericFindRedBlackTree_find_r1150_in_large_redBlackTree(void){
 *                        
 *
 **/
-
+/*
 void test_genericFindRedBlackTree_find_r250_in_large_redBlackTree(void){
-    Node *targetRecord=NULL;
+    Node *targetRecord;
     Record r1000 = {.memory=(void*)1000,.color='b'};
     Record r500 = {.memory=(void*)500,.color='r'};
     Record r250 = {.memory=(void*)250,.color='r'};
@@ -433,29 +410,9 @@ void test_genericFindRedBlackTree_find_r250_in_large_redBlackTree(void){
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node250,targetRecord);
     
-    destroyRecord(&r1000);
-    destroyRecord(&r500); 
-    destroyRecord(&r250); 
-    destroyRecord(&r100); 
-    destroyRecord(&r50); 
-    destroyRecord(&r450); 
-    destroyRecord(&r300); 
-    destroyRecord(&r700); 
-    destroyRecord(&r630); 
-    destroyRecord(&r680); 
-    destroyRecord(&r950); 
-    destroyRecord(&r800); 
-    destroyRecord(&r1500); 
-    destroyRecord(&r1200); 
-    destroyRecord(&r1800); 
-    destroyRecord(&r1150); 
-    destroyRecord(&r1340); 
-    destroyRecord(&r1450);
-    destroyRecord(&r1600); 
-    destroyRecord(&r1950); 
-    destroyRecord(&r2000); 
+    
 }
-
+*/
 /**
 *                              root
 *                               |
@@ -471,9 +428,9 @@ void test_genericFindRedBlackTree_find_r250_in_large_redBlackTree(void){
 *                        
 *
 **/
-
+/*
 void test_genericFindRedBlackTree_find_r1450_in_large_redBlackTree(void){
-    Node *targetRecord=NULL;
+    Node *targetRecord;
     Record r1000 = {.memory=(void*)1000,.color='b'};
     Record r500 = {.memory=(void*)500,.color='r'};
     Record r250 = {.memory=(void*)250,.color='r'};
@@ -586,3 +543,4 @@ void test_genericFindRedBlackTree_find_r1450_in_large_redBlackTree(void){
     destroyRecord(&r1950); 
     destroyRecord(&r2000); 
 }
+*/
