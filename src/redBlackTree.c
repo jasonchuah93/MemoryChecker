@@ -83,3 +83,23 @@ Node *genericFindRedBlackTree(Node **rootPtr,Node *targetMemory, int(*findRecord
     
 }
 
+Node *genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*addAndDelRecordCompare)(Node **rootPtr,Record *deleteNode)){
+    Node *node = _genericDelRedBlackTree(rootPtr,deleteNode,addAndDelRecordCompare);
+    if(*rootPtr!=NULL)
+        (*rootPtr)->color='b';
+  return node;
+}
+
+Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecord)(Node **rootPtr,Record *newNode)){
+    int compare ; char tempColor;
+    Node *node , *tempRoot ,*tempLeftChild, *tempRightChild, *root = *rootPtr;
+    if(root==deleteNode){
+        *rootPtr = NULL;
+    }else{
+        if(leftChild == NULL && rightChild == NULL){
+                Throw(ERR_NODE_UNAVAILABLE);
+        }
+    }
+    
+    return node;
+}
