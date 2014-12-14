@@ -69,9 +69,6 @@ void test_genericFindRedBlackTree_find_r50_in_r100_redBlackTree(void){
     
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node50,targetRecord);
-    
-    destroyRecord(&r50);
-    destroyRecord(&r100);
 }
 
 /*
@@ -103,10 +100,8 @@ void test_genericFindRedBlackTree_find_r500_in_r100_redBlackTree(void){
     
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node500,targetRecord);
+ }   
     
-    destroyRecord(&r100);
-    destroyRecord(&r500);
-}
 
 /*
 *      root                 root
@@ -292,8 +287,6 @@ void test_genericFindRedBlackTree_find_r1150_in_large_redBlackTree(void){
     targetRecord = findRecord(&root,((Record*)node1150)->memory); 
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node1150,targetRecord);
-    
-    
 }
 
 /**
@@ -403,8 +396,6 @@ void test_genericFindRedBlackTree_find_r250_in_large_redBlackTree(void){
     targetRecord = findRecord(&root,((Record*)node250)->memory); 
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node250,targetRecord);
-    
-    
 }
 
 /**
@@ -514,26 +505,4 @@ void test_genericFindRedBlackTree_find_r1450_in_large_redBlackTree(void){
     targetRecord = findRecord(&root,((Record*)node1450)->memory); 
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node1450,targetRecord);
-    
-    destroyRecord(&r1000);
-    destroyRecord(&r500); 
-    destroyRecord(&r250); 
-    destroyRecord(&r100); 
-    destroyRecord(&r50); 
-    destroyRecord(&r450); 
-    destroyRecord(&r300); 
-    destroyRecord(&r700); 
-    destroyRecord(&r630); 
-    destroyRecord(&r680); 
-    destroyRecord(&r950); 
-    destroyRecord(&r800); 
-    destroyRecord(&r1500); 
-    destroyRecord(&r1200); 
-    destroyRecord(&r1800); 
-    destroyRecord(&r1150); 
-    destroyRecord(&r1340); 
-    destroyRecord(&r1450);
-    destroyRecord(&r1600); 
-    destroyRecord(&r1950); 
-    destroyRecord(&r2000); 
 }
