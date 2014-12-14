@@ -13,126 +13,187 @@ void setUp(void){}
 void tearDown(void){}
 
 /*
+*      root
+*       |
+*       v
+*     mainNode
+*
+*
+*/
+
 void test_genericFindRedBlackTree_find_mainNode_in_redBlackTree(void){
-    Node *findRoot=NULL;
-    Node *root = NULL; 
+    Node *targetRecord=NULL;
     Record record = {.memory=(void*)100,.color='b'};
-    addRecord(&root,(Node*)&record);
-    TEST_ASSERT_NOT_NULL(root);
-    TEST_ASSERT_EQUAL_PTR((Node*)&record,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&record);
+    Node *nodeRecord =(Node*)&record;
+    Node *root = NULL;
     
-    //findRoot = findRecord(root,(Node*)&record); 
-    //TEST_ASSERT_NOT_NULL(findRoot);
-    //TEST_ASSERT_EQUAL(&mainNode,findRoot);
+    addRecord(&root,nodeRecord);
+    
+    TEST_ASSERT_NOT_NULL(root);
+    TEST_ASSERT_EQUAL_PTR(nodeRecord,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',root);
+    
+    targetRecord = findRecord(&root,((Record*)nodeRecord)->memory); 
+    
+    TEST_ASSERT_NOT_NULL(targetRecord);
+    TEST_ASSERT_EQUAL(nodeRecord,targetRecord);
     
     destroyRecord(&record);
 }
 
+/*
+*      root
+*       |
+*       v
+*     mainNode
+*       /
+*   leftNode
+*/
 
 void test_genericFindRedBlackTree_find_leftNode_in_redBlackTree(void){
-    char buffer[20],buffer2[30];
-    Node *findRoot=NULL;
-    Record *leftRecord = createRecord(buffer,20);
-    Record *mainRecord = createRecord(buffer2,30);
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&leftNode,leftRecord);
-    setGenericNode(&mainNode,NULL,NULL,'b');
-    setGenericNode(&leftNode,NULL,NULL,'r');
+    Node *targetRecord=NULL;
+    Record mainRecord = {.memory=(void*)100,.color='b'};
+    Record leftRecord = {.memory=(void*)50,.color='r'};
+    Node *mainNode =(Node*)&mainRecord;
+    Node *leftNode =(Node*)&leftRecord;
     
     Node *root = NULL;
-    addRecord(&root,&mainNode);
-    addRecord(&root,&leftNode);
-    findRoot = findRecord(root,((Record*)&leftNode)->memory); 
+    addRecord(&root,mainNode);
+    addRecord(&root,leftNode);
     
-    TEST_ASSERT_NOT_NULL(findRoot);
-    TEST_ASSERT_EQUAL(&leftNode,findRoot);
+    TEST_ASSERT_NOT_NULL(root);
+    TEST_ASSERT_EQUAL_PTR(mainNode,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftNode);
+    TEST_ASSERT_EQUAL_NODE(leftNode,NULL,'b',root);
     
-    destroyRecord(leftRecord);
-    destroyRecord(mainRecord);
+    targetRecord = findRecord(&root,((Record*)leftNode)->memory); 
+    
+    TEST_ASSERT_NOT_NULL(targetRecord);
+    TEST_ASSERT_EQUAL(leftNode,targetRecord);
+    
+    destroyRecord(&leftRecord);
+    destroyRecord(&mainRecord);
 }
+
+/*
+*      root
+*       |
+*       v
+*     mainNode
+*           \
+*           rightNode
+*/
 
 void test_genericFindRedBlackTree_find_rightNode_in_redBlackTree(void){
-    char buffer[20],buffer2[30];
-    Node *findRoot=NULL;
-    Record *mainRecord = createRecord(buffer,20);
-    Record *rightRecord = createRecord(buffer2,30);
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&rightNode,rightRecord);
-    setGenericNode(&mainNode,NULL,NULL,'b');
-    setGenericNode(&rightNode,NULL,NULL,'r');
-    
-    Node *root = NULL; 
-    addRecord(&root,&mainNode);
-    addRecord(&root,&rightNode);
-    findRoot = findRecord(root,((Record*)&rightNode)->memory); 
-    
-    TEST_ASSERT_NOT_NULL(findRoot);
-    TEST_ASSERT_EQUAL(&rightNode,findRoot);
-    
-    destroyRecord(mainRecord);
-    destroyRecord(rightRecord);
-}
-
-void test_genericFindRedBlackTree_find_leftNodeChild_in_leftNode_and_mainNode_redBlackTree(void){
-    char buffer[20],buffer2[30],buffer3[40];
-    Node *findRoot=NULL,*findRoot1 =NULL;
-    Record *leftRecordChild = createRecord(buffer,20);
-    Record *leftRecord = createRecord(buffer2,30);
-    Record *mainRecord = createRecord(buffer3,40);
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&leftNode,leftRecord);
-    resetGenericNode(&leftNodeChild,leftRecordChild);
-    setGenericNode(&mainNode,NULL,NULL,'b');
-    setGenericNode(&leftNode,NULL,NULL,'r');
-    setGenericNode(&leftNodeChild,NULL,NULL,'r');
+    Node *targetRecord=NULL;
+    Record mainRecord = {.memory=(void*)100,.color='b'};
+    Record rightRecord = {.memory=(void*)500,.color='r'};
+    Node *mainNode =(Node*)&mainRecord;
+    Node *rightNode =(Node*)&rightRecord;
     
     Node *root = NULL;
-    addRecord(&root,&mainNode);
-    addRecord(&root,&leftNode);
-    addRecord(&root,&leftNodeChild);
-    //Find leftNode
-    findRoot1 = findRecord(root,((Record*)&leftNode)->memory); 
-    TEST_ASSERT_NOT_NULL(findRoot1);
-    TEST_ASSERT_EQUAL(&leftNode,findRoot1);
-    //Find leftNodeChild
-    findRoot = findRecord(root,((Record*)&leftNodeChild)->memory); 
-    TEST_ASSERT_NOT_NULL(findRoot);
-    TEST_ASSERT_EQUAL(&leftNodeChild,findRoot);
+    addRecord(&root,mainNode);
+    addRecord(&root,rightNode);
     
-    destroyRecord(leftRecordChild);
-    destroyRecord(leftRecord);
-    destroyRecord(mainRecord);
+    TEST_ASSERT_NOT_NULL(root);
+    TEST_ASSERT_EQUAL_PTR(mainNode,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightNode);
+    TEST_ASSERT_EQUAL_NODE(NULL,rightNode,'b',root);
+    
+    targetRecord = findRecord(&root,((Record*)rightNode)->memory); 
+    
+    TEST_ASSERT_NOT_NULL(targetRecord);
+    TEST_ASSERT_EQUAL(rightNode,targetRecord);
+    
+    destroyRecord(&rightRecord);
+    destroyRecord(&mainRecord);
 }
 
-void test_genericFindRedBlackTree_find_rightNodeChild_in_leftNode_and_mainNode_redBlackTree(void){
-    char buffer[20],buffer2[30],buffer3[40];
-    Node *findRoot=NULL;
-    Record *leftRecord = createRecord(buffer,20);
-    Record *rightRecordChild = createRecord(buffer2,30);
-    Record *mainRecord = createRecord(buffer3,40);
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&leftNode,leftRecord);
-    resetGenericNode(&rightNodeChild,rightRecordChild);
-    setGenericNode(&mainNode,NULL,NULL,'b');
-    setGenericNode(&leftNode,NULL,NULL,'r');
-    setGenericNode(&rightNodeChild,NULL,NULL,'r');
+/*
+*      root                 root
+*       |                    |
+*       v                    v                   
+*      r100                 r300
+*         \                 /  \
+*         r500   ----->   r100 r500
+*         /
+*       r300
+*/
+
+void test_genericFindRedBlackTree_find_r300_in_r100_r300_record500_redBlackTree(void){
+    Node *targetRecord=NULL;
+    Record record100 = {.memory=(void*)100,.color='b'};
+    Record record300 = {.memory=(void*)300,.color='r'};
+    Record record500 = {.memory=(void*)500,.color='r'};
     
-    Node *root = NULL; 
-    addRecord(&root,&mainNode);
-    addRecord(&root,&leftNode);
-    addRecord(&root,&rightNodeChild);
+    Node *node100 =(Node*)&record100;
+    Node *node300 =(Node*)&record300;
+    Node *node500 =(Node*)&record500;
     
-    findRoot = findRecord(root,((Record*)&rightNodeChild)->memory); 
+    Node *root = NULL;
+    addRecord(&root,node100);
+    addRecord(&root,node500);
+    addRecord(&root,node300);
     
-    TEST_ASSERT_NOT_NULL(findRoot);
-    TEST_ASSERT_EQUAL(&rightNodeChild,findRoot);
+    TEST_ASSERT_NOT_NULL(root);
+    TEST_ASSERT_EQUAL_PTR(node300,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node500);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node100);
+    TEST_ASSERT_EQUAL_NODE(node100,node500,'b',root);
     
-    destroyRecord(leftRecord);
-    destroyRecord(rightRecordChild);
-    destroyRecord(mainRecord);
+    targetRecord = findRecord(&root,((Record*)node300)->memory); 
+    
+    TEST_ASSERT_NOT_NULL(targetRecord);
+    TEST_ASSERT_EQUAL(node300,targetRecord);
+    
+    destroyRecord(&record100);
+    destroyRecord(&record300);
+    destroyRecord(&record500);
 }
 
+/*
+*      root                 root
+*       |                    |
+*       v                    v                   
+*      r100                 r80
+*       /                  /  \
+*     r50   ------->     r50 r100
+*       \
+*       r80
+*/
+
+void test_genericFindRedBlackTree_find_r100_in_r50_r80_r100_redBlackTree(void){
+    Node *targetRecord=NULL;
+    Record record50 = {.memory=(void*)50,.color='r'};
+    Record record80 = {.memory=(void*)80,.color='r'};
+    Record record100 = {.memory=(void*)100,.color='b'};
+    
+    Node *node50 =(Node*)&record50;
+    Node *node80 =(Node*)&record80;
+    Node *node100 =(Node*)&record100;
+    
+    Node *root = NULL;
+    addRecord(&root,node100);
+    addRecord(&root,node50);
+    addRecord(&root,node80);
+    
+    TEST_ASSERT_NOT_NULL(root);
+    TEST_ASSERT_EQUAL_PTR(node80,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node50);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node100);
+    TEST_ASSERT_EQUAL_NODE(node50,node100,'b',node80);
+    
+    targetRecord = findRecord(&root,((Record*)node100)->memory); 
+    
+    TEST_ASSERT_NOT_NULL(targetRecord);
+    TEST_ASSERT_EQUAL(node100,targetRecord);
+    
+    destroyRecord(&record50);
+    destroyRecord(&record80);
+    destroyRecord(&record100);
+}
+
+/*
 void test_genericFindRedBlackTree_find_leftNodeChild_in_rightNode_and_mainNode_redBlackTree(void){
     char buffer[20],buffer2[30],buffer3[40];
     Node *findRoot=NULL;

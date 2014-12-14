@@ -63,21 +63,23 @@ void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compareRecord)(N
     }
 }
 
-/*
-Node *genericFindRedBlackTree(Node *rootPtr,Node *targetMemory, int(*findRecordCompare)(Node *rootPtr,void *targetMemory)){
+
+Node *genericFindRedBlackTree(Node **rootPtr,Node *targetMemory, int(*findRecordCompare)(Node **rootPtr,void *targetMemory)){
     int compare ;
-    
+    Node *root = *rootPtr;
     Node *targetRoot=NULL;
     
     compare = findRecordCompare(rootPtr,(void*)targetMemory);
     if(compare == 0){
-        targetRoot = rootPtr;
-    }else if(compare == 1){
-        targetRoot = genericFindRedBlackTree(rootPtr->left,(void*)targetMemory,findRecordCompare);
-    }else if(compare == -1){
-        targetRoot = genericFindRedBlackTree(rootPtr->right,(void*)targetMemory,findRecordCompare);
+        targetRoot = *rootPtr;
     }
+    else if(compare == 1){
+        targetRoot = genericFindRedBlackTree(&root->left,(void*)targetMemory,findRecordCompare);
+    }else if(compare == -1){
+        targetRoot = genericFindRedBlackTree(&root->right,(void*)targetMemory,findRecordCompare);
+    }
+    
     return targetRoot;
     
 }
-*/
+

@@ -18,23 +18,23 @@ void tearDown(void){}
 
 *******************************************/
 /**
-*	root		    root
-*	 |    add record     |
-*	 v    ----------->   v
-*	NULL               mainNode
+*	root		  root
+*	 |    add r200     |
+*	 v    --------->   v
+*	NULL              r200
 **/
 
-void test_genericAddRedBlackTree_add_record_into_redBlackTree(void){
-    Record record = {.memory = (void*)200};
+void test_genericAddRedBlackTree_add_r200_into_redBlackTree(void){
+    Record r200 = {.memory = (void*)200};
     
     Node *root = NULL;
-    addRecord(&root,(Node*)&record);
+    addRecord(&root,(Node*)&r200);
     
     TEST_ASSERT_NOT_NULL(root);
-    TEST_ASSERT_EQUAL_PTR((Node*)&record,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&record);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r200,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&r200);
     
-    destroyRecord(&record);
+    destroyRecord(&r200);
 }
 
 /*****************************************
@@ -43,52 +43,53 @@ void test_genericAddRedBlackTree_add_record_into_redBlackTree(void){
 
 *******************************************/
 /**
-*    root		              root
-*     |    	add leftNode	 	|
-*     v    	--------------->      	v
-*  mainNode               	    mainNode
-*    / \                    	     /
-*   -   -                      leftNode
+*    root		       root
+*     |    	add r100	|
+*     v    	-------->      	v
+*    r200                     r200	    
+*    / \                      / \
+*   -   -                   r100  -   
 **/
 
-void test_genericAddRedBlackTree_add_leftNode_into_redBlackTree(void){
-    Record leftRecord = {.memory =(void*)100 ,.color = 'r'};  
-    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
+void test_genericAddRedBlackTree_add_r100_into_r200_redBlackTree(void){
+    Record r100 = {.memory =(void*)100 ,.color = 'r'};  
+    Record r200 = {.memory =(void*)200 ,.color = 'b'};
     
     Node *root = NULL;
-    addRecord(&root,(Node*)&mainRecord);
-    addRecord(&root,(Node*)&leftRecord);
+    addRecord(&root,(Node*)&r200);
+    addRecord(&root,(Node*)&r100);
     
-    TEST_ASSERT_EQUAL_PTR((Node*)&mainRecord,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&leftRecord);
-    TEST_ASSERT_EQUAL_NODE((Node*)&leftRecord,NULL,'b',root);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r200,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r100);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r100,NULL,'b',root);
     
-    destroyRecord(&leftRecord);
-    destroyRecord(&mainRecord);
+    destroyRecord(&r100);
+    destroyRecord(&r200);
 }
 
 /**
-*	     root		                root
-*	      |    add rightNode	         |
-*	      v    --------------->              v
-*	   mainNode                          mainNode
-*     	    /	\                            /      \
-*          -     -                          -   rightNode
+*	     root		        root
+*	      |    add r500	         |
+*	      v    -------->             v
+*	     r200                      r200       
+*     	    /	\                     /   \
+*          -     -                   -   r500
 **/
-void test_genericAddRedBlackTree_add_rightNode_into_redBlackTree(void){
-    Record rightRecord = {.memory =(void*)300 ,.color = 'r'};  
-    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
+
+void test_genericAddRedBlackTree_add_r500_into_r200_redBlackTree(void){
+    Record r200 = {.memory =(void*)200 ,.color = 'b'};  
+    Record r500 = {.memory =(void*)500 ,.color = 'r'};
     
     Node *root = NULL;
-    addRecord(&root,(Node*)&mainRecord);
-    addRecord(&root,(Node*)&rightRecord);
+    addRecord(&root,(Node*)&r200);
+    addRecord(&root,(Node*)&r500);
     
-    TEST_ASSERT_EQUAL_PTR((Node*)&mainRecord,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&rightRecord);
-    TEST_ASSERT_EQUAL_NODE(NULL,(Node*)&rightRecord,'b',root);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r200,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r500);
+    TEST_ASSERT_EQUAL_NODE(NULL,(Node*)&r500,'b',root);
     
-    destroyRecord(&rightRecord);
-    destroyRecord(&mainRecord);
+    destroyRecord(&r200);
+    destroyRecord(&r500);
 }
 
 /*****************************************
@@ -97,188 +98,192 @@ void test_genericAddRedBlackTree_add_rightNode_into_redBlackTree(void){
 
 *******************************************/
 /**
-*	     root		          root
-*	      |    add rightNode	    |
-*	      v    --------------->         v
-*	   mainNode                       mainNode
-*           /  \                  	   /  \
-*     leftNode  -                   leftNode  rightNode
+*	 root		   root
+*	  |    add r300	    |
+*	  v    -------->    v
+*	r200               r200        
+*       /  \               /  \
+*     r100  -           r100  r300
 **/
 
-void test_genericAddRedBlackTree_add_rightNode_into_2_nodes_redBlackTree(void){
-    Record leftRecord = {.memory =(void*)100 ,.color = 'r'};  
-    Record rightRecord = {.memory =(void*)300 ,.color = 'r'};  
-    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
+void test_genericAddRedBlackTree_add_r300_into_r100_r200_redBlackTree(void){
+    Record r100 = {.memory =(void*)100 ,.color = 'r'};  
+    Record r200 = {.memory =(void*)200 ,.color = 'b'};
+    Record r300 = {.memory =(void*)300 ,.color = 'r'};  
     
     Node *root = NULL;
-    addRecord(&root,(Node*)&mainRecord);
-    addRecord(&root,(Node*)&leftRecord);
-    addRecord(&root,(Node*)&rightRecord);
+    addRecord(&root,(Node*)&r200);
+    addRecord(&root,(Node*)&r100);
+    addRecord(&root,(Node*)&r300);
     
-    TEST_ASSERT_EQUAL_PTR((Node*)&mainRecord,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&leftRecord);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&rightRecord);
-    TEST_ASSERT_EQUAL_NODE((Node*)&leftRecord,(Node*)&rightRecord,'b',root);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r200,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r100);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r300);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r100,(Node*)&r300,'b',root);
     
-    destroyRecord(&leftRecord);
-    destroyRecord(&rightRecord);
-    destroyRecord(&mainRecord);
+    destroyRecord(&r100);
+    destroyRecord(&r200);
+    destroyRecord(&r300);
     
 }
 
 /**
-*	     root		        root
-*	      |     add leftNode	 |
-*	      v     --------------->     v
-*	   mainNode                   mainNode
-*          /    \                     /      \
-*         -   rightNode         leftNode    rightNode
+*	  root		     root
+*	   |     add r100     |
+*	   v     --------->   v
+*	 r200               r200    
+*       /    \              / \
+*      -    r300         r100 r300  
 **/
 
-void test_genericAddRedBlackTree_add_leftNode_into_2_nodes_redBlackTree(void){
-    Record leftRecord = {.memory =(void*)100 ,.color = 'r'};  
-    Record rightRecord = {.memory =(void*)300 ,.color = 'r'};  
-    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
+void test_genericAddRedBlackTree_add_r100_into_r200_r300_redBlackTree(void){
+    Record r100 = {.memory =(void*)100 ,.color = 'r'};  
+    Record r200 = {.memory =(void*)200 ,.color = 'b'};
+    Record r300 = {.memory =(void*)300 ,.color = 'r'};  
     
     Node *root = NULL;
-    addRecord(&root,(Node*)&mainRecord);
-    addRecord(&root,(Node*)&rightRecord);
-    addRecord(&root,(Node*)&leftRecord);
+    addRecord(&root,(Node*)&r200);
+    addRecord(&root,(Node*)&r300);
+    addRecord(&root,(Node*)&r100);
     
-    TEST_ASSERT_EQUAL_PTR((Node*)&mainRecord,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&rightRecord);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&leftRecord);
-    TEST_ASSERT_EQUAL_NODE((Node*)&leftRecord,(Node*)&rightRecord,'b',root);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r200,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r100);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r300);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r100,(Node*)&r300,'b',root);
     
-    destroyRecord(&leftRecord);
-    destroyRecord(&rightRecord);
-    destroyRecord(&mainRecord);
+    destroyRecord(&r100);
+    destroyRecord(&r200);
+    destroyRecord(&r300);
 }
 
 /**
-*	     root		            root                                       root
-*	      |    add rightNodeChild	     |                                          |
-*	      v    -------------------->     v                  leftRotate              v  
-*	   mainNode                       mainNode              at mainNode          rightNode
-*          /     \                        /      \            ------------->          /   \
-*         -    rightNode                 -    rightNode                        mainNode rightNodeChild
-*                                                  \
-*                                              rightNodeChild                                 
-*
-**/
-void test_genericAddRedBlackTree_add_rightNodeChild_into_2_node_redBlackTree_and_leftRotate(void){
-    Record rightRecordChild = {.memory =(void*)400 ,.color = 'r'};  
-    Record rightRecord = {.memory =(void*)300 ,.color = 'r'};  
-    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
-    
-    Node *root = NULL;
-    addRecord(&root,(Node*)&mainRecord);
-    addRecord(&root,(Node*)&rightRecord);
-    addRecord(&root,(Node*)&rightRecordChild);
-    
-    TEST_ASSERT_EQUAL_PTR((Node*)&rightRecord,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&rightRecordChild);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&mainRecord);
-    TEST_ASSERT_EQUAL_NODE((Node*)&mainRecord,(Node*)&rightRecordChild,'b',(Node*)&rightRecord);
-    
-    destroyRecord(&rightRecordChild);
-    destroyRecord(&rightRecord);
-    destroyRecord(&mainRecord);
-}
-
-/**
-*	root		                    root                              root
-*	  |    add leftNodeChild	     |                                 |
-*	  v    -------------------->         v        rightRotate              v  
-*      mainNode                           mainNode    at mainNode           leftNode
-*       /   \                             /    \      ------------->        /     \
-* leftNode   -                      leftNode    -                    leftNodeChild mainNode
-*                                   /
-*                             leftNodeChild                                 
+*	 root		    root                       root
+*	  |    add r400	     |                          |
+*	  v    -------->     v      leftRotate          v  
+*	 r200              r200                        r300
+*       /  \              /   \    ------------->     /   \
+*    -    r300           -    r300                  r200  r400 
+*                               \                     
+*                              r400                
 *
 **/
 
-void test_genericAddRedBlackTree_add_leftNodeChild_into_2_nodes_redBlackTree_and_rightRotate(void){
-    Record leftRecordChild = {.memory =(void*)50 ,.color = 'r'};  
-    Record leftRecord = {.memory =(void*)100 ,.color = 'r'};  
-    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
+void test_genericAddRedBlackTree_add_r400_into_r200_r300_redBlackTree_and_leftRotate(void){
+    Record r200 = {.memory =(void*)200 ,.color = 'b'};
+    Record r300 = {.memory =(void*)300 ,.color = 'r'};  
+    Record r400 = {.memory =(void*)400 ,.color = 'r'};  
     
     Node *root = NULL;
-    addRecord(&root,(Node*)&mainRecord);
-    addRecord(&root,(Node*)&leftRecord);
-    addRecord(&root,(Node*)&leftRecordChild);
+    addRecord(&root,(Node*)&r200);
+    addRecord(&root,(Node*)&r300);
+    addRecord(&root,(Node*)&r400);
     
-    TEST_ASSERT_EQUAL_PTR((Node*)&leftRecord,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&leftRecordChild);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&mainRecord);
-    TEST_ASSERT_EQUAL_NODE((Node*)&leftRecordChild,(Node*)&mainRecord,'b',(Node*)&leftRecord);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r300,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r200);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r400);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r200,(Node*)&r400,'b',root);
     
-    destroyRecord(&mainRecord);
-    destroyRecord(&leftRecord);
-    destroyRecord(&leftRecordChild);
+    destroyRecord(&r200);
+    destroyRecord(&r300);
+    destroyRecord(&r400);
 }
 
 /**
-*	  root		                    root                            root
-*	    |    add rightNodeChild	     |                               |
-*	    v    -------------------->       v       leftRightRotate         v  
-*	 mainNode                         mainNode     at mainNode       rightNodeChild
-*       /      \                          /      \   --------------->      /     \
-*     leftNode   -                     leftNode   -                    leftNode mainNode
-*                                         \
-*                                   rightNodeChild                                 
+*	root		    root                      root
+*	  |    add r50	     |                         |
+*	  v    -------->     v     rightRotate         v  
+*     r200                  r200   at r100            r100
+*       /   \              /    \  ------------->     /  \
+*     r100   -           r100    -                  r50  r200 
+*                        /
+*                      r50
+*
+**/
+
+
+void test_genericAddRedBlackTree_add_r50_into_r100_r200_redBlackTree_and_rightRotate(void){
+    Record r50 = {.memory =(void*)50 ,.color = 'r'};  
+    Record r100 = {.memory =(void*)100 ,.color = 'r'};  
+    Record r200 = {.memory =(void*)200 ,.color = 'b'};
+    
+    Node *root = NULL;
+    addRecord(&root,(Node*)&r200);
+    addRecord(&root,(Node*)&r100);
+    addRecord(&root,(Node*)&r50);
+    
+    TEST_ASSERT_EQUAL_PTR((Node*)&r100,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r50);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r200);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r50,(Node*)&r200,'b',(Node*)&r100);
+    
+    destroyRecord(&r50);
+    destroyRecord(&r100);
+    destroyRecord(&r200);
+}
+
+/**
+*     root		   root                          root
+*       |    add r200	    |                            |
+*	v    --------->     v       leftRightRotate      v  
+*     r300                 r300     at r100             r200
+*     /  \                 /  \   --------------->      /  \
+*   r100  -             r100   -                     r100  r300
+*                           \
+*                          r200
 *
 **/
 
 void test_genericAddRedBlackTree_add_rightNodeChild_into_2_nodes_redBlackTree_and_leftRightRotate(void){
-    Record rightRecordChild = {.memory =(void*)200 ,.color = 'r'};  
-    Record leftRecord = {.memory =(void*)100 ,.color = 'r'};  
-    Record mainRecord = {.memory =(void*)300 ,.color = 'b'};
+    Record r200 = {.memory =(void*)200 ,.color = 'r'};  
+    Record r100 = {.memory =(void*)100 ,.color = 'r'};  
+    Record r300 = {.memory =(void*)300 ,.color = 'b'};
     
     Node *root = NULL;
-    addRecord(&root,(Node*)&mainRecord);
-    addRecord(&root,(Node*)&leftRecord);
-    addRecord(&root,(Node*)&rightRecordChild);
+    addRecord(&root,(Node*)&r300);
+    addRecord(&root,(Node*)&r100);
+    addRecord(&root,(Node*)&r200);
     
-    TEST_ASSERT_EQUAL_PTR((Node*)&rightRecordChild,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&mainRecord);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&leftRecord);
-    TEST_ASSERT_EQUAL_NODE((Node*)&leftRecord,(Node*)&mainRecord,'b',(Node*)&rightRecordChild);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r200,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r300);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r100);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r100,(Node*)&r300,'b',(Node*)&r200);
     
-    destroyRecord(&rightRecordChild);    
-    destroyRecord(&leftRecord);
-    destroyRecord(&mainRecord);
+    destroyRecord(&r200);    
+    destroyRecord(&r100);
+    destroyRecord(&r300);
 }
 
 /**
-*	  root		                root                                    root
-*	    |    add leftNodeChild	 |                                       |
-*	    v    -------------------->   v              rightLeftRotate          v  
-*	 mainNode                       mainNode          at mainNode         leftNodeChild
-*        /    \                        /      \         ------------->          /   \
-*       -     rightNode               -  rightNode                        mainNode rightNode
-*                                            /
-*                                       leftNodeChild                                 
+*	root		 root                            root
+*	 |    add r250	  |                               |
+*	 v   --------->   v      rightLeftRotate          v  
+*      r200             r200                            r250
+*     /    \            /  \    ------------->          /   \
+*   -     r300         -   r300                       r200  r300
+*                           /
+*                          r250             
 *
 **/
-void test_genericAddRedBlackTree_add_leftNodeChild_into_2_nodes_redBlackTree_and_rightLeftRotate(void){
-    Record leftRecordChild = {.memory =(void*)250 ,.color = 'r'};  
-    Record rightRecord = {.memory =(void*)300 ,.color = 'r'};  
-    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
+
+
+void test_genericAddRedBlackTree_add_r250_int_r200_r300_redBlackTree_and_rightLeftRotate(void){
+    Record r250 = {.memory =(void*)250 ,.color = 'r'};  
+    Record r300 = {.memory =(void*)300 ,.color = 'r'};  
+    Record r200 = {.memory =(void*)200 ,.color = 'b'};
     
     Node *root = NULL;
-    addRecord(&root,(Node*)&mainRecord);
-    addRecord(&root,(Node*)&rightRecord);
-    addRecord(&root,(Node*)&leftRecordChild);
+    addRecord(&root,(Node*)&r200);
+    addRecord(&root,(Node*)&r300);
+    addRecord(&root,(Node*)&r250);
     
-    TEST_ASSERT_EQUAL_PTR((Node*)&leftRecordChild,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&mainRecord);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&rightRecord);
-    TEST_ASSERT_EQUAL_NODE((Node*)&mainRecord,(Node*)&rightRecord,'b',(Node*)&leftRecordChild);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r250,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r200);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r300);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r200,(Node*)&r300,'b',(Node*)&r250);
     
-    destroyRecord(&mainRecord);
-    destroyRecord(&leftRecordChild);    
-    destroyRecord(&rightRecord);
+    destroyRecord(&r250);
+    destroyRecord(&r300);    
+    destroyRecord(&r200);
 }
 
 /*****************************************

@@ -3,6 +3,7 @@
 #include "MemoryRecord.h"
 #include "compareRecord.h"
 
+//Global variable
 int compare=0;
 
 void setUp(void){}

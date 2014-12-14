@@ -17,7 +17,7 @@
 void addRedBlackTree(Node **rootPtr,Node *deleteNode);
 void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addAndDelRecordCompare)(Node **rootPtr,Record *newNode));
 void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compareRecord)(Node **rootPtr,Record *newNode));
-Node *genericFindRedBlackTree(Node *rootPtr,Node *targetMemory, int(*findRecordCompare)(Node *rootPtr,void *targetMemory));
+Node *genericFindRedBlackTree(Node **rootPtr,Node *targetMemory, int(*findRecordCompare)(Node **rootPtr,void *targetMemory));
   
 
 
