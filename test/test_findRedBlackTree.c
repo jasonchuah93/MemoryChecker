@@ -48,7 +48,7 @@ void test_genericFindRedBlackTree_find_r100_in_redBlackTree(void){
 *     /
 *   r50
 */
-/*
+
 void test_genericFindRedBlackTree_find_r50_in_r100_redBlackTree(void){
     Node *targetRecord;
     Record r100 = {.memory=(void*)100,.color='b'};
@@ -73,7 +73,7 @@ void test_genericFindRedBlackTree_find_r50_in_r100_redBlackTree(void){
     destroyRecord(&r50);
     destroyRecord(&r100);
 }
-*/
+
 /*
 *      root
 *       |
@@ -82,7 +82,7 @@ void test_genericFindRedBlackTree_find_r50_in_r100_redBlackTree(void){
 *          \
 *         r500
 */
-/*
+
 void test_genericFindRedBlackTree_find_r500_in_r100_redBlackTree(void){
     Node *targetRecord;
     Record r100 = {.memory=(void*)100,.color='b'};
@@ -107,7 +107,7 @@ void test_genericFindRedBlackTree_find_r500_in_r100_redBlackTree(void){
     destroyRecord(&r100);
     destroyRecord(&r500);
 }
-*/
+
 /*
 *      root                 root
 *       |                    |
@@ -118,7 +118,7 @@ void test_genericFindRedBlackTree_find_r500_in_r100_redBlackTree(void){
 *         /
 *       r300
 */
-/*
+
 void test_genericFindRedBlackTree_find_r300_in_r100_r300_record500_redBlackTree(void){
     Node *targetRecord;
     Record record100 = {.memory=(void*)100,.color='b'};
@@ -144,12 +144,8 @@ void test_genericFindRedBlackTree_find_r300_in_r100_r300_record500_redBlackTree(
     
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node300,targetRecord);
-    
-    destroyRecord(&record100);
-    destroyRecord(&record300);
-    destroyRecord(&record500);
 }
-*/
+
 /*
 /*
 *      root                 root
@@ -161,7 +157,7 @@ void test_genericFindRedBlackTree_find_r300_in_r100_r300_record500_redBlackTree(
 *       \
 *       r80
 */
-/*
+
 void test_genericFindRedBlackTree_find_r100_in_r50_r80_r100_redBlackTree(void){
     Node *targetRecord;
     Record record50 = {.memory=(void*)50,.color='r'};
@@ -187,10 +183,8 @@ void test_genericFindRedBlackTree_find_r100_in_r50_r80_r100_redBlackTree(void){
     
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node100,targetRecord);
-    
-    
 }
-*/
+
 /**
 *                              root
 *                               |
@@ -206,7 +200,7 @@ void test_genericFindRedBlackTree_find_r100_in_r50_r80_r100_redBlackTree(void){
 *                        
 *
 **/
-/*
+
 void test_genericFindRedBlackTree_find_r1150_in_large_redBlackTree(void){
     Node *targetRecord;
     Record r1000 = {.memory=(void*)1000,.color='b'};
@@ -301,7 +295,7 @@ void test_genericFindRedBlackTree_find_r1150_in_large_redBlackTree(void){
     
     
 }
-*/
+
 /**
 *                              root
 *                               |
@@ -317,7 +311,7 @@ void test_genericFindRedBlackTree_find_r1150_in_large_redBlackTree(void){
 *                        
 *
 **/
-/*
+
 void test_genericFindRedBlackTree_find_r250_in_large_redBlackTree(void){
     Node *targetRecord;
     Record r1000 = {.memory=(void*)1000,.color='b'};
@@ -412,7 +406,7 @@ void test_genericFindRedBlackTree_find_r250_in_large_redBlackTree(void){
     
     
 }
-*/
+
 /**
 *                              root
 *                               |
@@ -428,7 +422,7 @@ void test_genericFindRedBlackTree_find_r250_in_large_redBlackTree(void){
 *                        
 *
 **/
-/*
+
 void test_genericFindRedBlackTree_find_r1450_in_large_redBlackTree(void){
     Node *targetRecord;
     Record r1000 = {.memory=(void*)1000,.color='b'};
@@ -543,4 +537,3 @@ void test_genericFindRedBlackTree_find_r1450_in_large_redBlackTree(void){
     destroyRecord(&r1950); 
     destroyRecord(&r2000); 
 }
-*/
