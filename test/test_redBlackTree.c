@@ -34,8 +34,6 @@ void test_genericAddRedBlackTree_add_r200_into_redBlackTree(void){
     TEST_ASSERT_NOT_NULL(root);
     TEST_ASSERT_EQUAL_PTR((Node*)&r200,root);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&r200);
-    
-    destroyRecord(&r200);
 }
 
 /*****************************************
@@ -63,9 +61,6 @@ void test_genericAddRedBlackTree_add_r100_into_r200_redBlackTree(void){
     TEST_ASSERT_EQUAL_PTR((Node*)&r200,root);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r100);
     TEST_ASSERT_EQUAL_NODE((Node*)&r100,NULL,'b',root);
-    
-    destroyRecord(&r100);
-    destroyRecord(&r200);
 }
 
 /**
@@ -88,9 +83,6 @@ void test_genericAddRedBlackTree_add_r500_into_r200_redBlackTree(void){
     TEST_ASSERT_EQUAL_PTR((Node*)&r200,root);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r500);
     TEST_ASSERT_EQUAL_NODE(NULL,(Node*)&r500,'b',root);
-    
-    destroyRecord(&r200);
-    destroyRecord(&r500);
 }
 
 /*****************************************
@@ -121,11 +113,6 @@ void test_genericAddRedBlackTree_add_r300_into_r100_r200_redBlackTree(void){
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r100);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r300);
     TEST_ASSERT_EQUAL_NODE((Node*)&r100,(Node*)&r300,'b',root);
-    
-    destroyRecord(&r100);
-    destroyRecord(&r200);
-    destroyRecord(&r300);
-    
 }
 
 /**
@@ -151,10 +138,6 @@ void test_genericAddRedBlackTree_add_r100_into_r200_r300_redBlackTree(void){
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r100);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r300);
     TEST_ASSERT_EQUAL_NODE((Node*)&r100,(Node*)&r300,'b',root);
-    
-    destroyRecord(&r100);
-    destroyRecord(&r200);
-    destroyRecord(&r300);
 }
 
 /**
@@ -183,10 +166,6 @@ void test_genericAddRedBlackTree_add_r400_into_r200_r300_redBlackTree_and_leftRo
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r200);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r400);
     TEST_ASSERT_EQUAL_NODE((Node*)&r200,(Node*)&r400,'b',root);
-    
-    destroyRecord(&r200);
-    destroyRecord(&r300);
-    destroyRecord(&r400);
 }
 
 /**
@@ -216,10 +195,6 @@ void test_genericAddRedBlackTree_add_r50_into_r100_r200_redBlackTree_and_rightRo
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r50);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r200);
     TEST_ASSERT_EQUAL_NODE((Node*)&r50,(Node*)&r200,'b',(Node*)&r100);
-    
-    destroyRecord(&r50);
-    destroyRecord(&r100);
-    destroyRecord(&r200);
 }
 
 /**
@@ -248,10 +223,6 @@ void test_genericAddRedBlackTree_add_rightNodeChild_into_2_nodes_redBlackTree_an
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r300);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r100);
     TEST_ASSERT_EQUAL_NODE((Node*)&r100,(Node*)&r300,'b',(Node*)&r200);
-    
-    destroyRecord(&r200);    
-    destroyRecord(&r100);
-    destroyRecord(&r300);
 }
 
 /**
@@ -281,10 +252,6 @@ void test_genericAddRedBlackTree_add_r250_int_r200_r300_redBlackTree_and_rightLe
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r200);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r300);
     TEST_ASSERT_EQUAL_NODE((Node*)&r200,(Node*)&r300,'b',(Node*)&r250);
-    
-    destroyRecord(&r250);
-    destroyRecord(&r300);    
-    destroyRecord(&r200);
 }
 
 /*****************************************
