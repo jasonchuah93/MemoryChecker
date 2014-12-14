@@ -16,97 +16,97 @@ void tearDown(void){}
 *      root
 *       |
 *       v
-*     mainNode
+*      r100
 *
 *
 */
 
-void test_genericFindRedBlackTree_find_mainNode_in_redBlackTree(void){
+void test_genericFindRedBlackTree_find_r100_in_redBlackTree(void){
     Node *targetRecord=NULL;
-    Record record = {.memory=(void*)100,.color='b'};
-    Node *nodeRecord =(Node*)&record;
+    Record r100 = {.memory=(void*)100,.color='b'};
+    Node *node100 =(Node*)&r100;
     Node *root = NULL;
     
-    addRecord(&root,nodeRecord);
+    addRecord(&root,node100);
     
     TEST_ASSERT_NOT_NULL(root);
-    TEST_ASSERT_EQUAL_PTR(nodeRecord,root);
+    TEST_ASSERT_EQUAL_PTR(node100,root);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',root);
     
-    targetRecord = findRecord(&root,((Record*)nodeRecord)->memory); 
+    targetRecord = findRecord(&root,((Record*)node100)->memory); 
     
     TEST_ASSERT_NOT_NULL(targetRecord);
-    TEST_ASSERT_EQUAL(nodeRecord,targetRecord);
+    TEST_ASSERT_EQUAL(node100,targetRecord);
     
-    destroyRecord(&record);
+    destroyRecord(&r100);
 }
 
 /*
 *      root
 *       |
 *       v
-*     mainNode
-*       /
-*   leftNode
+*     r100
+*     /
+*   r50
 */
 
-void test_genericFindRedBlackTree_find_leftNode_in_redBlackTree(void){
+void test_genericFindRedBlackTree_find_r50_in_r100_redBlackTree(void){
     Node *targetRecord=NULL;
-    Record mainRecord = {.memory=(void*)100,.color='b'};
-    Record leftRecord = {.memory=(void*)50,.color='r'};
-    Node *mainNode =(Node*)&mainRecord;
-    Node *leftNode =(Node*)&leftRecord;
+    Record r100 = {.memory=(void*)100,.color='b'};
+    Record r50 = {.memory=(void*)50,.color='r'};
+    Node *node100 =(Node*)&r100;
+    Node *node50 =(Node*)&r50;
     
     Node *root = NULL;
-    addRecord(&root,mainNode);
-    addRecord(&root,leftNode);
+    addRecord(&root,node100);
+    addRecord(&root,node50);
     
     TEST_ASSERT_NOT_NULL(root);
-    TEST_ASSERT_EQUAL_PTR(mainNode,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftNode);
-    TEST_ASSERT_EQUAL_NODE(leftNode,NULL,'b',root);
+    TEST_ASSERT_EQUAL_PTR(node100,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node50);
+    TEST_ASSERT_EQUAL_NODE(node50,NULL,'b',root);
     
-    targetRecord = findRecord(&root,((Record*)leftNode)->memory); 
+    targetRecord = findRecord(&root,((Record*)node50)->memory); 
     
     TEST_ASSERT_NOT_NULL(targetRecord);
-    TEST_ASSERT_EQUAL(leftNode,targetRecord);
+    TEST_ASSERT_EQUAL(node50,targetRecord);
     
-    destroyRecord(&leftRecord);
-    destroyRecord(&mainRecord);
+    destroyRecord(&r50);
+    destroyRecord(&r100);
 }
 
 /*
 *      root
 *       |
 *       v
-*     mainNode
-*           \
-*           rightNode
+*      r100
+*          \
+*         r500
 */
 
-void test_genericFindRedBlackTree_find_rightNode_in_redBlackTree(void){
+void test_genericFindRedBlackTree_find_r500_in_r100_redBlackTree(void){
     Node *targetRecord=NULL;
-    Record mainRecord = {.memory=(void*)100,.color='b'};
-    Record rightRecord = {.memory=(void*)500,.color='r'};
-    Node *mainNode =(Node*)&mainRecord;
-    Node *rightNode =(Node*)&rightRecord;
+    Record r100 = {.memory=(void*)100,.color='b'};
+    Record r500 = {.memory=(void*)500,.color='r'};
+    Node *node100 =(Node*)&r100;
+    Node *node500 =(Node*)&r500;
     
     Node *root = NULL;
-    addRecord(&root,mainNode);
-    addRecord(&root,rightNode);
+    addRecord(&root,node100);
+    addRecord(&root,node500);
     
     TEST_ASSERT_NOT_NULL(root);
-    TEST_ASSERT_EQUAL_PTR(mainNode,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightNode);
-    TEST_ASSERT_EQUAL_NODE(NULL,rightNode,'b',root);
+    TEST_ASSERT_EQUAL_PTR(node100,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node500);
+    TEST_ASSERT_EQUAL_NODE(NULL,node500,'b',root);
     
-    targetRecord = findRecord(&root,((Record*)rightNode)->memory); 
+    targetRecord = findRecord(&root,((Record*)node500)->memory); 
     
     TEST_ASSERT_NOT_NULL(targetRecord);
-    TEST_ASSERT_EQUAL(rightNode,targetRecord);
+    TEST_ASSERT_EQUAL(node500,targetRecord);
     
-    destroyRecord(&rightRecord);
-    destroyRecord(&mainRecord);
+    destroyRecord(&r100);
+    destroyRecord(&r500);
 }
 
 /*
@@ -193,138 +193,395 @@ void test_genericFindRedBlackTree_find_r100_in_r50_r80_r100_redBlackTree(void){
     destroyRecord(&record100);
 }
 
-/*
-void test_genericFindRedBlackTree_find_leftNodeChild_in_rightNode_and_mainNode_redBlackTree(void){
-    char buffer[20],buffer2[30],buffer3[40];
-    Node *findRoot=NULL;
-    Record *mainRecord = createRecord(buffer,20);
-    Record *leftRecordChild = createRecord(buffer2,30);
-    Record *rightRecord = createRecord(buffer3,40);
-    
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&rightNode,rightRecord);
-    resetGenericNode(&leftNodeChild,leftRecordChild);
-    setGenericNode(&mainNode,NULL,NULL,'b');
-    setGenericNode(&rightNode,NULL,NULL,'r');
-    setGenericNode(&leftNodeChild,NULL,NULL,'r');
-    
-    Node *root = NULL; 
-    addRecord(&root,&mainNode);
-    addRecord(&root,&rightNode);
-    addRecord(&root,&leftNodeChild);
-    findRoot = findRecord(root,((Record*)&leftNodeChild)->memory); 
-    
-    TEST_ASSERT_NOT_NULL(findRoot);
-    TEST_ASSERT_EQUAL(&leftNodeChild,findRoot);
-    
-    destroyRecord(mainRecord);
-    destroyRecord(leftRecordChild);
-    destroyRecord(rightRecord);
-}
-
-void test_genericFindRedBlackTree_find_rightNodeChild_in_rightNode_and_mainNode_redBlackTree(void){
-    char buffer[20],buffer2[30],buffer3[40];
-    Node *findRoot=NULL;
-    Record *mainRecord = createRecord(buffer,20);
-    Record *rightRecord = createRecord(buffer2,30);
-    Record *rightRecordChild = createRecord(buffer3,40);
-    
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&rightNode,rightRecord);
-    resetGenericNode(&rightNodeChild,rightRecordChild);
-    setGenericNode(&mainNode,NULL,NULL,'b');
-    setGenericNode(&rightNode,NULL,NULL,'r');
-    setGenericNode(&rightNodeChild,NULL,NULL,'r');
-    
-    Node *root = NULL; 
-    addRecord(&root,&mainNode);
-    addRecord(&root,&rightNode);
-    addRecord(&root,&rightNodeChild);
-    findRoot = findRecord(root,((Record*)&rightNodeChild)->memory); 
-    
-    TEST_ASSERT_NOT_NULL(findRoot);
-    TEST_ASSERT_EQUAL(&rightNodeChild,findRoot);
-    
-    destroyRecord(mainRecord);
-    destroyRecord(rightRecord);
-    destroyRecord(rightRecordChild);
-}
-*/
-
 /**
-*                               root
-*                                |
-*                             mainNode
-*                     /                     \
-*                   nodeA                  nodeB   
-*               /         \             /           \ 
-*            nodeC        nodeD       nodeE        nodeF
-*           /      \     /    \      /   \       /      \
-*        nodeG    nodeH nodeI nodeJ nodeK nodeL nodeM nodeN
-*         /         /     \     /           \           /
-*       nodeO     nodeP  nodeQ nodeR       nodeS      nodeT
-*                         /      \            /
-*                       nodeU    nodeV     nodeW
+*                              root
+*                               |
+*                             r1000
+*                     /                    \
+*                   r500                    r1500   
+*               /         \             /          \  
+*             r250        r700       r1200        r1800
+*           /      \     /    \      /   \       /    \
+*        r100     r450 r630   r950 r1150 r1340 r1600  r2000
+*         /        /     \     /           \           /
+*       r50      r300   r680  r800         r1450     r1950
+*                        
 *
 **/
-/*
-void test_genericFindRedBlackTree_find_nodeP_in_large_redBlackTree(void){
-    Node *findRoot=NULL;
-    Record mainRecord = {.memory=(void*)500};
-    Record recordA = {.memory=(void*)250};
-    Record recordB = {.memory=(void*)750};
-    Record recordC = {.memory=(void*)200};
-    Record recordD = {.memory=(void*)0};
-    Record recordE = {.memory=(void*)330};
-    Record recordF = {.memory=(void*)350};
-    Record recordG = {.memory=(void*)100};
-    Record recordH = {.memory=(void*)230};
-    Record recordI = {.memory=(void*)260};
-    Record recordJ = {.memory=(void*)350};
-    Record recordK = {.memory=(void*)200};
-    Record recordL = {.memory=(void*)350};
-    Record recordM = {.memory=(void*)200};
-    Record recordN = {.memory=(void*)350};
-    Record recordO = {.memory=(void*)50};
-    Record recordP = {.memory=(void*)210};
-    Record recordQ = {.memory=(void*)290};
-    Record recordR = {.memory=(void*)350};
-    Record recordS = {.memory=(void*)200};
-    Record recordT = {.memory=(void*)350};
-    Record recordU = {.memory=(void*)260};
-    Record recordV = {.memory=(void*)350};
-    Record recordW = {.memory=(void*)200};
+
+void test_genericFindRedBlackTree_find_r1150_in_large_redBlackTree(void){
+    Node *targetRecord=NULL;
+    Record r1000 = {.memory=(void*)1000,.color='b'};
+    Record r500 = {.memory=(void*)500,.color='r'};
+    Record r250 = {.memory=(void*)250,.color='r'};
+    Record r100 = {.memory=(void*)100,.color='r'};
+    Record r50 = {.memory=(void*)50,.color='r'};
+    Record r450 = {.memory=(void*)450,.color='r'};
+    Record r300 = {.memory=(void*)300,.color='r'};
+    Record r700 = {.memory=(void*)700,.color='r'};
+    Record r630 = {.memory=(void*)630,.color='r'};
+    Record r680 = {.memory=(void*)680,.color='r'};
+    Record r950 = {.memory=(void*)950,.color='r'};
+    Record r800 = {.memory=(void*)800,.color='r'};
+    Record r1500 = {.memory=(void*)1500,.color='r'};
+    Record r1200 = {.memory=(void*)1200,.color='r'};
+    Record r1800 = {.memory=(void*)1800,.color='r'};
+    Record r1150 = {.memory=(void*)1150,.color='r'};
+    Record r1340 = {.memory=(void*)1340,.color='r'};
+    Record r1450 = {.memory=(void*)1450,.color='r'};
+    Record r1600 = {.memory=(void*)1600,.color='r'};
+    Record r1950 = {.memory=(void*)1950,.color='r'};
+    Record r2000 = {.memory=(void*)2000,.color='r'};
     
-    Node *root = NULL; 
-    addRecord(&root,(Node*)&mainRecord);
-    addRecord(&root,(Node*)&recordA);
-    addRecord(&root,(Node*)&recordB);
-    addRecord(&root,(Node*)&recordC);
-    addRecord(&root,(Node*)&recordD);
-    addRecord(&root,(Node*)&recordE);
-    addRecord(&root,(Node*)&recordF);
-    addRecord(&root,(Node*)&recordG);
-    addRecord(&root,(Node*)&recordH);
-    addRecord(&root,(Node*)&recordI);
-    addRecord(&root,(Node*)&recordJ);
-    addRecord(&root,(Node*)&recordK);
-    addRecord(&root,(Node*)&recordL);
-    addRecord(&root,(Node*)&recordM);
-    addRecord(&root,(Node*)&recordN);
-    addRecord(&root,(Node*)&recordO);
-    addRecord(&root,(Node*)&recordP);
-    addRecord(&root,(Node*)&recordQ);
-    addRecord(&root,(Node*)&recordR);
-    addRecord(&root,(Node*)&recordS);
-    addRecord(&root,(Node*)&recordT);
-    addRecord(&root,(Node*)&recordU);
-    addRecord(&root,(Node*)&recordV);
-    addRecord(&root,(Node*)&recordW);
+    Node *node1000 =(Node*)&r1000; 
+    Node *node500 =(Node*)&r500; 
+    Node *node250 =(Node*)&r250; 
+    Node *node100 =(Node*)&r100; 
+    Node *node50 =(Node*)&r50; 
+    Node *node450 =(Node*)&r450; 
+    Node *node300 =(Node*)&r300; 
+    Node *node700 =(Node*)&r700;
+    Node *node630 =(Node*)&r630; 
+    Node *node680 =(Node*)&r680; 
+    Node *node950 =(Node*)&r950;
+    Node *node800 =(Node*)&r800; 
+    Node *node1500 =(Node*)&r1500; 
+    Node *node1200 =(Node*)&r1200; 
+    Node *node1800 =(Node*)&r1800; 
+    Node *node1150 =(Node*)&r1150; 
+    Node *node1340 =(Node*)&r1340; 
+    Node *node1450 =(Node*)&r1450;
+    Node *node1600 =(Node*)&r1600;
+    Node *node1950 =(Node*)&r1950;
+    Node *node2000 =(Node*)&r2000; 
     
-     
+    Node *root = NULL;
+    addRecord(&root,node1000);
+    addRecord(&root,node500);
+    addRecord(&root,node1500);
+    addRecord(&root,node250);
+    addRecord(&root,node700);
+    addRecord(&root,node1200);
+    addRecord(&root,node1800);
+    addRecord(&root,node100);
+    addRecord(&root,node450);
+    addRecord(&root,node630);
+    addRecord(&root,node950);
+    addRecord(&root,node1150);
+    addRecord(&root,node1340);
+    addRecord(&root,node1600);
+    addRecord(&root,node2000);
+    addRecord(&root,node50);
+    addRecord(&root,node300);
+    addRecord(&root,node680);
+    addRecord(&root,node800);
+    addRecord(&root,node1450);
+    addRecord(&root,node1950);
     
-    TEST_ASSERT_EQUAL_PTR(&mainRecord,root);
-    TEST_ASSERT_EQUAL_NODE((Node*)&recordA,(Node*)&recordB,'b',(Node*)&mainRecord);
+    TEST_ASSERT_NOT_NULL(root);
+    TEST_ASSERT_EQUAL_PTR(node1000,root);
+    TEST_ASSERT_EQUAL_NODE(node500,node1500,'b',root);
+    TEST_ASSERT_EQUAL_NODE(node250,node700,'r',node500);
+    TEST_ASSERT_EQUAL_NODE(node1200,node1800,'b',node1500);
+    TEST_ASSERT_EQUAL_NODE(node100,node450,'b',node250);
+    TEST_ASSERT_EQUAL_NODE(node630,node950,'b',node700);
+    TEST_ASSERT_EQUAL_NODE(node1150,node1340,'r',node1200);
+    TEST_ASSERT_EQUAL_NODE(node1600,node2000,'r',node1800);
+    TEST_ASSERT_EQUAL_NODE(node50,NULL,'b',node100);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node50);
+    TEST_ASSERT_EQUAL_NODE(node300,NULL,'b',node450);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node300);
+    TEST_ASSERT_EQUAL_NODE(NULL,node680,'b',node630);
+    TEST_ASSERT_EQUAL_NODE(node800,NULL,'b',node950);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',node1150);
+    TEST_ASSERT_EQUAL_NODE(NULL,node1450,'b',node1340);
+    TEST_ASSERT_EQUAL_NODE(node1950,NULL,'b',node2000);
+    //Find targetRecord
+    targetRecord = findRecord(&root,((Record*)node1150)->memory); 
+    TEST_ASSERT_NOT_NULL(targetRecord);
+    TEST_ASSERT_EQUAL(node1150,targetRecord);
     
+    destroyRecord(&r1000);
+    destroyRecord(&r500); 
+    destroyRecord(&r250); 
+    destroyRecord(&r100); 
+    destroyRecord(&r50); 
+    destroyRecord(&r450); 
+    destroyRecord(&r300); 
+    destroyRecord(&r700); 
+    destroyRecord(&r630); 
+    destroyRecord(&r680); 
+    destroyRecord(&r950); 
+    destroyRecord(&r800); 
+    destroyRecord(&r1500); 
+    destroyRecord(&r1200); 
+    destroyRecord(&r1800); 
+    destroyRecord(&r1150); 
+    destroyRecord(&r1340); 
+    destroyRecord(&r1450);
+    destroyRecord(&r1600); 
+    destroyRecord(&r1950); 
+    destroyRecord(&r2000); 
 }
-*/
+
+/**
+*                              root
+*                               |
+*                             r1000
+*                     /                    \
+*                   r500                    r1500   
+*               /         \             /          \  
+*             r250        r700       r1200        r1800
+*           /      \     /    \      /   \       /    \
+*        r100     r450 r630   r950 r1150 r1340 r1600  r2000
+*         /        /     \     /           \           /
+*       r50      r300   r680  r800         r1450     r1950
+*                        
+*
+**/
+
+void test_genericFindRedBlackTree_find_r250_in_large_redBlackTree(void){
+    Node *targetRecord=NULL;
+    Record r1000 = {.memory=(void*)1000,.color='b'};
+    Record r500 = {.memory=(void*)500,.color='r'};
+    Record r250 = {.memory=(void*)250,.color='r'};
+    Record r100 = {.memory=(void*)100,.color='r'};
+    Record r50 = {.memory=(void*)50,.color='r'};
+    Record r450 = {.memory=(void*)450,.color='r'};
+    Record r300 = {.memory=(void*)300,.color='r'};
+    Record r700 = {.memory=(void*)700,.color='r'};
+    Record r630 = {.memory=(void*)630,.color='r'};
+    Record r680 = {.memory=(void*)680,.color='r'};
+    Record r950 = {.memory=(void*)950,.color='r'};
+    Record r800 = {.memory=(void*)800,.color='r'};
+    Record r1500 = {.memory=(void*)1500,.color='r'};
+    Record r1200 = {.memory=(void*)1200,.color='r'};
+    Record r1800 = {.memory=(void*)1800,.color='r'};
+    Record r1150 = {.memory=(void*)1150,.color='r'};
+    Record r1340 = {.memory=(void*)1340,.color='r'};
+    Record r1450 = {.memory=(void*)1450,.color='r'};
+    Record r1600 = {.memory=(void*)1600,.color='r'};
+    Record r1950 = {.memory=(void*)1950,.color='r'};
+    Record r2000 = {.memory=(void*)2000,.color='r'};
+    
+    Node *node1000 =(Node*)&r1000; 
+    Node *node500 =(Node*)&r500; 
+    Node *node250 =(Node*)&r250; 
+    Node *node100 =(Node*)&r100; 
+    Node *node50 =(Node*)&r50; 
+    Node *node450 =(Node*)&r450; 
+    Node *node300 =(Node*)&r300; 
+    Node *node700 =(Node*)&r700;
+    Node *node630 =(Node*)&r630; 
+    Node *node680 =(Node*)&r680; 
+    Node *node950 =(Node*)&r950;
+    Node *node800 =(Node*)&r800; 
+    Node *node1500 =(Node*)&r1500; 
+    Node *node1200 =(Node*)&r1200; 
+    Node *node1800 =(Node*)&r1800; 
+    Node *node1150 =(Node*)&r1150; 
+    Node *node1340 =(Node*)&r1340; 
+    Node *node1450 =(Node*)&r1450;
+    Node *node1600 =(Node*)&r1600;
+    Node *node1950 =(Node*)&r1950;
+    Node *node2000 =(Node*)&r2000; 
+    
+    Node *root = NULL;
+    addRecord(&root,node1000);
+    addRecord(&root,node500);
+    addRecord(&root,node1500);
+    addRecord(&root,node250);
+    addRecord(&root,node700);
+    addRecord(&root,node1200);
+    addRecord(&root,node1800);
+    addRecord(&root,node100);
+    addRecord(&root,node450);
+    addRecord(&root,node630);
+    addRecord(&root,node950);
+    addRecord(&root,node1150);
+    addRecord(&root,node1340);
+    addRecord(&root,node1600);
+    addRecord(&root,node2000);
+    addRecord(&root,node50);
+    addRecord(&root,node300);
+    addRecord(&root,node680);
+    addRecord(&root,node800);
+    addRecord(&root,node1450);
+    addRecord(&root,node1950);
+    
+    TEST_ASSERT_NOT_NULL(root);
+    TEST_ASSERT_EQUAL_PTR(node1000,root);
+    TEST_ASSERT_EQUAL_NODE(node500,node1500,'b',root);
+    TEST_ASSERT_EQUAL_NODE(node250,node700,'r',node500);
+    TEST_ASSERT_EQUAL_NODE(node1200,node1800,'b',node1500);
+    TEST_ASSERT_EQUAL_NODE(node100,node450,'b',node250);
+    TEST_ASSERT_EQUAL_NODE(node630,node950,'b',node700);
+    TEST_ASSERT_EQUAL_NODE(node1150,node1340,'r',node1200);
+    TEST_ASSERT_EQUAL_NODE(node1600,node2000,'r',node1800);
+    TEST_ASSERT_EQUAL_NODE(node50,NULL,'b',node100);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node50);
+    TEST_ASSERT_EQUAL_NODE(node300,NULL,'b',node450);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node300);
+    TEST_ASSERT_EQUAL_NODE(NULL,node680,'b',node630);
+    TEST_ASSERT_EQUAL_NODE(node800,NULL,'b',node950);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',node1150);
+    TEST_ASSERT_EQUAL_NODE(NULL,node1450,'b',node1340);
+    TEST_ASSERT_EQUAL_NODE(node1950,NULL,'b',node2000);
+    //Find targetRecord
+    targetRecord = findRecord(&root,((Record*)node250)->memory); 
+    TEST_ASSERT_NOT_NULL(targetRecord);
+    TEST_ASSERT_EQUAL(node250,targetRecord);
+    
+    destroyRecord(&r1000);
+    destroyRecord(&r500); 
+    destroyRecord(&r250); 
+    destroyRecord(&r100); 
+    destroyRecord(&r50); 
+    destroyRecord(&r450); 
+    destroyRecord(&r300); 
+    destroyRecord(&r700); 
+    destroyRecord(&r630); 
+    destroyRecord(&r680); 
+    destroyRecord(&r950); 
+    destroyRecord(&r800); 
+    destroyRecord(&r1500); 
+    destroyRecord(&r1200); 
+    destroyRecord(&r1800); 
+    destroyRecord(&r1150); 
+    destroyRecord(&r1340); 
+    destroyRecord(&r1450);
+    destroyRecord(&r1600); 
+    destroyRecord(&r1950); 
+    destroyRecord(&r2000); 
+}
+
+/**
+*                              root
+*                               |
+*                             r1000
+*                     /                    \
+*                   r500                    r1500   
+*               /         \             /          \  
+*             r250        r700       r1200        r1800
+*           /      \     /    \      /   \       /    \
+*        r100     r450 r630   r950 r1150 r1340 r1600  r2000
+*         /        /     \     /           \           /
+*       r50      r300   r680  r800         r1450     r1950
+*                        
+*
+**/
+
+void test_genericFindRedBlackTree_find_r1450_in_large_redBlackTree(void){
+    Node *targetRecord=NULL;
+    Record r1000 = {.memory=(void*)1000,.color='b'};
+    Record r500 = {.memory=(void*)500,.color='r'};
+    Record r250 = {.memory=(void*)250,.color='r'};
+    Record r100 = {.memory=(void*)100,.color='r'};
+    Record r50 = {.memory=(void*)50,.color='r'};
+    Record r450 = {.memory=(void*)450,.color='r'};
+    Record r300 = {.memory=(void*)300,.color='r'};
+    Record r700 = {.memory=(void*)700,.color='r'};
+    Record r630 = {.memory=(void*)630,.color='r'};
+    Record r680 = {.memory=(void*)680,.color='r'};
+    Record r950 = {.memory=(void*)950,.color='r'};
+    Record r800 = {.memory=(void*)800,.color='r'};
+    Record r1500 = {.memory=(void*)1500,.color='r'};
+    Record r1200 = {.memory=(void*)1200,.color='r'};
+    Record r1800 = {.memory=(void*)1800,.color='r'};
+    Record r1150 = {.memory=(void*)1150,.color='r'};
+    Record r1340 = {.memory=(void*)1340,.color='r'};
+    Record r1450 = {.memory=(void*)1450,.color='r'};
+    Record r1600 = {.memory=(void*)1600,.color='r'};
+    Record r1950 = {.memory=(void*)1950,.color='r'};
+    Record r2000 = {.memory=(void*)2000,.color='r'};
+    
+    Node *node1000 =(Node*)&r1000; 
+    Node *node500 =(Node*)&r500; 
+    Node *node250 =(Node*)&r250; 
+    Node *node100 =(Node*)&r100; 
+    Node *node50 =(Node*)&r50; 
+    Node *node450 =(Node*)&r450; 
+    Node *node300 =(Node*)&r300; 
+    Node *node700 =(Node*)&r700;
+    Node *node630 =(Node*)&r630; 
+    Node *node680 =(Node*)&r680; 
+    Node *node950 =(Node*)&r950;
+    Node *node800 =(Node*)&r800; 
+    Node *node1500 =(Node*)&r1500; 
+    Node *node1200 =(Node*)&r1200; 
+    Node *node1800 =(Node*)&r1800; 
+    Node *node1150 =(Node*)&r1150; 
+    Node *node1340 =(Node*)&r1340; 
+    Node *node1450 =(Node*)&r1450;
+    Node *node1600 =(Node*)&r1600;
+    Node *node1950 =(Node*)&r1950;
+    Node *node2000 =(Node*)&r2000; 
+    
+    Node *root = NULL;
+    addRecord(&root,node1000);
+    addRecord(&root,node500);
+    addRecord(&root,node1500);
+    addRecord(&root,node250);
+    addRecord(&root,node700);
+    addRecord(&root,node1200);
+    addRecord(&root,node1800);
+    addRecord(&root,node100);
+    addRecord(&root,node450);
+    addRecord(&root,node630);
+    addRecord(&root,node950);
+    addRecord(&root,node1150);
+    addRecord(&root,node1340);
+    addRecord(&root,node1600);
+    addRecord(&root,node2000);
+    addRecord(&root,node50);
+    addRecord(&root,node300);
+    addRecord(&root,node680);
+    addRecord(&root,node800);
+    addRecord(&root,node1450);
+    addRecord(&root,node1950);
+    
+    TEST_ASSERT_NOT_NULL(root);
+    TEST_ASSERT_EQUAL_PTR(node1000,root);
+    TEST_ASSERT_EQUAL_NODE(node500,node1500,'b',root);
+    TEST_ASSERT_EQUAL_NODE(node250,node700,'r',node500);
+    TEST_ASSERT_EQUAL_NODE(node1200,node1800,'b',node1500);
+    TEST_ASSERT_EQUAL_NODE(node100,node450,'b',node250);
+    TEST_ASSERT_EQUAL_NODE(node630,node950,'b',node700);
+    TEST_ASSERT_EQUAL_NODE(node1150,node1340,'r',node1200);
+    TEST_ASSERT_EQUAL_NODE(node1600,node2000,'r',node1800);
+    TEST_ASSERT_EQUAL_NODE(node50,NULL,'b',node100);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node50);
+    TEST_ASSERT_EQUAL_NODE(node300,NULL,'b',node450);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node300);
+    TEST_ASSERT_EQUAL_NODE(NULL,node680,'b',node630);
+    TEST_ASSERT_EQUAL_NODE(node800,NULL,'b',node950);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',node1150);
+    TEST_ASSERT_EQUAL_NODE(NULL,node1450,'b',node1340);
+    TEST_ASSERT_EQUAL_NODE(node1950,NULL,'b',node2000);
+    //Find targetRecord
+    targetRecord = findRecord(&root,((Record*)node1450)->memory); 
+    TEST_ASSERT_NOT_NULL(targetRecord);
+    TEST_ASSERT_EQUAL(node1450,targetRecord);
+    
+    destroyRecord(&r1000);
+    destroyRecord(&r500); 
+    destroyRecord(&r250); 
+    destroyRecord(&r100); 
+    destroyRecord(&r50); 
+    destroyRecord(&r450); 
+    destroyRecord(&r300); 
+    destroyRecord(&r700); 
+    destroyRecord(&r630); 
+    destroyRecord(&r680); 
+    destroyRecord(&r950); 
+    destroyRecord(&r800); 
+    destroyRecord(&r1500); 
+    destroyRecord(&r1200); 
+    destroyRecord(&r1800); 
+    destroyRecord(&r1150); 
+    destroyRecord(&r1340); 
+    destroyRecord(&r1450);
+    destroyRecord(&r1600); 
+    destroyRecord(&r1950); 
+    destroyRecord(&r2000); 
+}
