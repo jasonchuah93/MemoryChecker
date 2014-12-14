@@ -4,6 +4,7 @@
 #include "MemoryRecord.h"
 #include "compareRecord.h"
 #include "redBlackTree.h"
+#include "RestructureNode.h"
 #include "CustomAssertions.h"
 #include "ErrorCode.h"
 #include "CException.h"

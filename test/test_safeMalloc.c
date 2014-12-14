@@ -5,6 +5,7 @@
 #include "MemoryRecord.h"
 #include "compareRecord.h"
 #include "memoryAllocator.h"
+#include "RestructureNode.h"
 #include "redBlackTree.h"
 #include "safeMalloc.h"
 #include "ErrorCode.h"
