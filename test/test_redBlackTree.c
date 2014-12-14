@@ -9,8 +9,6 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-Node mainNode,mainNode2,leftNode,rightNode,leftNodeChild,rightNodeChild;
-
 void setUp(void){}
 
 void tearDown(void){}
@@ -28,19 +26,16 @@ void tearDown(void){}
 **/
 
 void test_genericAddRedBlackTree_add_record_into_redBlackTree(void){
-    char buffer[20];
-    Record *record = createRecord(buffer,20);
-    
-    resetGenericNode(&mainNode,record);
-    setGenericNode(&mainNode,NULL,NULL,'b');
+    Record record = {.memory = (void*)200};
     
     Node *root = NULL;
-    addRecord(&root,&mainNode);
+    addRecord(&root,(Node*)&record);
     
     TEST_ASSERT_NOT_NULL(root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',root);
+    TEST_ASSERT_EQUAL_PTR((Node*)&record,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&record);
     
-    destroyRecord(record);
+    destroyRecord(&record);
 }
 
 /*****************************************
@@ -50,65 +45,51 @@ void test_genericAddRedBlackTree_add_record_into_redBlackTree(void){
 *******************************************/
 /**
 *    root		              root
-*     |    	add subLeftNode	 	|
+*     |    	add leftNode	 	|
 *     v    	--------------->      	v
 *  mainNode               	    mainNode
 *    / \                    	     /
-*   -   -                      subLeftNode
+*   -   -                      leftNode
 **/
 
 void test_genericAddRedBlackTree_add_leftNode_into_redBlackTree(void){
-    char buffer[50],buffer2[200];
-    Record *leftRecord = createRecord(buffer,50);
-    Record *mainRecord = createRecord(buffer2,200);
+    Record leftRecord = {.memory =(void*)100 ,.color = 'r'};  
+    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
     
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&leftNode,leftRecord);
-    setGenericNode(&mainNode,NULL,NULL,'b');
-    setGenericNode(&leftNode,NULL,NULL,'r');
+    Node *root = NULL;
+    addRecord(&root,(Node*)&mainRecord);
+    addRecord(&root,(Node*)&leftRecord);
     
-    Node *root = &mainNode;
-    addRecord(&root,&leftNode);
-    //Main node
-    TEST_ASSERT_EQUAL_PTR(&mainNode,root);
-    TEST_ASSERT_EQUAL_NODE(&leftNode,NULL,'b',root);
-    //LeftNode 
-    TEST_ASSERT_NOT_NULL(root->left->dataPtr);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&leftNode);
+    TEST_ASSERT_EQUAL_PTR((Node*)&mainRecord,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&leftRecord);
+    TEST_ASSERT_EQUAL_NODE((Node*)&leftRecord,NULL,'b',root);
     
-    destroyRecord(leftRecord);
-    destroyRecord(mainRecord);
+    destroyRecord(&leftRecord);
+    destroyRecord(&mainRecord);
 }
 
 /**
 *	     root		                root
-*	      |    add subRightNode	         |
+*	      |    add rightNode	         |
 *	      v    --------------->              v
 *	   mainNode                          mainNode
 *     	    /	\                            /      \
-*          -     -                          -   subRightNode
+*          -     -                          -   rightNode
 **/
 void test_genericAddRedBlackTree_add_rightNode_into_redBlackTree(void){
-    char buffer[100],buffer2[200];
-    Record *mainRecord = createRecord(buffer,100);
-    Record *rightRecord = createRecord(buffer2,200);
+    Record rightRecord = {.memory =(void*)300 ,.color = 'r'};  
+    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
     
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&rightNode,rightRecord);
-    setGenericNode(&mainNode,NULL,NULL,'b');
-    setGenericNode(&rightNode,NULL,NULL,'r');
+    Node *root = NULL;
+    addRecord(&root,(Node*)&mainRecord);
+    addRecord(&root,(Node*)&rightRecord);
     
-    Node *root = &mainNode;
-    addRecord(&root,&rightNode);
-    //MainNode
-    TEST_ASSERT_EQUAL_PTR(&mainNode,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,&rightNode,'b',root);
-    //RightNode
-    TEST_ASSERT_NOT_NULL(root->right->dataPtr);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&rightNode);
+    TEST_ASSERT_EQUAL_PTR((Node*)&mainRecord,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&rightRecord);
+    TEST_ASSERT_EQUAL_NODE(NULL,(Node*)&rightRecord,'b',root);
     
-    destroyRecord(rightRecord);
-    destroyRecord(mainRecord);
+    destroyRecord(&rightRecord);
+    destroyRecord(&mainRecord);
 }
 
 /*****************************************
@@ -126,29 +107,24 @@ void test_genericAddRedBlackTree_add_rightNode_into_redBlackTree(void){
 **/
 
 void test_genericAddRedBlackTree_add_rightNode_into_2_nodes_redBlackTree(void){
-    char buffer[100],buffer2[200],buffer3[300];
-    Record *leftRecord = createRecord(buffer,100);
-    Record *mainRecord = createRecord(buffer2,200);
-    Record *rightRecord = createRecord(buffer3,300);
+    Record leftRecord = {.memory =(void*)100 ,.color = 'r'};  
+    Record rightRecord = {.memory =(void*)300 ,.color = 'r'};  
+    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
     
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&leftNode,leftRecord);
-    resetGenericNode(&rightNode,rightRecord);
-    setGenericNode(&mainNode,&leftNode,NULL,'b');
-    setGenericNode(&leftNode,NULL,NULL,'r');
-    setGenericNode(&rightNode,NULL,NULL,'r');
+    Node *root = NULL;
+    addRecord(&root,(Node*)&mainRecord);
+    addRecord(&root,(Node*)&leftRecord);
+    addRecord(&root,(Node*)&rightRecord);
     
-    Node *root = &mainNode;
-    addRecord(&root,&rightNode);
+    TEST_ASSERT_EQUAL_PTR((Node*)&mainRecord,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&leftRecord);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&rightRecord);
+    TEST_ASSERT_EQUAL_NODE((Node*)&leftRecord,(Node*)&rightRecord,'b',root);
     
-    TEST_ASSERT_EQUAL_PTR(&mainNode,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&leftNode);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&rightNode);
-    TEST_ASSERT_EQUAL_NODE(&leftNode,&rightNode,'b',&mainNode);
+    destroyRecord(&leftRecord);
+    destroyRecord(&rightRecord);
+    destroyRecord(&mainRecord);
     
-    destroyRecord(leftRecord);
-    destroyRecord(mainRecord);
-    destroyRecord(rightRecord);
 }
 
 /**
@@ -161,29 +137,23 @@ void test_genericAddRedBlackTree_add_rightNode_into_2_nodes_redBlackTree(void){
 **/
 
 void test_genericAddRedBlackTree_add_leftNode_into_2_nodes_redBlackTree(void){
-    char buffer[100],buffer2[200],buffer3[300];
-    Record *leftRecord = createRecord(buffer,100);
-    Record *mainRecord = createRecord(buffer2,200);
-    Record *rightRecord = createRecord(buffer3,300);
+    Record leftRecord = {.memory =(void*)100 ,.color = 'r'};  
+    Record rightRecord = {.memory =(void*)300 ,.color = 'r'};  
+    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
     
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&leftNode,leftRecord);
-    resetGenericNode(&rightNode,rightRecord);
-    setGenericNode(&mainNode,NULL,&rightNode,'b');
-    setGenericNode(&leftNode,NULL,NULL,'r');
-    setGenericNode(&rightNode,NULL,NULL,'r');
+    Node *root = NULL;
+    addRecord(&root,(Node*)&mainRecord);
+    addRecord(&root,(Node*)&rightRecord);
+    addRecord(&root,(Node*)&leftRecord);
     
-    Node *root = &mainNode;
-    addRecord(&root,&leftNode);
+    TEST_ASSERT_EQUAL_PTR((Node*)&mainRecord,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&rightRecord);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&leftRecord);
+    TEST_ASSERT_EQUAL_NODE((Node*)&leftRecord,(Node*)&rightRecord,'b',root);
     
-    TEST_ASSERT_EQUAL_PTR(&mainNode,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&leftNode);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&rightNode);
-    TEST_ASSERT_EQUAL_NODE(&leftNode,&rightNode,'b',&mainNode);
-    
-    destroyRecord(leftRecord);
-    destroyRecord(mainRecord);
-    destroyRecord(rightRecord);
+    destroyRecord(&leftRecord);
+    destroyRecord(&rightRecord);
+    destroyRecord(&mainRecord);
 }
 
 /**
@@ -198,29 +168,23 @@ void test_genericAddRedBlackTree_add_leftNode_into_2_nodes_redBlackTree(void){
 *
 **/
 void test_genericAddRedBlackTree_add_rightNodeChild_into_2_node_redBlackTree_and_leftRotate(void){
-    char buffer[100],buffer2[200],buffer3[300];
-    Record *mainRecord = createRecord(buffer,100);
-    Record *rightRecord = createRecord(buffer2,200);
-    Record *rightRecordChild = createRecord(buffer3,300);
+    Record rightRecordChild = {.memory =(void*)400 ,.color = 'r'};  
+    Record rightRecord = {.memory =(void*)300 ,.color = 'r'};  
+    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
     
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&rightNode,rightRecord);
-    resetGenericNode(&rightNodeChild,rightRecordChild);
-    setGenericNode(&mainNode,NULL,&rightNode,'b');
-    setGenericNode(&rightNode,NULL,NULL,'r');
-    setGenericNode(&rightNodeChild,NULL,NULL,'r');
+    Node *root = NULL;
+    addRecord(&root,(Node*)&mainRecord);
+    addRecord(&root,(Node*)&rightRecord);
+    addRecord(&root,(Node*)&rightRecordChild);
     
-    Node *root = &mainNode;
-    addRecord(&root,&rightNodeChild);
+    TEST_ASSERT_EQUAL_PTR((Node*)&rightRecord,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&rightRecordChild);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&mainRecord);
+    TEST_ASSERT_EQUAL_NODE((Node*)&mainRecord,(Node*)&rightRecordChild,'b',(Node*)&rightRecord);
     
-    TEST_ASSERT_EQUAL_PTR(&rightNode,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&mainNode);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&rightNodeChild);
-    TEST_ASSERT_EQUAL_NODE(&mainNode,&rightNodeChild,'b',&rightNode);
-    
-    destroyRecord(mainRecord);
-    destroyRecord(rightRecord);
-    destroyRecord(rightRecordChild);
+    destroyRecord(&rightRecordChild);
+    destroyRecord(&rightRecord);
+    destroyRecord(&mainRecord);
 }
 
 /**
@@ -236,29 +200,23 @@ void test_genericAddRedBlackTree_add_rightNodeChild_into_2_node_redBlackTree_and
 **/
 
 void test_genericAddRedBlackTree_add_leftNodeChild_into_2_nodes_redBlackTree_and_rightRotate(void){
-    char buffer[100],buffer2[200],buffer3[300];
-    Record *leftRecordChild = createRecord(buffer,100);
-    Record *leftRecord = createRecord(buffer2,200);
-    Record *mainRecord = createRecord(buffer3,300);
+    Record leftRecordChild = {.memory =(void*)50 ,.color = 'r'};  
+    Record leftRecord = {.memory =(void*)100 ,.color = 'r'};  
+    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
     
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&leftNode,leftRecord);
-    resetGenericNode(&leftNodeChild,leftRecordChild);
-    setGenericNode(&mainNode,&leftNode,NULL,'b');
-    setGenericNode(&leftNode,NULL,NULL,'r');
-    setGenericNode(&leftNodeChild,NULL,NULL,'r');
+    Node *root = NULL;
+    addRecord(&root,(Node*)&mainRecord);
+    addRecord(&root,(Node*)&leftRecord);
+    addRecord(&root,(Node*)&leftRecordChild);
     
-    Node *root = &mainNode;
-    addRecord(&root,&leftNodeChild);
+    TEST_ASSERT_EQUAL_PTR((Node*)&leftRecord,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&leftRecordChild);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&mainRecord);
+    TEST_ASSERT_EQUAL_NODE((Node*)&leftRecordChild,(Node*)&mainRecord,'b',(Node*)&leftRecord);
     
-    TEST_ASSERT_EQUAL_PTR(&leftNode,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&mainNode);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&leftNodeChild);
-    TEST_ASSERT_EQUAL_NODE(&leftNodeChild,&mainNode,'b',&leftNode);
-    
-    destroyRecord(mainRecord);
-    destroyRecord(leftRecord);
-    destroyRecord(leftRecordChild);
+    destroyRecord(&mainRecord);
+    destroyRecord(&leftRecord);
+    destroyRecord(&leftRecordChild);
 }
 
 /**
@@ -274,29 +232,23 @@ void test_genericAddRedBlackTree_add_leftNodeChild_into_2_nodes_redBlackTree_and
 **/
 
 void test_genericAddRedBlackTree_add_rightNodeChild_into_2_nodes_redBlackTree_and_leftRightRotate(void){
-    char buffer[100],buffer2[200],buffer3[300];
-    Record *leftRecord = createRecord(buffer,100);
-    Record *rightRecordChild = createRecord(buffer2,200);
-    Record *mainRecord = createRecord(buffer3,300);
+    Record rightRecordChild = {.memory =(void*)200 ,.color = 'r'};  
+    Record leftRecord = {.memory =(void*)100 ,.color = 'r'};  
+    Record mainRecord = {.memory =(void*)300 ,.color = 'b'};
     
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&leftNode,leftRecord);
-    resetGenericNode(&rightNodeChild,rightRecordChild);
-    setGenericNode(&rightNodeChild,NULL,NULL,'r');
-    setGenericNode(&leftNode,NULL,NULL,'r');
-    setGenericNode(&mainNode,&leftNode,NULL,'b');
+    Node *root = NULL;
+    addRecord(&root,(Node*)&mainRecord);
+    addRecord(&root,(Node*)&leftRecord);
+    addRecord(&root,(Node*)&rightRecordChild);
     
-    Node *root = &mainNode;
-    addRecord(&root,&rightNodeChild);
+    TEST_ASSERT_EQUAL_PTR((Node*)&rightRecordChild,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&mainRecord);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&leftRecord);
+    TEST_ASSERT_EQUAL_NODE((Node*)&leftRecord,(Node*)&mainRecord,'b',(Node*)&rightRecordChild);
     
-    TEST_ASSERT_EQUAL_PTR(&rightNodeChild,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&mainNode);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&leftNode);
-    TEST_ASSERT_EQUAL_NODE(&leftNode,&mainNode,'b',&rightNodeChild);
-    
-    destroyRecord(rightRecordChild);    
-    destroyRecord(leftRecord);
-    destroyRecord(mainRecord);
+    destroyRecord(&rightRecordChild);    
+    destroyRecord(&leftRecord);
+    destroyRecord(&mainRecord);
 }
 
 /**
@@ -311,28 +263,23 @@ void test_genericAddRedBlackTree_add_rightNodeChild_into_2_nodes_redBlackTree_an
 *
 **/
 void test_genericAddRedBlackTree_add_leftNodeChild_into_2_nodes_redBlackTree_and_rightLeftRotate(void){
-    char buffer[100],buffer2[200],buffer3[300];
-    Record *mainRecord = createRecord(buffer,100);
-    Record *leftRecordChild = createRecord(buffer2,200);
-    Record *rightRecord = createRecord(buffer3,300);
+    Record leftRecordChild = {.memory =(void*)250 ,.color = 'r'};  
+    Record rightRecord = {.memory =(void*)300 ,.color = 'r'};  
+    Record mainRecord = {.memory =(void*)200 ,.color = 'b'};
     
-    resetGenericNode(&mainNode,mainRecord);
-    resetGenericNode(&rightNode,rightRecord);
-    resetGenericNode(&leftNodeChild,leftRecordChild);
-    setGenericNode(&leftNodeChild,NULL,NULL,'r');
-    setGenericNode(&rightNode,NULL,NULL,'r');
-    setGenericNode(&mainNode,NULL,&rightNode,'b');
+    Node *root = NULL;
+    addRecord(&root,(Node*)&mainRecord);
+    addRecord(&root,(Node*)&rightRecord);
+    addRecord(&root,(Node*)&leftRecordChild);
     
-    Node *root = &mainNode;
-    addRecord(&root,&leftNodeChild);
-    TEST_ASSERT_EQUAL_PTR(&leftNodeChild,root);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&mainNode);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&rightNode);
-    TEST_ASSERT_EQUAL_NODE(&mainNode,&rightNode,'b',&leftNodeChild);
+    TEST_ASSERT_EQUAL_PTR((Node*)&leftRecordChild,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&mainRecord);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&rightRecord);
+    TEST_ASSERT_EQUAL_NODE((Node*)&mainRecord,(Node*)&rightRecord,'b',(Node*)&leftRecordChild);
     
-    destroyRecord(mainRecord);
-    destroyRecord(leftRecordChild);    
-    destroyRecord(rightRecord);
+    destroyRecord(&mainRecord);
+    destroyRecord(&leftRecordChild);    
+    destroyRecord(&rightRecord);
 }
 
 /*****************************************
@@ -351,15 +298,15 @@ void test_genericAddRedBlackTree_add_leftNodeChild_into_2_nodes_redBlackTree_and
 **/
 
 void test_genericAddRedBlackTree_should_throw_equivalent_error_for_node_with_equal_address_of_memory(void){
-	char buffer[100];
-    ErrorCode e;
-    Record *mainRecord1 = createRecord(buffer,100);
-    resetGenericNode(&mainNode,mainRecord1);
-    resetGenericNode(&mainNode2,mainRecord1);
-    Node *root = &mainNode;
+	ErrorCode e;
+    Record mainRecord1 = {.memory=(void*)100,.color='b'};
+    Record mainRecord2 = {.memory=(void*)100,.color='b'};
+    
+    Node *root = NULL;
+    addRecord(&root,(Node*)&mainRecord1);
     Try
 	{
-        addRecord(&root,&mainNode2);
+        addRecord(&root,(Node*)&mainRecord2);
 		TEST_FAIL_MESSAGE("Should throw equivalent error ");
 	}
 	Catch(e)
