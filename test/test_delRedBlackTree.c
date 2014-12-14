@@ -4,6 +4,7 @@
 #include "MemoryRecord.h"
 #include "compareRecord.h"
 #include "redBlackTree.h"
+#include "RestructureNode.h"
 #include "CustomAssertions.h"
 #include "ErrorCode.h"
 #include "CException.h"
@@ -77,6 +78,11 @@ void test_delRedBlackTree_remove_r50_from_tree_with_r100(void){
     addRecord(&root,(Node*)&r100);
     addRecord(&root,(Node*)&r50);
     TEST_ASSERT_EQUAL_PTR((Node*)&r100,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r50);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r50,NULL,'b',(Node*)&r100);
+    //Delete r50
+    deleteRecord(&root,(Node*)&r50);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r50,NULL,'b',(Node*)&r100);
 }
 
 

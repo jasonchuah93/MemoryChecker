@@ -4,6 +4,7 @@
 #include "MemoryRecord.h"
 #include "compareRecord.h"
 #include "redBlackTree.h"
+#include "RestructureNode.h"
 #include "ErrorCode.h"
 #include "CException.h"
 
@@ -94,12 +95,53 @@ Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecor
     int compare ; char tempColor;
     Node *node , *tempRoot ,*tempLeftChild, *tempRightChild, *root = *rootPtr;
     if(root==deleteNode){
-        *rootPtr = NULL;
+        if(rightChild){
+            tempRoot = removeNextLargerSuccessor(&rightChild);
+            tempLeftChild = leftChild ; tempRightChild = rightChild;
+            tempColor = (*rootPtr)->color; 
+            *rootPtr = tempRoot;
+            leftChild=tempLeftChild; rightChild = tempRightChild;
+            (*rootPtr)->color=tempColor;
+            restructureRedBlackTree(rootPtr,deleteNode);
+        }else if(leftChild){
+            rightRotate(rootPtr);
+            node = removeNextLargerSuccessor(&rightChild);
+            (*rootPtr)->color = 'b';
+        }else{
+            *rootPtr=NULL;
+        }
+        return node;
     }else{
         if(leftChild == NULL && rightChild == NULL){
                 Throw(ERR_NODE_UNAVAILABLE);
+        }else if(compare == 1){
+            node= _genericDelRedBlackTree(&leftChild,deleteNode,compareRecord);
         }
     }
     
     return node;
+}
+
+/*******************************************
+    This function use to remove the most 
+    left node in the RedBlackTree
+*********************************************/
+
+Node *removeNextLargerSuccessor(Node **rootPtr){
+	Node *removeNode;
+	
+	if(leftChild !=NULL){
+        removeNode = removeNextLargerSuccessor(&leftChild);
+    }else if(rightChild == NULL){
+		removeNode = *rootPtr;
+        *rootPtr = NULL;
+        return removeNode;
+	}else if(rightChild->color == 'r'){
+		removeNode = *rootPtr;
+		*rootPtr = rightChild;
+		(*rootPtr)->color = 'b';
+        return removeNode;
+	}
+    restructureRedBlackTree(rootPtr,removeNode);
+    return removeNode;
 }
