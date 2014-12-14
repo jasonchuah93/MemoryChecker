@@ -2,15 +2,17 @@
 #include "Node.h"
 #include "MemoryRecord.h"
 
-int findRecordCompare(Node **recordFromRedBlackTree,void *targetMemory){
-	Record *_recordFromRedBlackTree=(Record*)*recordFromRedBlackTree;
+int findRecordCompare(Node *recordFromRedBlackTree,void *targetMemory){
+	Record *_recordFromRedBlackTree=(Record*)recordFromRedBlackTree;
     char *_targetMemory=(char*)targetMemory;
+  
     if((char*)_recordFromRedBlackTree->memory > _targetMemory){
-        return 1;
+       return 1;
     }else if((char*)_recordFromRedBlackTree->memory < _targetMemory){
-        return -1;
-    }else
-        return 0;
+       return -1;
+    }else if((char*)_recordFromRedBlackTree->memory == _targetMemory){
+       return 0;
+    }
 }
 
 int addAndDelRecordCompare(Node **recordFromRedBlackTree,Record *targetRecord){
