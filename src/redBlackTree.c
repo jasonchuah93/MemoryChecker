@@ -63,6 +63,7 @@ void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compareRecord)(N
     }
 }
 
+/*
 Node *genericFindRedBlackTree(Node *rootPtr,Node *targetMemory, int(*findRecordCompare)(Node *rootPtr,void *targetMemory)){
     int compare ;
     
@@ -79,4 +80,4 @@ Node *genericFindRedBlackTree(Node *rootPtr,Node *targetMemory, int(*findRecordC
     return targetRoot;
     
 }
-
+*/
