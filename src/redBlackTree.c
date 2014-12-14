@@ -73,6 +73,8 @@ Node *genericFindRedBlackTree(Node *rootPtr,Node *targetMemory, int(*findRecordC
         targetRoot = rootPtr;
     }else if(compare == 1){
         targetRoot = genericFindRedBlackTree(rootPtr->left,(void*)targetMemory,findRecordCompare);
+    }else if(compare == -1){
+        targetRoot = genericFindRedBlackTree(rootPtr->right,(void*)targetMemory,findRecordCompare);
     }
     return targetRoot;
     
