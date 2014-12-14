@@ -26,7 +26,11 @@ void test_genericFindRedBlackTree_find_mainNode_in_redBlackTree(void){
     Node *root = NULL; 
     addRecord(&root,&mainNode);
     findRoot = findRecord(root,((Record*)&mainNode)->memory); 
+    
+    TEST_ASSERT_NOT_NULL(findRoot);
     TEST_ASSERT_EQUAL(&mainNode,findRoot);
+    
+    destroyRecord(record);
 }
 
 void test_genericFindRedBlackTree_find_leftNode_in_redBlackTree(void){
@@ -42,7 +46,12 @@ void test_genericFindRedBlackTree_find_leftNode_in_redBlackTree(void){
     Node *root = &mainNode; 
     addRecord(&root,&leftNode);
     findRoot = findRecord(root,((Record*)&leftNode)->memory); 
+    
+    TEST_ASSERT_NOT_NULL(findRoot);
     TEST_ASSERT_EQUAL(&leftNode,findRoot);
+    
+    destroyRecord(leftRecord);
+    destroyRecord(mainRecord);
 }
 
 void test_genericFindRedBlackTree_find_rightNode_in_redBlackTree(void){
@@ -58,5 +67,37 @@ void test_genericFindRedBlackTree_find_rightNode_in_redBlackTree(void){
     Node *root = &mainNode; 
     addRecord(&root,&rightNode);
     findRoot = findRecord(root,((Record*)&rightNode)->memory); 
+    
+    TEST_ASSERT_NOT_NULL(findRoot);
     TEST_ASSERT_EQUAL(&rightNode,findRoot);
+    
+    destroyRecord(mainRecord);
+    destroyRecord(rightRecord);
 }
+
+void test_genericFindRedBlackTree_find_leftNodeChild_in_leftNode_and_mainNode_redBlackTree(void){
+    char buffer[20],buffer2[30],buffer3[40];
+    Node *findRoot=NULL;
+    Record *leftRecordChild = createRecord(buffer,20);
+    Record *leftRecord = createRecord(buffer2,30);
+    Record *mainRecord = createRecord(buffer3,40);
+    resetGenericNode(&mainNode,mainRecord);
+    resetGenericNode(&leftNode,leftRecord);
+    resetGenericNode(&leftNodeChild,leftRecordChild);
+    setGenericNode(&mainNode,&leftNode,NULL,'b');
+    setGenericNode(&leftNode,NULL,NULL,'r');
+    setGenericNode(&leftNodeChild,NULL,NULL,'r');
+    
+    Node *root = &mainNode; 
+    addRecord(&root,&leftNodeChild);
+    findRoot = findRecord(root,((Record*)&leftNodeChild)->memory); 
+    
+    TEST_ASSERT_NOT_NULL(findRoot);
+    TEST_ASSERT_EQUAL(&leftNodeChild,findRoot);
+    
+    destroyRecord(leftRecordChild);
+    destroyRecord(leftRecord);
+    destroyRecord(mainRecord);
+}
+
+
