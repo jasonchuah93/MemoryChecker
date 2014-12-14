@@ -100,4 +100,28 @@ void test_genericFindRedBlackTree_find_leftNodeChild_in_leftNode_and_mainNode_re
     destroyRecord(mainRecord);
 }
 
+void test_genericFindRedBlackTree_find_rightNodeChild_in_leftNode_and_mainNode_redBlackTree(void){
+    char buffer[20],buffer2[30],buffer3[40];
+    Node *findRoot=NULL;
+    Record *leftRecord = createRecord(buffer,20);
+    Record *rightRecordChild = createRecord(buffer2,30);
+    Record *mainRecord = createRecord(buffer3,40);
+    resetGenericNode(&mainNode,mainRecord);
+    resetGenericNode(&leftNode,leftRecord);
+    resetGenericNode(&rightNodeChild,rightRecordChild);
+    setGenericNode(&mainNode,&leftNode,NULL,'b');
+    setGenericNode(&leftNode,NULL,NULL,'r');
+    setGenericNode(&rightNodeChild,NULL,NULL,'r');
+    
+    Node *root = &mainNode; 
+    addRecord(&root,&rightNodeChild);
+    findRoot = findRecord(root,((Record*)&rightNodeChild)->memory); 
+    
+    TEST_ASSERT_NOT_NULL(findRoot);
+    TEST_ASSERT_EQUAL(&rightNodeChild,findRoot);
+    
+    destroyRecord(leftRecord);
+    destroyRecord(rightRecordChild);
+    destroyRecord(mainRecord);
+}
 
