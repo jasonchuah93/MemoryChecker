@@ -21,4 +21,5 @@ Node *genericFindRedBlackTree(Node **rootPtr,Node *targetMemory, int(*findRecord
 Node *genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*addAndDelRecordCompare)(Node **rootPtr,Record *newNode));  
 Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecord)(Node **rootPtr,Record *newNode));
 Node *removeNextLargerSuccessor(Node **rootPtr);
+
 #endif // redBlackTree_H

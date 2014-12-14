@@ -60,12 +60,12 @@ void test_delRedBlackTree_remove_r20_from_tree_with_r100_should_throw_error(void
 
 *******************************************/
 /**
-*      root	         root
-*	|    remove r50   |
-*	v    -------->    v
-*     r100              r100 
-*     /                 / \ 
-*    r50                -  -
+*  root              root
+*   |    remove r50   |
+*   v    -------->    v
+*  r100              r100 
+*   /                / \ 
+* r50               -  -
 *
 **/
 
@@ -82,7 +82,34 @@ void test_delRedBlackTree_remove_r50_from_tree_with_r100(void){
     TEST_ASSERT_EQUAL_NODE((Node*)&r50,NULL,'b',(Node*)&r100);
     //Delete r50
     deleteRecord(&root,(Node*)&r50);
-    TEST_ASSERT_EQUAL_NODE((Node*)&r50,NULL,'b',(Node*)&r100);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&r100);
 }
+
+/**
+*  root              root
+*   |    remove r50   |
+*   v    -------->    v
+*  r100              r100 
+*    \               / \ 
+*    r250            -  -
+*
+**/
+
+void test_delRedBlackTree_remove_r250_from_tree_with_r100(void){
+    Record r100 = {.memory =(void*)100 , .color ='b'};
+    Record r250 = {.memory =(void*)250 , .color ='r'};
+    
+    Node *root =NULL;
+    addRecord(&root,(Node*)&r100);
+    addRecord(&root,(Node*)&r250);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r100,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r250);
+    TEST_ASSERT_EQUAL_NODE(NULL,(Node*)&r250,'b',(Node*)&r100);
+    //Delete r250
+    deleteRecord(&root,(Node*)&r250);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&r100);
+}
+
+
 
 

@@ -94,7 +94,8 @@ Node *genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*addAndDelReco
 Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecord)(Node **rootPtr,Record *newNode)){
     int compare ; char tempColor;
     Node *node , *tempRoot ,*tempLeftChild, *tempRightChild, *root = *rootPtr;
-    if(root==deleteNode){
+    compare = compareRecord(&root,(Record*)deleteNode);
+    if(compare == 0){
         if(rightChild){
             tempRoot = removeNextLargerSuccessor(&rightChild);
             tempLeftChild = leftChild ; tempRightChild = rightChild;
@@ -113,12 +114,14 @@ Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecor
         return node;
     }else{
         if(leftChild == NULL && rightChild == NULL){
-                Throw(ERR_NODE_UNAVAILABLE);
+            Throw(ERR_NODE_UNAVAILABLE);
         }else if(compare == 1){
             node= _genericDelRedBlackTree(&leftChild,deleteNode,compareRecord);
+        }else if(compare == -1){
+            node= _genericDelRedBlackTree(&rightChild,deleteNode,compareRecord);
         }
     }
-    
+    restructureRedBlackTree(rootPtr,deleteNode);
     return node;
 }
 
