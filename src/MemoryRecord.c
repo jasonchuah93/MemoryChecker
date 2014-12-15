@@ -20,9 +20,8 @@ void destroyRecord(Record *record){
     if(record){
         record->memory = NULL;
         record->size = 0;
-        free(record);
     }
-    
+    free(record);
 }
 
 
