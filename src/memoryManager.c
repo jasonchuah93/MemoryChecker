@@ -10,7 +10,7 @@
 #include "CException.h"
 
 Record *memoryManagerAddRecord(Record *record){
-    Node *root;
+    Node *root=NULL;
     genericAddRedBlackTree(&root,(Node*)record,addAndDelRecordCompare);
     return (Record*)root;
 }
