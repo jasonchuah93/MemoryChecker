@@ -88,7 +88,7 @@ Node *genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*addAndDelReco
     Node *node = _genericDelRedBlackTree(rootPtr,deleteNode,addAndDelRecordCompare);
     if(*rootPtr!=NULL)
         (*rootPtr)->color='b';
-  return node;
+    return node;
 }
 
 Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecord)(Node **rootPtr,Record *newNode)){

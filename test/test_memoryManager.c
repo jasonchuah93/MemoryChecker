@@ -319,4 +319,121 @@ void test_memoryManagerFindRecord_find_r1450_in_large_redBlackTree(void){
     TEST_ASSERT_EQUAL(node1450,targetRecord);
 }
 
+/**
+*	root               root
+*	 |    remove r10    |
+*	 v    ---------->   v
+*	r10                NULL
+**/
 
+void test_memoryManagerDelRecord_remove_r10_from_redBlackTree(void){
+    Record r10 = {.memory =(void*)10 , .color ='b'};
+    root =NULL;
+    memoryManagerAddRecord(&r10);
+    memoryManagerDelRecord(&r10);
+    TEST_ASSERT_EQUAL_PTR(NULL,root);
+}
+
+/**
+*	root		        
+*	 |    remove r20	  
+*	 v    ----------->  Throw ERR_NODE_UNAVAILABLE 
+*	r100             
+**/
+
+void test_memoryManagerDelRecord_remove_r20_from_tree_with_r100_should_throw_error(void){
+    CEXCEPTION_T err;
+    Record r100 = {.memory =(void*)100 , .color ='b'};
+    Record r20 = {.memory =(void*)20 , .color ='r'};
+    root = NULL;
+    memoryManagerAddRecord(&r100);
+    Try{
+        memoryManagerDelRecord(&r20);
+        TEST_FAIL_MESSAGE("Expected ERR_NODE_UNAVAILABLE to be thrown.But receive none");
+    }Catch(err){
+        TEST_ASSERT_EQUAL(ERR_NODE_UNAVAILABLE,err);
+    }
+}
+
+/**
+*   root              root
+*    |    remove r250   |
+*    v    ---------->   v
+*   r100               r100 
+*   /  \               / \ 
+* r50  r250          r50  -
+*
+**/
+
+void test_memoryManagerDelRecord_remove_r250_from_tree_with_r100_r250(void){
+    Record r100 = {.memory =(void*)100 , .color ='b'};
+    Record r50 = {.memory =(void*)50 , .color ='r'};
+    Record r250 = {.memory =(void*)250 , .color ='r'};
+    
+    root = NULL;
+    memoryManagerAddRecord(&r100);
+    memoryManagerAddRecord(&r50);
+    memoryManagerAddRecord(&r250);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r100,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r50);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r250);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r50,(Node*)&r250,'b',(Node*)&r100);
+    //Delete r250
+    memoryManagerDelRecord(&r250);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r50,NULL,'b',(Node*)&r100);
+    //Delete 100
+    memoryManagerDelRecord(&r100);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&r50);
+}
+
+/**
+*    root                       root
+*     |                          |
+*     v                          v
+*    r100                       r50
+*    /  \    remove r200       /   \
+*  r50  r200 rightRotate      r10   r100
+* /  \      ----------->     / \   / \   
+*r10 r80                    -  -  r80 -
+*
+**/
+
+void test_memoryManagerDelRecord_remove_r200_from_tree_with_r10_r50_r80_r100_r200(void){
+    Record r100 = {.memory =(void*)100 , .color ='b'};
+    Record r10 = {.memory =(void*)10 , .color ='r'};
+    Record r50 = {.memory =(void*)50 , .color ='r'};
+    Record r80 = {.memory =(void*)80 , .color ='r'};
+    Record r200 = {.memory =(void*)200 , .color ='r'};
+    
+    root = NULL;
+    memoryManagerAddRecord(&r100);
+    memoryManagerAddRecord(&r50);
+    memoryManagerAddRecord(&r200);
+    memoryManagerAddRecord(&r10);
+    memoryManagerAddRecord(&r80);
+    
+    TEST_ASSERT_EQUAL_PTR((Node*)&r100,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r10);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r80);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r10,(Node*)&r80,'b',(Node*)&r50);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&r200);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r50,(Node*)&r200,'b',(Node*)&r100);
+    //Delete r200
+    memoryManagerDelRecord(&r200);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r50,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r80);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&r10);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r80,NULL,'b',(Node*)&r100);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r10,(Node*)&r100,'b',(Node*)&r50);
+    //Delete r100
+    memoryManagerDelRecord(&r100);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r50,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&r10);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&r80);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r10,(Node*)&r80,'b',(Node*)&r50);
+    //Delete r50
+    memoryManagerDelRecord(&r50);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r80,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r10);
+    TEST_ASSERT_EQUAL_NODE((Node*)&r10,NULL,'b',(Node*)&r80);
+}

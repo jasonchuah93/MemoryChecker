@@ -25,7 +25,7 @@ void tearDown(void){}
 *	r10                NULL
 **/
 
-void test_genericDelRedBlackTree_remove_r1_from_redBlackTree(void){
+void test_genericDelRedBlackTree_remove_r10_from_redBlackTree(void){
     Record r10 = {.memory =(void*)10 , .color ='b'};
     Node *root =NULL;
     addRecord(&root,(Node*)&r10);

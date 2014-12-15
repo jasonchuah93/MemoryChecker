@@ -7,6 +7,6 @@ Node *root;
 
 void memoryManagerAddRecord(Record *record);
 Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord);
-//Record *memoryManagerDelRecord(Record *record);
+Record *memoryManagerDelRecord(Record *record);
 
 #endif // memoryManager_H

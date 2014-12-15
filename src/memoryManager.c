@@ -23,8 +23,10 @@ Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord){
     return target;
 }
 
-/*
+
 Record *memoryManagerDelRecord(Record *record){
-	
+	Record *deletedRecord;
+    deletedRecord = (Record*)genericDelRedBlackTree(&root,(Node*)record,addAndDelRecordCompare);
+    return deletedRecord;
 }
-*/
+
