@@ -17,11 +17,13 @@ void memoryManagerAddRecord(Record *record){
     }
 }
 
-/*
-void memoryManagerFindRecord(Node *root,void *targetRecord){
-	
+Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord){
+	Record *target=NULL;
+    target = (Record*)genericFindRedBlackTree(&root,(void*)targetRecord,findRecordCompare);
+    return target;
 }
 
+/*
 Record *memoryManagerDelRecord(Record *record){
 	
 }

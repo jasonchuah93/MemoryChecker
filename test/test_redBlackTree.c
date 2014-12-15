@@ -283,7 +283,7 @@ void test_genericAddRedBlackTree_should_throw_equivalent_error_for_node_with_equ
 	}
 	Catch(e)
 	{
-		TEST_ASSERT_EQUAL(ERR_EQUIVALENT_MEMORY,e);
+		TEST_ASSERT_EQUAL(ERR_EQUIVALENT_RECORD,e);
 	}
 }
 
