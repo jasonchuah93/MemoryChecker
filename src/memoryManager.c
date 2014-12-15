@@ -9,15 +9,12 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-
-
 void memoryManagerAddRecord(Record *record){
     if(root == NULL){
         genericAddRedBlackTree(&root,(Node*)record,addAndDelRecordCompare);
     }else{
         genericAddRedBlackTree(&root,(Node*)record,addAndDelRecordCompare);
     }
-    
 }
 
 /*
