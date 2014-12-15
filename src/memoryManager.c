@@ -9,12 +9,18 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-Record *memoryManagerAddRecord(Record *record){
-    Node *root=NULL;
-    genericAddRedBlackTree(&root,(Node*)record,addAndDelRecordCompare);
-    return (Record*)root;
+
+
+void memoryManagerAddRecord(Record *record){
+    if(root == NULL){
+        genericAddRedBlackTree(&root,(Node*)record,addAndDelRecordCompare);
+    }else{
+        genericAddRedBlackTree(&root,(Node*)record,addAndDelRecordCompare);
+    }
+    
 }
 
+/*
 void memoryManagerFindRecord(Node *root,void *targetRecord){
 	
 }
@@ -22,4 +28,4 @@ void memoryManagerFindRecord(Node *root,void *targetRecord){
 Record *memoryManagerDelRecord(Record *record){
 	
 }
-
+*/
