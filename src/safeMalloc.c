@@ -11,10 +11,10 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-
-
-
 void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
+    if(size == 0){
+        return NULL;
+    }
     
 }
 

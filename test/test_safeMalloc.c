@@ -15,14 +15,9 @@ void setUp(void){}
 
 void tearDown(void){}
 
-#define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
-
-void test_safeMalloc_should_throw_error_if_size_of_memory_cross_the_internal_memory_size(void){
-    
+void test_safeMalloc_should_return_null_if_the_size_input_is_0(void){
+    safeMalloc(0);
+    TEST_ASSERT_NULL(safeMalloc(0));
 }
 
-void test_safeMalloc_should_contain_information_of_the_size_input(void){
-   
-   
-}
 

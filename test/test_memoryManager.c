@@ -365,7 +365,7 @@ void test_memoryManagerDelRecord_remove_r20_from_tree_with_r100_should_throw_err
 *
 **/
 
-void test_memoryManagerDelRecord_remove_r250_from_tree_with_r100_r250(void){
+void test_memoryManagerDelRecord_remove_r250_r100_from_tree_with_r100_r250(void){
     Record r100 = {.memory =(void*)100 , .color ='b'};
     Record r50 = {.memory =(void*)50 , .color ='r'};
     Record r250 = {.memory =(void*)250 , .color ='r'};
@@ -398,7 +398,7 @@ void test_memoryManagerDelRecord_remove_r250_from_tree_with_r100_r250(void){
 *
 **/
 
-void test_memoryManagerDelRecord_remove_r200_from_tree_with_r10_r50_r80_r100_r200(void){
+void test_memoryManagerDelRecord_remove_r200_r100_r50_from_tree_with_r10_r50_r80_r100_r200(void){
     Record r100 = {.memory =(void*)100 , .color ='b'};
     Record r10 = {.memory =(void*)10 , .color ='r'};
     Record r50 = {.memory =(void*)50 , .color ='r'};
