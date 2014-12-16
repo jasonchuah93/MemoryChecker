@@ -20,4 +20,18 @@ void test_safeMalloc_should_return_null_if_the_size_input_is_0(void){
     TEST_ASSERT_NULL(safeMalloc(0));
 }
 
+void test_safeMalloc_should_throw_error_if_input_size_exceed_the_BUFFER_SIZE(void){
+    printf("Test 2 \n");
+    ErrorCode e;
+    Try
+	{
+        safeMalloc(1000);
+		TEST_FAIL_MESSAGE("Should throw exceed buffer size ");
+	}
+	Catch(e)
+	{
+		TEST_ASSERT_EQUAL(ERR_EXCEED_BUFFER_SIZE,e);
+	}
+    printf("************************************************************\n");
+}
 
