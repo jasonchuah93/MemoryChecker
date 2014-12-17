@@ -8,6 +8,11 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
+/*******************************************
+    This function use handle the color
+    of node in the RedBlackTree
+*********************************************/
+
 void handleColor(Node **rootPtr,Node *deleteNode){
   Node *root = *rootPtr;
   if(root->left->color == 'r' && root->right->color == 'r'){
@@ -16,6 +21,17 @@ void handleColor(Node **rootPtr,Node *deleteNode){
         root->color ='r';
       }
 }
+
+/*********************************************************************
+* This function will add a new record into the red black tree
+*
+*	Input: 	rootPtr			the root of the tree
+*			newNode			the new member of the tree
+			compare			pointer to a function to decide the rules to add record
+*
+*	Destroy: none
+*	
+**********************************************************************/
 
 void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addAndDelRecordCompare)(Node **rootPtr,Record *newNode)){
     _genericAddRedBlackTree(rootPtr,newNode,addAndDelRecordCompare);    
@@ -64,6 +80,18 @@ void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compareRecord)(N
     }
 }
 
+/*********************************************************************
+* This function will find record in the red black tree
+*
+*	Input: 	rootPtr			the root of the tree
+*			targerMemory	the memory user want to look for in tree
+			compare			pointer to a function to decide the rules to find record
+*	
+*	Output: targerRoot		the found record
+*
+*	Destroy: none
+*	
+**********************************************************************/
 
 Node *genericFindRedBlackTree(Node **rootPtr,Node *targetMemory, int(*findRecordCompare)(Node **rootPtr,void *targetMemory)){
     int compare ;
@@ -83,6 +111,19 @@ Node *genericFindRedBlackTree(Node **rootPtr,Node *targetMemory, int(*findRecord
     return targetRoot;
     
 }
+
+/*********************************************************************
+* This function will delete record in the red black tree
+*
+*	Input: 	rootPtr			the root of the tree
+*			deleteNode		the record that will delete
+			compare			pointer to a function to decide the rules to delete record
+*	
+*	Output: targerRoot		the deleted record
+*
+*	Destroy: none
+*	
+**********************************************************************/
 
 Node *genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*addAndDelRecordCompare)(Node **rootPtr,Record *deleteNode)){
     Node *node = _genericDelRedBlackTree(rootPtr,deleteNode,addAndDelRecordCompare);

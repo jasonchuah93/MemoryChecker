@@ -4,8 +4,12 @@
 #include "MemoryRecord.h"
 
 /**
-    This function will create record for the input parameter.
+    This function will create record with the input parameter.
     Return information in Record when the function end.
+	Input : memory		the memory of user requested
+			size		the size of user requested
+			lineNumber	the lineNumber of each code
+			fileName	the location of file of the functions written
 **/
 Record *_createRecord(void *memory,int size,int lineNumber,char *fileName){
     Record *record = malloc(sizeof(Record));
@@ -16,6 +20,11 @@ Record *_createRecord(void *memory,int size,int lineNumber,char *fileName){
     return record;
 }
 
+/**
+	This function will destroy record to avoid memory leak
+	Input : record		the record which created 
+						using createRecord function
+**/
 void destroyRecord(Record *record){
     if(record){
         record->memory = NULL;

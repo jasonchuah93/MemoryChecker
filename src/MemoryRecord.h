@@ -3,6 +3,7 @@
 
 #include "Node.h"
 
+//For friendly use without extra parameter
 #define createRecord(memory,size) _createRecord(memory,size,__LINE__,__FILE__)
 
 typedef struct Record Record;

@@ -5,6 +5,7 @@
 #include "MemoryRecord.h"
 #include "compareRecord.h"
 
+//Make these define for easy programming
 #define addRecord(rootPtr,newNode) genericAddRedBlackTree(rootPtr,newNode,addAndDelRecordCompare)
 #define findRecord(rootPtr,targetMemory) genericFindRedBlackTree(rootPtr,targetMemory,findRecordCompare)
 #define deleteRecord(rootPtr,deleteNode) genericDelRedBlackTree(rootPtr,deleteNode,addAndDelRecordCompare)
