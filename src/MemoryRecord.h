@@ -16,7 +16,7 @@ struct Record{
     int data;
     //Record structure
     void *memory;
-    int size;
+    unsigned int size;
     int lineNumber;
     char *fileName;
 };

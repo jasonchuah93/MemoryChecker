@@ -12,15 +12,24 @@
 #include "CException.h"
 
 void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
-    void *ptr;
-    if(size == 0){
+   Record *newRecord;
+	if(size == 0){
         return NULL;
     }else if(size > BUFFER_SIZE){
         printf("Out of Buffer Size at line %d from file %s\n",lineNumber,fileName);
         Throw(ERR_EXCEED_BUFFER_SIZE);
     }
-    Node *nodePtr = NULL;    
-    
+	//Create header of the memory block
+	/*
+	int header = size+sizeof(Record);
+	void *pointerHeader = malloc(header);
+	Record *recordHeader = (Record*)pointerHeader;
+	recordHeader->size = size;
+	*/
+	void *memoryBlock = malloc(HEADER_SIZE+size+FOOTER_SIZE);
+	newRecord = createRecord((Record*)memoryBlock,size);
+	memoryManagerAddRecord(newRecord);
+	
 }
 
 void safeFree(void *memoryToFree){

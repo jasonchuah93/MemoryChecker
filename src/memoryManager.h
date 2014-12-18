@@ -3,7 +3,7 @@
 
 #include "MemoryRecord.h"
 
-//Global variable which will be use for the functions below
+//Global variable as the root of the red black tree
 Node *root;
 
 void memoryManagerAddRecord(Record *record);
