@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "Node.h"
 #include "MemoryRecord.h"
-
+#include "safeMalloc.h"
 /**
     This function will create record with the input parameter.
     Return information in Record when the function end.

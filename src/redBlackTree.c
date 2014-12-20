@@ -53,7 +53,7 @@ void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compareRecord)(N
         _genericAddRedBlackTree(&root->left,newNode,compareRecord);
     }else if(compare == -1){
         _genericAddRedBlackTree(&root->right,newNode,compareRecord);
-    }else if(compare == 0){
+    }else if(compare == 0){ 
         Throw(ERR_EQUIVALENT_RECORD);
     }
 

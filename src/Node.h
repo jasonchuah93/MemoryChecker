@@ -7,7 +7,7 @@ struct Node {
  Node *left;
  Node *right;
  char color; // 'b' or 'r'(black or red)
- int data;
+ void *data;
 };
 
 #endif // Node_H
