@@ -36,17 +36,26 @@ void test_safeMalloc_should_throw_error_if_input_size_exceed_the_BUFFER_SIZE(voi
     printf("************************************************************\n");
 }
 
-void test_safeMalloc_should_allocate_memory_and_return_in_record(void){
-	void *testData;
-	Record *testRecord;
-	//Allocate size
-	testRecord = createRecord("5A5A5A5A",100);
-	testData=safeMalloc(50);
-	TEST_ASSERT_EQUAL(root,testData);
-	//Check whether record is created after malloc
-	TEST_ASSERT_NOT_NULL(root);
-	TEST_ASSERT_NULL(root->left);
-	TEST_ASSERT_NULL(root->right);
-	destroyRecord(testRecord);
+void test_safeMalloc_verify_the_content_of_header_and_footer(void){
+    targetPointer = safeMalloc(200);
+    printf("Unit Test\n");
+    printf("content : %s \n",headerBlock);
+    TEST_ASSERT_EQUAL_STRING(headerBlock,"5A5A5A5A5A5A5A");
+    TEST_ASSERT_EQUAL_STRING(footerBlock,"5A5A5A5A5A5A5A");
+    
+    safeFree(targetPointer);
+}
+
+void test_safeMalloc_add_the_memory_Block_into_Record(void){
+    targetPointer = safeMalloc(100);
+    TEST_ASSERT_EQUAL_STRING(headerBlock,"5A5A5A5A5A5A5A");
+    TEST_ASSERT_EQUAL_STRING(footerBlock,"5A5A5A5A5A5A5A");
+    
+    //printf("Unit Test 2\n");
+    TEST_ASSERT_NOT_NULL(root);
+    TEST_ASSERT_EQUAL(targetPointer,((Record*)root)->memory);
+    TEST_ASSERT_EQUAL(100,((Record*)root)->size);
+    TEST_ASSERT_NULL(((Record*)root)->left);
+    TEST_ASSERT_NULL(((Record*)root)->right);
 }
 
