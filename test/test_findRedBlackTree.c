@@ -23,21 +23,21 @@ void tearDown(void){}
 */
 
 void test_genericFindRedBlackTree_find_r100_in_redBlackTree(void){
+    char *targetMemory = (void*)100;
     Node *targetRecord;
     Record r100 = {.memory=(void*)100,.color='b'};
-    Node *node100 =(Node*)&r100;
-    Node *root = NULL;
     
-    addRecord(&root,node100);
+    Node *root = NULL;
+    addRecord(&root,(Node*)&r100);
     
     TEST_ASSERT_NOT_NULL(root);
-    TEST_ASSERT_EQUAL_PTR(node100,root);
+    TEST_ASSERT_EQUAL_PTR((Node*)&r100,root);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',root);
     
-    targetRecord = findRecord(&root,((Record*)node100)->memory); 
+    targetRecord = findRecord(&root,targetMemory); 
     
     TEST_ASSERT_NOT_NULL(targetRecord);
-    TEST_ASSERT_EQUAL(node100,targetRecord);
+    TEST_ASSERT_EQUAL((Node*)&r100,targetRecord);
 }
 
 /*
@@ -50,6 +50,7 @@ void test_genericFindRedBlackTree_find_r100_in_redBlackTree(void){
 */
 
 void test_genericFindRedBlackTree_find_r50_in_r100_redBlackTree(void){
+    char *targetMemory = (void*)50;
     Node *targetRecord;
     Record r100 = {.memory=(void*)100,.color='b'};
     Record r50 = {.memory=(void*)50,.color='r'};
@@ -65,7 +66,7 @@ void test_genericFindRedBlackTree_find_r50_in_r100_redBlackTree(void){
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node50);
     TEST_ASSERT_EQUAL_NODE(node50,NULL,'b',root);
     
-    targetRecord = findRecord(&root,((Record*)node50)->memory); 
+    targetRecord = findRecord(&root,targetMemory); 
     
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node50,targetRecord);
@@ -81,6 +82,7 @@ void test_genericFindRedBlackTree_find_r50_in_r100_redBlackTree(void){
 */
 
 void test_genericFindRedBlackTree_find_r500_in_r100_redBlackTree(void){
+    char *targetMemory = (void*)500;
     Node *targetRecord;
     Record r100 = {.memory=(void*)100,.color='b'};
     Record r500 = {.memory=(void*)500,.color='r'};
@@ -96,7 +98,7 @@ void test_genericFindRedBlackTree_find_r500_in_r100_redBlackTree(void){
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node500);
     TEST_ASSERT_EQUAL_NODE(NULL,node500,'b',root);
     
-    targetRecord = findRecord(&root,((Record*)node500)->memory); 
+    targetRecord = findRecord(&root,targetMemory); 
     
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node500,targetRecord);
@@ -115,6 +117,7 @@ void test_genericFindRedBlackTree_find_r500_in_r100_redBlackTree(void){
 */
 
 void test_genericFindRedBlackTree_find_r300_in_r100_r300_record500_redBlackTree(void){
+    char *targetMemory = (void*)300;
     Node *targetRecord;
     Record record100 = {.memory=(void*)100,.color='b'};
     Record record300 = {.memory=(void*)300,.color='r'};
@@ -135,7 +138,7 @@ void test_genericFindRedBlackTree_find_r300_in_r100_r300_record500_redBlackTree(
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node100);
     TEST_ASSERT_EQUAL_NODE(node100,node500,'b',root);
     
-    targetRecord = findRecord(&root,((Record*)node300)->memory); 
+    targetRecord = findRecord(&root,targetMemory); 
     
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node300,targetRecord);
@@ -154,6 +157,7 @@ void test_genericFindRedBlackTree_find_r300_in_r100_r300_record500_redBlackTree(
 */
 
 void test_genericFindRedBlackTree_find_r100_in_r50_r80_r100_redBlackTree(void){
+    char *targetMemory = (void*)100;
     Node *targetRecord;
     Record record50 = {.memory=(void*)50,.color='r'};
     Record record80 = {.memory=(void*)80,.color='r'};
@@ -174,7 +178,7 @@ void test_genericFindRedBlackTree_find_r100_in_r50_r80_r100_redBlackTree(void){
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',node100);
     TEST_ASSERT_EQUAL_NODE(node50,node100,'b',node80);
     
-    targetRecord = findRecord(&root,((Record*)node100)->memory); 
+    targetRecord = findRecord(&root,targetMemory); 
     
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node100,targetRecord);
@@ -197,6 +201,7 @@ void test_genericFindRedBlackTree_find_r100_in_r50_r80_r100_redBlackTree(void){
 **/
 
 void test_genericFindRedBlackTree_find_r1150_in_large_redBlackTree(void){
+    char *targetMemory = (void*)1150;
     Node *targetRecord;
     Record r1000 = {.memory=(void*)1000,.color='b'};
     Record r500 = {.memory=(void*)500,.color='r'};
@@ -284,7 +289,7 @@ void test_genericFindRedBlackTree_find_r1150_in_large_redBlackTree(void){
     TEST_ASSERT_EQUAL_NODE(NULL,node1450,'b',node1340);
     TEST_ASSERT_EQUAL_NODE(node1950,NULL,'b',node2000);
     //Find targetRecord
-    targetRecord = findRecord(&root,((Record*)node1150)->memory); 
+    targetRecord = findRecord(&root,targetMemory); 
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node1150,targetRecord);
 }
@@ -306,6 +311,7 @@ void test_genericFindRedBlackTree_find_r1150_in_large_redBlackTree(void){
 **/
 
 void test_genericFindRedBlackTree_find_r250_in_large_redBlackTree(void){
+    char *targetMemory = (void*)250;
     Node *targetRecord;
     Record r1000 = {.memory=(void*)1000,.color='b'};
     Record r500 = {.memory=(void*)500,.color='r'};
@@ -393,7 +399,7 @@ void test_genericFindRedBlackTree_find_r250_in_large_redBlackTree(void){
     TEST_ASSERT_EQUAL_NODE(NULL,node1450,'b',node1340);
     TEST_ASSERT_EQUAL_NODE(node1950,NULL,'b',node2000);
     //Find targetRecord
-    targetRecord = findRecord(&root,((Record*)node250)->memory); 
+    targetRecord = findRecord(&root,targetMemory); 
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node250,targetRecord);
 }
@@ -415,6 +421,7 @@ void test_genericFindRedBlackTree_find_r250_in_large_redBlackTree(void){
 **/
 
 void test_genericFindRedBlackTree_find_r1450_in_large_redBlackTree(void){
+    char *targetMemory = (void*)1450;
     Node *targetRecord;
     Record r1000 = {.memory=(void*)1000,.color='b'};
     Record r500 = {.memory=(void*)500,.color='r'};
@@ -502,7 +509,7 @@ void test_genericFindRedBlackTree_find_r1450_in_large_redBlackTree(void){
     TEST_ASSERT_EQUAL_NODE(NULL,node1450,'b',node1340);
     TEST_ASSERT_EQUAL_NODE(node1950,NULL,'b',node2000);
     //Find targetRecord
-    targetRecord = findRecord(&root,((Record*)node1450)->memory); 
+    targetRecord = findRecord(&root,targetMemory); 
     TEST_ASSERT_NOT_NULL(targetRecord);
     TEST_ASSERT_EQUAL(node1450,targetRecord);
 }

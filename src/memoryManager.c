@@ -18,12 +18,16 @@
 *	
 **********************************************************************/
 
-void memoryManagerAddRecord(Record *record){
-    if(root == NULL){
-        genericAddRedBlackTree(&root,(Node*)record,addAndDelRecordCompare);
+void memoryManagerAddRecord(Node *allocateRoot,Record *record){
+    if(allocateRoot == NULL){
+        allocateRoot = (Node*)record;
+        
     }else{
-        genericAddRedBlackTree(&root,(Node*)record,addAndDelRecordCompare);
+        genericAddRedBlackTree(&allocateRoot,(Node*)record,addAndDelRecordCompare);
     }
+    
+        
+    
 }
 
 /*********************************************************************
@@ -40,7 +44,7 @@ void memoryManagerAddRecord(Record *record){
 
 Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord){
 	Record *target=NULL;
-    target = (Record*)genericFindRedBlackTree(&root,(void*)targetRecord,findRecordCompare);
+    target = (Record*)genericFindRedBlackTree(&rootPtr,(void*)targetRecord,findRecordCompare);
     return target;
 }
 
@@ -56,8 +60,9 @@ Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord){
 **********************************************************************/
 
 Record *memoryManagerDelRecord(Record *record){
-	Record *deletedRecord;
-    deletedRecord = (Record*)genericDelRedBlackTree(&root,(Node*)record,addAndDelRecordCompare);
+	Node *freeRoot;
+    Record *deletedRecord;
+    deletedRecord = (Record*)genericDelRedBlackTree(&freeRoot,(Node*)record,addAndDelRecordCompare);
     return deletedRecord;
 }
 
