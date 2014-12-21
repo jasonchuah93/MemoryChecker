@@ -18,16 +18,13 @@
 *	
 **********************************************************************/
 
-void memoryManagerAddRecord(Node *allocateRoot,Record *record){
+void memoryManagerAddRecord(Record *record){
+    Node *allocateRoot;
     if(allocateRoot == NULL){
         allocateRoot = (Node*)record;
-        
     }else{
         genericAddRedBlackTree(&allocateRoot,(Node*)record,addAndDelRecordCompare);
     }
-    
-        
-    
 }
 
 /*********************************************************************
@@ -44,7 +41,7 @@ void memoryManagerAddRecord(Node *allocateRoot,Record *record){
 
 Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord){
 	Record *target=NULL;
-    target = (Record*)genericFindRedBlackTree(&rootPtr,(void*)targetRecord,findRecordCompare);
+    target = (Record*)genericFindRedBlackTree(&rootPtr,targetRecord,findRecordCompare);
     return target;
 }
 

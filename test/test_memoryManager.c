@@ -25,7 +25,7 @@ void tearDown(void){}
 void test_memoryManagerAddRecord_should_add_r200_into_generic_red_black_tree_if_root_is_empty(void){ 
     Node *root=NULL;
     Record r200 = {.memory = (void*)200, .color ='b'};
-    memoryManagerAddRecord(root,&r200);
+    memoryManagerAddRecord(&r200);
     TEST_ASSERT_EQUAL_PTR((Node*)&r200,root);
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&r200);
 }
