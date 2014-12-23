@@ -9,15 +9,13 @@
 #define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
 //Global variable
 
-Record *allocateRecord;
 void *memoryPool;
 void *headerBlock;
 void *footerBlock;
 
 
 //Functions
-void memoryInitialization();
 void *_safeMalloc(unsigned int size,int lineNumber, char *fileName);
-void *testMalloc(int size);
+void safeFree(void *memoryToFree);
 
 #endif // safeMalloc_H

@@ -11,24 +11,8 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-void memoryInitialization(){
-    Record *newRecord = NULL;
-	Node *newNode = malloc(sizeof(Node));
-    newRecord = malloc(sizeof(Record));
-    memoryPool = malloc(sizeof(void)*BUFFER_SIZE);
-    newRecord->memory = memoryPool;
-    newRecord->size = BUFFER_SIZE;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    newNode->color = 'b';
-    newNode->data = newRecord;
-    
-    allocatedPool = NULL;
-	
-}
-
 void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
-    Record *tempRecord;
+    Record *allocateRecord;
     void *pointerToUserBlock;
     if(size == 0){
         return NULL;
@@ -49,10 +33,7 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
     headerBlock = memoryBlock;
     //Content of the memory is write into the headerBlock
     headerBlock = (void*)"5A5A5A5A5A5A5A";
-    if(headerBlock!=(void*)"5A5A5A5A5A5A5A"){
-		printf("Invalid memory block at line %d from file %s\n",lineNumber,fileName);
-	}
-	//pointerToUserBlock is the pointer that point to the segment
+    //pointerToUserBlock is the pointer that point to the segment
     //of the user requested memory block
     pointerToUserBlock = memoryBlock+HEADER_SIZE;
     pointerToUserBlock = (void*)size;
@@ -63,7 +44,7 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
     footerBlock = headerBlock;
     //A record is create with the memory requested by user
     allocateRecord = createRecord(pointerToUserBlock,size);
-    memoryManagerAddRecord(allocateRecord);
+    memoryManagerAllocateRecord(allocateRecord);
 	
     return pointerToUserBlock;
 }
@@ -72,7 +53,5 @@ void safeFree(void *memoryToFree){
    
    memoryToFree = NULL;
    free(memoryToFree);
-   
-   
 }
 

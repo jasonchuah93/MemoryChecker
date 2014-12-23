@@ -8,8 +8,9 @@ Node *allocatedPool;
 Node *freedPool;
 
 void memoryManagerAllocateRecord(Record *record);
-void memoryManagerFreeRecord(Record *record)
+void memoryManagerFreeRecord(Record *record);
 Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord);
-Record *memoryManagerDelRecord(Record *record);
+void memoryManagerDelRecord(Record *record);
+void resetAllocatedPool();
 
 #endif // memoryManager_H

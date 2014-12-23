@@ -55,7 +55,9 @@ void memoryManagerFreeRecord(Record *record){
 **********************************************************************/
 
 Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord){
-	genericFindRedBlackTree(&allocatedPool,(void*)targetRecord,findRecordCompare);
+	Record *target=NULL;
+    target =(Record*)genericFindRedBlackTree(&rootPtr,(void*)targetRecord,findRecordCompare);
+    return target;
 }
 
 /*********************************************************************
@@ -69,8 +71,18 @@ Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord){
 *	
 **********************************************************************/
 
-Record *memoryManagerDelRecord(Record *record){
+void memoryManagerDelRecord(Record *record){
 	genericDelRedBlackTree(&allocatedPool,(Node*)record,addAndDelRecordCompare);
 }
 
+/*********************************************************************
+* This function will destroy the allocated pool so prevent memory leak
+*
+*	Destroy: allocatedPool
+*	
+**********************************************************************/
+
+void resetAllocatedPool(){
+    allocatedPool = NULL;
+}
 

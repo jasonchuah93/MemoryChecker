@@ -22,6 +22,5 @@ struct Record{
 };
 
 Record *_createRecord(void *memory,int size,int lineNumber,char *fileName);
-Node *createNode(Record *newRecord);
 
 #endif // MemoryRecord_H
