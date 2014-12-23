@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "MemoryRecord.h"
 #include "Node.h"
-#include "NodePtr.h"
 #include "compareRecord.h"
 #include "redBlackTree.h"
 #include "Rotation.h"
@@ -10,7 +9,7 @@
 #include "CException.h"
 
 /*********************************************************************
-* This function will add a new record into the tree
+* This function will allocate a new record into the allocatedPool
 *
 *	Input: 	record		the record that going to add into the tree
 *
@@ -18,12 +17,28 @@
 *	
 **********************************************************************/
 
-void memoryManagerAddRecord(Record *record){
-    Node *allocateRoot;
-    if(allocateRoot == NULL){
-        allocateRoot = (Node*)record;
+void memoryManagerAllocateRecord(Record *record){
+    if(allocatedPool == NULL){
+        genericAddRedBlackTree(&allocatedPool,(Node*)record,addAndDelRecordCompare);
     }else{
-        genericAddRedBlackTree(&allocateRoot,(Node*)record,addAndDelRecordCompare);
+        genericAddRedBlackTree(&allocatedPool,(Node*)record,addAndDelRecordCompare);
+    }
+}
+
+/*********************************************************************
+* This function will remove allocated record into the freedPool
+*
+*	Input: 	record		the record that going to free into the freedPool
+*
+*	Destroy: none
+*	
+**********************************************************************/
+
+void memoryManagerFreeRecord(Record *record){
+    if(allocatedPool == NULL){
+        genericAddRedBlackTree(&allocatedPool,(Node*)record,addAndDelRecordCompare);
+    }else{
+        genericAddRedBlackTree(&allocatedPool,(Node*)record,addAndDelRecordCompare);
     }
 }
 
@@ -40,9 +55,7 @@ void memoryManagerAddRecord(Record *record){
 **********************************************************************/
 
 Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord){
-	Record *target=NULL;
-    target = (Record*)genericFindRedBlackTree(&rootPtr,targetRecord,findRecordCompare);
-    return target;
+	genericFindRedBlackTree(&allocatedPool,(void*)targetRecord,findRecordCompare);
 }
 
 /*********************************************************************
@@ -57,10 +70,7 @@ Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord){
 **********************************************************************/
 
 Record *memoryManagerDelRecord(Record *record){
-	Node *freeRoot;
-    Record *deletedRecord;
-    deletedRecord = (Record*)genericDelRedBlackTree(&freeRoot,(Node*)record,addAndDelRecordCompare);
-    return deletedRecord;
+	genericDelRedBlackTree(&allocatedPool,(Node*)record,addAndDelRecordCompare);
 }
 
 

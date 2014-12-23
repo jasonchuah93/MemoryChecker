@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "Node.h"
 #include "MemoryRecord.h"
-#include "safeMalloc.h"
+
 /**
     This function will create record with the input parameter.
     Return information in Record when the function end.
@@ -17,24 +17,20 @@ Record *_createRecord(void *memory,int size,int lineNumber,char *fileName){
     record->size = size;
     record->lineNumber = lineNumber;
     record->fileName = fileName;
-	record->left = NULL;
-	record->right = NULL;
-	record->data = 0;
 	
     return record;
 }
 
-/**
-	This function will destroy record to avoid memory leak
-	Input : record		the record which created 
-						using createRecord function
-**/
-void destroyRecord(Record *record){
-    if(record){
-        record->memory = NULL;
-        record->size = 0;
-    }
-    free(record);
+Node *createNode(Record *newRecord){
+    Node *newNode = malloc(sizeof(Node));
+    newNode->left = NULL;
+    newNode->right = NULL;
+    newNode->color = 'b';
+    newNode->data = newRecord;
+    
+    return newNode;
 }
 
-
+void destroyRecord(Record *record){
+    
+}

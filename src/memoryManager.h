@@ -3,7 +3,12 @@
 
 #include "MemoryRecord.h"
 
-void memoryManagerAddRecord(Record *record);
+//Global variable as the root of the red black tree
+Node *allocatedPool;
+Node *freedPool;
+
+void memoryManagerAllocateRecord(Record *record);
+void memoryManagerFreeRecord(Record *record)
 Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord);
 Record *memoryManagerDelRecord(Record *record);
 

@@ -15,7 +15,7 @@
 void setUp(void){}
 
 void tearDown(void){}
-
+/*
 void test_safeMalloc_should_return_null_if_the_size_is_0(void){
     void *allocatedRecord ;
     Node *root =NULL;
@@ -130,3 +130,4 @@ void test_safeFree_should_throw_error_if_HEADER_MEMORY_been_modify(void){
     }
 }
 
+*/

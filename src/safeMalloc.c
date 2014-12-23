@@ -11,42 +11,52 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-Record *allocateRecord;
-
 void memoryInitialization(){
-   memoryPool = malloc(sizeof(void)*BUFFER_SIZE);
+    Record *newRecord = NULL;
+	Node *newNode = malloc(sizeof(Node));
+    newRecord = malloc(sizeof(Record));
+    memoryPool = malloc(sizeof(void)*BUFFER_SIZE);
+    newRecord->memory = memoryPool;
+    newRecord->size = BUFFER_SIZE;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    newNode->color = 'b';
+    newNode->data = newRecord;
+    
+    allocatedPool = NULL;
+	
 }
 
 void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
-    
-    void *pointerToUserBlock = NULL;
-    ErrorCode e;
+    Record *tempRecord;
+    void *pointerToUserBlock;
     if(size == 0){
         return NULL;
     }else if(size > BUFFER_SIZE){
         printf("Out of Buffer Size at line %d from file %s\n",lineNumber,fileName);
         Throw(ERR_EXCEED_BUFFER_SIZE);
     }
-   
 	//Allocate a memory Block which consist of 3 segments
     /****************************************************
      |  HEADER      |    USER INPUT       |  FOOTER    |
      |      BLOCK   | MEMORY BLOCK        |     BLOCK  |
     *****************************************************/
     //Allocate memory 
-    void *memoryBlock = NULL;
-    memoryBlock = malloc(HEADER_SIZE+size+FOOTER_SIZE);
-    //Header block is the pointer that point to HEADER BLOCK 
+    void *memoryBlock = malloc(HEADER_SIZE+size+FOOTER_SIZE);
+	//Header block is the pointer that point to HEADER BLOCK 
     //in the memory block
+    //printf("size : %d \n",memoryBlock);
     headerBlock = memoryBlock;
     //Content of the memory is write into the headerBlock
-    headerBlock =(void*)"5A5A5A5A5A5A5A";
-    //pointerToUserBlock is the pointer that point to the segment
+    headerBlock = (void*)"5A5A5A5A5A5A5A";
+    if(headerBlock!=(void*)"5A5A5A5A5A5A5A"){
+		printf("Invalid memory block at line %d from file %s\n",lineNumber,fileName);
+	}
+	//pointerToUserBlock is the pointer that point to the segment
     //of the user requested memory block
     pointerToUserBlock = memoryBlock+HEADER_SIZE;
-    //Content of the memory is write into the pointerToUserBlock
-    pointerToUserBlock =(void*)size;
-    //Footer block is the pointer that point at the FOOTER BLOCK 
+    pointerToUserBlock = (void*)size;
+	//Footer block is the pointer that point at the FOOTER BLOCK 
     //in the memory block
     footerBlock = memoryBlock+HEADER_SIZE+size;
     //Content of the memory is write into the footer block
@@ -54,38 +64,15 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
     //A record is create with the memory requested by user
     allocateRecord = createRecord(pointerToUserBlock,size);
     memoryManagerAddRecord(allocateRecord);
-    
+	
     return pointerToUserBlock;
-    
 }
 
-void _safeFree(void *memoryToFree,int lineNumber, char *fileName){
-    Node *freeRoot = NULL;
-    Node *freeNode = NULL;
-    
-    if(memoryToFree == NULL){
-        return ;
-    }
-    Record tempRecord={.memory = memoryToFree};
-    Node tempNode = {.data = &tempRecord};
-    freeRoot = (Node*)memoryManagerFindRecord(root,&tempRecord);
-    if(freeRoot = NULL){
-        return ; 
-    }
-    freeRoot = (Node*)memoryManagerDelRecord(&tempRecord);
-    freeRoot->left = NULL;
-    freeRoot->right = NULL;
-    
-    freeNode = (Node*)memoryManagerFindRecord(root
-}
-
-void testFree(void *memoryToFree,int lineNumber, char *fileName){
-    if(headerBlock != (void*)"5A5A5A5A5A5A5A" || footerBlock != headerBlock){
-        printf("Memory been modified at line %d from file %s\n",lineNumber,fileName);
-        Throw(ERR_MEMORY_WRONG);
-    }
-    memoryManagerDelRecord(allocateRecord);
-    memoryToFree = NULL;
-    free(root);
+void safeFree(void *memoryToFree){
+   
+   memoryToFree = NULL;
+   free(memoryToFree);
+   
+   
 }
 

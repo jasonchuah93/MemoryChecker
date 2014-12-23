@@ -7,9 +7,9 @@
 #define FOOTER_SIZE 	HEADER_SIZE
 //Define the function for easy purpose of use
 #define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
-#define safeFree(memoryToFree) testFree(memoryToFree,__LINE__,__FILE__)
 //Global variable
 
+Record *allocateRecord;
 void *memoryPool;
 void *headerBlock;
 void *footerBlock;
@@ -18,7 +18,6 @@ void *footerBlock;
 //Functions
 void memoryInitialization();
 void *_safeMalloc(unsigned int size,int lineNumber, char *fileName);
-void _safeFree(void *memoryToFree,int lineNumber, char *fileName);
-void testFree();
+void *testMalloc(int size);
 
 #endif // safeMalloc_H
