@@ -18,6 +18,7 @@ void *footerBlock;
 void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
     Record *allocateRecord;
     Node *allocateNode;
+    ErrorCode e;
     if(size == 0){
         return NULL;
     }else if(size > BUFFER_SIZE){
@@ -29,6 +30,7 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
      |  HEADER      |    USER INPUT       |  FOOTER    |
      |      BLOCK   | MEMORY BLOCK        |     BLOCK  |
     *****************************************************/
+    Try{
     void *memoryBlock = malloc(HEADER_SIZE+size+FOOTER_SIZE);
 	headerBlock = memoryBlock;
     strcpy(headerBlock,"5A5A5A5A5A5A5A");
@@ -38,8 +40,11 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
     allocateRecord = createRecord(userBlock,size);
     allocateNode = createNode(allocateRecord);
     addRecord(&allocatePool,allocateNode);
-	
-    return userBlock;
+	return userBlock;
+    }Catch(e){
+        printf("%d",e);
+    }
+    
 }
 
 void safeFree(void *memoryToFree){

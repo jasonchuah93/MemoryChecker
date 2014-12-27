@@ -109,6 +109,7 @@ void test_safeMalloc_add_the_record_into_allocated_pool(void){
 void test_safeMalloc_add_the_2_records_into_allocated_pool_a(void){
     void *allocatedRecord=NULL;
     resetAllocatedPool();
+    printf("test 2 record \n");
     allocatedRecord = safeMalloc(50);
     TEST_ASSERT_NOT_NULL(allocatePool);
     TEST_ASSERT_EQUAL(allocatedRecord,getMemory(allocatePool));
