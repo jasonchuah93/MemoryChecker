@@ -1,5 +1,6 @@
 #include "unity.h"
 #include <stdlib.h>
+#include <string.h>
 #include "Node.h"
 #include "Rotation.h"
 #include "memoryManager.h"
@@ -72,28 +73,19 @@ void test_safeMalloc_add_the_2_records_into_allocated_pool_a(void){
     TEST_ASSERT_NULL(allocatePool->left);
     TEST_ASSERT_NULL(allocatePool->right);
     
-    safeMalloc(150);
-    //TEST_ASSERT_EQUAL(allocatedRecord,getMemory(allocatePool->right));
-    //TEST_ASSERT_EQUAL(150,getSize(allocatePool->right));
-    //TEST_ASSERT_NULL(allocatePool->left);
-    //TEST_ASSERT_NOT_NULL(allocatePool->right);
-    //TEST_ASSERT_NULL(allocatePool->right->left);
-    //TEST_ASSERT_NULL(allocatePool->right->right);
+    allocatedRecord =safeMalloc(150);
+    TEST_ASSERT_EQUAL(allocatedRecord,getMemory(allocatePool->right));
+    TEST_ASSERT_EQUAL(150,getSize(allocatePool->right));
+    TEST_ASSERT_NULL(allocatePool->left);
+    TEST_ASSERT_NOT_NULL(allocatePool->right);
+    TEST_ASSERT_NULL(allocatePool->right->left);
+    TEST_ASSERT_NULL(allocatePool->right->right);
 }
 
-/*
-void test_safeMalloc_add_3_records_into_allocated_pool(void){
+void test_write_content_into_allocated_record(void){
     void *allocatedRecord;
     resetAllocatedPool();
     allocatedRecord = safeMalloc(50);
-    TEST_ASSERT_NOT_NULL(allocatePool);
-    TEST_ASSERT_EQUAL(allocatedRecord,getMemory(allocatePool));
-    TEST_ASSERT_EQUAL(50,getSize(allocatePool));
-    TEST_ASSERT_NULL(allocatePool->left);
-    TEST_ASSERT_NULL(allocatePool->right);
-    
-    allocatedRecord = safeMalloc(150);
-    
+    strcpy(allocatedRecord-15,"6A6A6A6A6A");
+    checkMemoryContent(allocatedRecord);
 }
-*/
-

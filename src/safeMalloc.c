@@ -12,6 +12,9 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
+void *headerBlock;
+void *footerBlock;
+
 void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
     Record *allocateRecord;
     Node *allocateNode;
@@ -27,10 +30,10 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
      |      BLOCK   | MEMORY BLOCK        |     BLOCK  |
     *****************************************************/
     void *memoryBlock = malloc(HEADER_SIZE+size+FOOTER_SIZE);
-	void *headerBlock = memoryBlock;
+	headerBlock = memoryBlock;
     strcpy(headerBlock,"5A5A5A5A5A5A5A");
     void *userBlock = memoryBlock+HEADER_SIZE;
-    void *footerBlock = memoryBlock+HEADER_SIZE+size;
+    footerBlock = memoryBlock+HEADER_SIZE+size;
     strcpy(footerBlock,"5A5A5A5A5A5A5A");
     allocateRecord = createRecord(userBlock,size);
     allocateNode = createNode(allocateRecord);
@@ -40,9 +43,8 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
 }
 
 void safeFree(void *memoryToFree){
+    
    
-   memoryToFree = NULL;
-   free(memoryToFree);
 }
 
 /*********************************************************************
@@ -53,8 +55,13 @@ void safeFree(void *memoryToFree){
 **********************************************************************/
 
 void resetAllocatedPool(){
-    Record *newRecord = malloc(sizeof(Record));
-    Node *newNode = malloc(sizeof(Node));
+    //Record *newRecord = malloc(sizeof(Record));
+    //Node *newNode = malloc(sizeof(Node));
     allocatePool = NULL;
 }
 
+void _checkMemoryContent(void *record,int lineNumber, char *fileName){
+   if(headerBlock != "5A5A5A5A5A5A5A"){
+        printf("User memory write into header Block at line %d from file %s\n",lineNumber-1,fileName);
+   }
+}
