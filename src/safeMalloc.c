@@ -19,18 +19,18 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
     Record *allocateRecord;
     Node *allocateNode;
     ErrorCode e;
+   
     if(size == 0){
         return NULL;
     }else if(size > BUFFER_SIZE){
         printf("Out of Buffer Size at line %d from file %s\n",lineNumber,fileName);
         Throw(ERR_EXCEED_BUFFER_SIZE);
-    }
+    } 
 	//Allocate a memory Block which consist of 3 segments
     /****************************************************
      |  HEADER      |    USER INPUT       |  FOOTER    |
      |      BLOCK   | MEMORY BLOCK        |     BLOCK  |
     *****************************************************/
-    Try{
     void *memoryBlock = malloc(HEADER_SIZE+size+FOOTER_SIZE);
 	headerBlock = memoryBlock;
     strcpy(headerBlock,"5A5A5A5A5A5A5A");
@@ -41,18 +41,27 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
     allocateNode = createNode(allocateRecord);
     addRecord(&allocatePool,allocateNode);
 	return userBlock;
-    }Catch(e){
-        printf("%d",e);
-    }
-    
 }
 
 void safeFree(void *memoryToFree){
+    Node *freeNode = NULL;
     if(memoryToFree == NULL){
         printf("Trying to free a null pointer!\n");
         Throw(ERR_FREE_NULL_PTR);
     }   
-   
+    Record tempRecord={.memory = memoryToFree};
+    Node tempNode = {.data = &tempRecord};
+    freeNode = findRecord(&allocatePool,memoryToFree);
+    if(freeNode == NULL){
+        return ;
+    }
+    freeNode = removeNode(&allocatePool,freeNode);
+    freeNode->left=NULL;
+    freeNode->right=NULL;
+    
+    addRecord(&freePool,freeNode);
+    
+    
 }
 
 /*********************************************************************

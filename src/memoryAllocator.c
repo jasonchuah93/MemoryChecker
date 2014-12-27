@@ -15,3 +15,7 @@ void *allocateMemory(unsigned int size){
 void freeMemory(void *memory){
     free(memory);
 }
+
+Node *removeNode(Node **root,Node *nodeToRemove){
+
+}

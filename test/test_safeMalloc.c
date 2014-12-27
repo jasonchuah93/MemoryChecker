@@ -6,7 +6,7 @@
 #include "memoryManager.h"
 #include "MemoryRecord.h"
 #include "compareRecord.h"
-#include "memoryAllocator.h"
+#include "mock_memoryAllocator.h"
 #include "RestructureNode.h"
 #include "redBlackTree.h"
 #include "safeMalloc.h"
@@ -25,7 +25,6 @@ void test_safeMalloc_should_return_null_if_the_size_input_is_0(void){
 }
 
 void test_safeMalloc_should_throw_error_if_input_size_exceed_the_BUFFER_SIZE(void){
-    printf("Test 2 \n");
     ErrorCode e;
     Try
 	{
@@ -92,6 +91,9 @@ void test_safeFree_should_throw_error_if_free_null_pointer(void){
     }
 }
 
+void test_safeFree_should_remove_record_from_allocate_pool_and_put_into_free_pool(void){
+    void *allocatedRecord = NULL;
+}
 
 void test_safeMalloc_add_the_record_into_allocated_pool(void){
 	void *allocatedRecord=NULL;
@@ -105,7 +107,7 @@ void test_safeMalloc_add_the_record_into_allocated_pool(void){
     TEST_ASSERT_NULL(allocatePool->right);
 }
 
-
+/*
 void test_safeMalloc_add_the_2_records_into_allocated_pool_a(void){
     void *allocatedRecord=NULL;
     resetAllocatedPool();
@@ -125,3 +127,4 @@ void test_safeMalloc_add_the_2_records_into_allocated_pool_a(void){
     TEST_ASSERT_NULL(allocatePool->right->left);
     TEST_ASSERT_NULL(allocatePool->right->right);
 }
+*/

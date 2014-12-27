@@ -23,4 +23,5 @@ Node *genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*addAndDelReco
 Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecord)(Node **rootPtr,Record *newNode));
 Node *removeNextLargerSuccessor(Node **rootPtr);
 
+
 #endif // redBlackTree_H
