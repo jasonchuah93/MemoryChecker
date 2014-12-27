@@ -7,15 +7,14 @@
 #define FOOTER_SIZE 	HEADER_SIZE
 //Define the function for easy purpose of use
 #define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
+#define getMemory(node) (((Record*)((Node*)(node))->data)->memory)
 //Global variable
-
-void *memoryPool;
-void *headerBlock;
-void *footerBlock;
+Node *allocatePool;
+Node *freePool;
 
 
 //Functions
 void *_safeMalloc(unsigned int size,int lineNumber, char *fileName);
 void safeFree(void *memoryToFree);
-
+void resetAllocatedPool();
 #endif // safeMalloc_H

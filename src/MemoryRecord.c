@@ -17,11 +17,14 @@ Record *_createRecord(void *memory,int size,int lineNumber,char *fileName){
     record->size = size;
     record->lineNumber = lineNumber;
     record->fileName = fileName;
-	record->left = NULL;
-    record->right = NULL;
-    record->data = NULL;
-    record->color = 'b';
-    
-    return record;
+	return record;
 }
 
+Node *createNode(Record *record){
+    Node *node  = malloc(sizeof(Node));
+    node->data  = record;
+    node->left  = NULL;
+    node->right = NULL;
+    node->color ='b';
+    return node;
+}

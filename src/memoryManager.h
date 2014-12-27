@@ -11,6 +11,6 @@ void memoryManagerAllocateRecord(Record *record);
 void memoryManagerFreeRecord(Record *record);
 Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord);
 void memoryManagerDelRecord(Record *record);
-void resetAllocatedPool();
+
 
 #endif // memoryManager_H

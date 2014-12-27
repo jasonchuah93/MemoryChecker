@@ -75,14 +75,4 @@ void memoryManagerDelRecord(Record *record){
 	genericDelRedBlackTree(&allocatedPool,(Node*)record,addAndDelRecordCompare);
 }
 
-/*********************************************************************
-* This function will destroy the allocated pool so prevent memory leak
-*
-*	Destroy: allocatedPool
-*	
-**********************************************************************/
-
-void resetAllocatedPool(){
-    allocatedPool = NULL;
-}
 

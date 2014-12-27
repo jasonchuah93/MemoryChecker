@@ -9,11 +9,6 @@
 typedef struct Record Record;
 
 struct Record{
-    //Node structure
-    Node *left;
-    Node *right;
-    char color; // 'b' or 'r'(black or red)
-    void *data;
     //Record structure
     void *memory;
     unsigned int size;
@@ -22,5 +17,6 @@ struct Record{
 };
 
 Record *_createRecord(void *memory,int size,int lineNumber,char *fileName);
+Node *createNode(Record *record);
 
 #endif // MemoryRecord_H

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Node.h"
 #include "Rotation.h"
 #include "memoryManager.h"
@@ -13,7 +14,7 @@
 
 void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
     Record *allocateRecord;
-    void *pointerToUserBlock;
+    Node *allocateNode;
     if(size == 0){
         return NULL;
     }else if(size > BUFFER_SIZE){
@@ -25,28 +26,17 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
      |  HEADER      |    USER INPUT       |  FOOTER    |
      |      BLOCK   | MEMORY BLOCK        |     BLOCK  |
     *****************************************************/
-    //Allocate memory 
     void *memoryBlock = malloc(HEADER_SIZE+size+FOOTER_SIZE);
-	//Header block is the pointer that point to HEADER BLOCK 
-    //in the memory block
-    //printf("size : %d \n",memoryBlock);
-    headerBlock = memoryBlock;
-    //Content of the memory is write into the headerBlock
-    headerBlock = (void*)"5A5A5A5A5A5A5A";
-    //pointerToUserBlock is the pointer that point to the segment
-    //of the user requested memory block
-    pointerToUserBlock = memoryBlock+HEADER_SIZE;
-    pointerToUserBlock = (void*)size;
-	//Footer block is the pointer that point at the FOOTER BLOCK 
-    //in the memory block
-    footerBlock = memoryBlock+HEADER_SIZE+size;
-    //Content of the memory is write into the footer block
-    footerBlock = headerBlock;
-    //A record is create with the memory requested by user
-    allocateRecord = createRecord(pointerToUserBlock,size);
-    memoryManagerAllocateRecord(allocateRecord);
+	void *headerBlock = memoryBlock;
+    strcpy(headerBlock,"5A5A5A5A5A5A5A");
+    void *userBlock = memoryBlock+HEADER_SIZE;
+    void *footerBlock = memoryBlock+HEADER_SIZE+size;
+    strcpy(footerBlock,"5A5A5A5A5A5A5A");
+    allocateRecord = createRecord(userBlock,size);
+    allocateNode = createNode(allocateRecord);
+    addRecord(&allocatePool,allocateNode);
 	
-    return pointerToUserBlock;
+    return userBlock;
 }
 
 void safeFree(void *memoryToFree){
@@ -55,3 +45,13 @@ void safeFree(void *memoryToFree){
    free(memoryToFree);
 }
 
+/*********************************************************************
+* This function will destroy the allocated pool so prevent memory leak
+*
+*	Destroy: allocatedPool
+*	
+**********************************************************************/
+
+void resetAllocatedPool(){
+    allocatePool = NULL;
+}
