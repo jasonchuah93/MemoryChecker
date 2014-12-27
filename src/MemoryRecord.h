@@ -9,6 +9,10 @@
 typedef struct Record Record;
 
 struct Record{
+    Node *left;
+    Node *right;
+    char color; // 'b' or 'r'(black or red)
+    void *data;
     //Record structure
     void *memory;
     unsigned int size;
