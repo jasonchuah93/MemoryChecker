@@ -8,6 +8,8 @@
 //Define the function for easy purpose of use
 #define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
 #define getMemory(node) (((Record*)((Node*)(node))->data)->memory)
+#define getSize(node) (((Record*)((Node*)(node))->data)->size)
+
 //Global variable
 Node *allocatePool;
 Node *freePool;

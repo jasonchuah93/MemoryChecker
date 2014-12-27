@@ -53,5 +53,8 @@ void safeFree(void *memoryToFree){
 **********************************************************************/
 
 void resetAllocatedPool(){
+    Record *newRecord = malloc(sizeof(Record));
+    Node *newNode = malloc(sizeof(Node));
     allocatePool = NULL;
 }
+
