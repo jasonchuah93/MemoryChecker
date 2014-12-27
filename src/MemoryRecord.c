@@ -13,18 +13,24 @@
 **/
 Record *_createRecord(void *memory,int size,int lineNumber,char *fileName){
     Record *record = malloc(sizeof(Record));
-    record->memory =memory;
+    record->memory = memory;
     record->size = size;
     record->lineNumber = lineNumber;
     record->fileName = fileName;
 	return record;
 }
 
-Node *createNode(Record *record){
+Node *_createNode(void *memory,int size,int lineNumber,char *fileName){
+    Record *record = malloc(sizeof(Record));
     Node *node  = malloc(sizeof(Node));
-    node->data  = record;
+    record->memory =memory;
+    record->size = size;
+    record->lineNumber = lineNumber;
+    record->fileName = fileName;
+	node->data  = record;
     node->left  = NULL;
     node->right = NULL;
     node->color ='b';
+    
     return node;
 }

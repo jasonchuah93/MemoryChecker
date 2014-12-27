@@ -5,7 +5,7 @@
 
 //For friendly use without extra parameter
 #define createRecord(memory,size) _createRecord(memory,size,__LINE__,__FILE__)
-
+#define createNode(memory,size) _createNode(memory,size,__LINE__,__FILE__)
 typedef struct Record Record;
 
 struct Record{
@@ -21,6 +21,6 @@ struct Record{
 };
 
 Record *_createRecord(void *memory,int size,int lineNumber,char *fileName);
-Node *createNode(Record *record);
+Node *_createNode(void *memory,int size,int lineNumber,char *fileName);
 
 #endif // MemoryRecord_H

@@ -12,12 +12,13 @@
 #define getSize(node) (((Record*)((Node*)(node))->data)->size)
 
 //Global variable
+void *memoryPool;
 Node *allocatePool;
 Node *freePool;
 
 
 //Functions
-void *_safeMalloc(unsigned int size,int lineNumber, char *fileName);
+void *_safeMalloc(int size,int lineNumber, char *fileName);
 void safeFree(void *memoryToFree);
 void resetAllocatedPool();
 void _checkMemoryContent(void *record,int lineNumber, char *fileName);

@@ -12,14 +12,12 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-void *headerBlock;
-void *footerBlock;
+char *headerBlock;
+char *footerBlock;
+char *userBlock ;
 
-void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
-    Record *allocateRecord;
-    Node *allocateNode;
-    ErrorCode e;
-   
+void *_safeMalloc(int size,int lineNumber, char *fileName){
+    allocatePool=NULL;
     if(size == 0){
         return NULL;
     }else if(size > BUFFER_SIZE){
@@ -31,22 +29,20 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
      |  HEADER      |    USER INPUT       |  FOOTER    |
      |      BLOCK   | MEMORY BLOCK        |     BLOCK  |
     *****************************************************/
-    void *memoryBlock = malloc(HEADER_SIZE+size+FOOTER_SIZE);
-	headerBlock = memoryBlock;
+    memoryPool = malloc(HEADER_SIZE+size+FOOTER_SIZE);
+	headerBlock = memoryPool;
     strcpy(headerBlock,"5A5A5A5A5A5A5A");
-    void *userBlock = memoryBlock+HEADER_SIZE;
-    footerBlock = memoryBlock+HEADER_SIZE+size;
-    strcpy(footerBlock,"5A5A5A5A5A5A5A");
-    allocateRecord = createRecord(userBlock,size);
-    allocateNode = createNode(allocateRecord);
-    addRecord(&allocatePool,allocateNode);
+    userBlock = memoryPool+HEADER_SIZE;
+    footerBlock = memoryPool+HEADER_SIZE+size;
+    strcpy(footerBlock,"7A7A7A7A7A7A7A");
+    Node *recordNode = createNode(userBlock,size);
+    addRecord(&allocatePool,recordNode);
 	return userBlock;
 }
 
 void safeFree(void *memoryToFree){
     Node *freeNode = NULL;
     if(memoryToFree == NULL){
-        printf("Trying to free a null pointer!\n");
         Throw(ERR_FREE_NULL_PTR);
     }   
     Record tempRecord={.memory = memoryToFree};
@@ -60,10 +56,13 @@ void safeFree(void *memoryToFree){
     freeNode->right=NULL;
     
     addRecord(&freePool,freeNode);
-    
-    
 }
 
+void safeSummary(){
+    if(allocatePool!=NULL){
+        
+    }
+}
 /*********************************************************************
 * This function will destroy the allocated pool so prevent memory leak
 *
@@ -78,11 +77,13 @@ void resetAllocatedPool(){
 }
 
 void _checkMemoryContent(void *record,int lineNumber, char *fileName){
-   if(headerBlock != "5A5A5A5A5A5A5A"){
+   if(strcpy(headerBlock,"5A5A5A5A5A5A5A")!="5A5A5A5A5A5A5A"){
         printf("User memory write into header Block at line %d from file %s\n",lineNumber-2,fileName);
-        Throw(ERR_MEMORY_WRONG);
+        Throw(ERR_CORRUPTED_MEMORY);
+   }else if(strcpy(footerBlock,"7A7A7A7A7A7A7A")!= "7A7A7A7A7A7A7A"){
+        printf("User memory write into footer Block at line %d from file %s\n",lineNumber-2,fileName);
+        Throw(ERR_CORRUPTED_MEMORY);
    }
-   if(footerBlock != "5A5A5A5A5A5A5A"){
-        printf("User memory write into header Block at line %d from file %s\n",lineNumber-2,fileName);
-   }
+   
+   
 }
