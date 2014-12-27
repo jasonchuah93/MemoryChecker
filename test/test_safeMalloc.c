@@ -66,11 +66,11 @@ void test_safeMalloc_add_the_2_records_into_allocated_pool_a(void){
     void *allocatedRecord;
     resetAllocatedPool();
     allocatedRecord = safeMalloc(50);
-    //TEST_ASSERT_NOT_NULL(allocatePool);
-    //TEST_ASSERT_EQUAL(allocatedRecord,getMemory(allocatePool));
-    //TEST_ASSERT_EQUAL(50,getSize(allocatePool));
-    //TEST_ASSERT_NULL(allocatePool->left);
-    //TEST_ASSERT_NULL(allocatePool->right);
+    TEST_ASSERT_NOT_NULL(allocatePool);
+    TEST_ASSERT_EQUAL(allocatedRecord,getMemory(allocatePool));
+    TEST_ASSERT_EQUAL(50,getSize(allocatePool));
+    TEST_ASSERT_NULL(allocatePool->left);
+    TEST_ASSERT_NULL(allocatePool->right);
     
     //allocatedRecord = safeMalloc(150);
     //TEST_ASSERT_EQUAL(allocatedRecord,getMemory(allocatePool->right));
