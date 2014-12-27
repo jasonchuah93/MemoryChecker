@@ -18,7 +18,7 @@ void setUp(void){}
 void tearDown(void){}
 
 void test_safeMalloc_should_return_null_if_the_size_input_is_0(void){
-    void *allocatedRecord ;
+    void *allocatedRecord=NULL;
     resetAllocatedPool();
     allocatedRecord = safeMalloc(0);
     TEST_ASSERT_NULL(safeMalloc(0));
@@ -41,7 +41,7 @@ void test_safeMalloc_should_throw_error_if_input_size_exceed_the_BUFFER_SIZE(voi
 
 
 void test_safeMalloc_verify_the_content_of_header_and_footer(void){
-	void *allocatedRecord ;
+	void *allocatedRecord=NULL;
     resetAllocatedPool();
     allocatedRecord = safeMalloc(200);
     
@@ -55,7 +55,7 @@ void test_safeMalloc_verify_the_content_of_header_and_footer(void){
 
 void test_write_content_into_header_block(void){
     ErrorCode e;
-    void *allocatedRecord;
+    void *allocatedRecord=NULL;
     resetAllocatedPool();
     allocatedRecord = safeMalloc(50);
     strcpy(allocatedRecord-15,"6A6A6A6A6A");
@@ -69,7 +69,7 @@ void test_write_content_into_header_block(void){
 
 void test_write_content_exceed_into_footer_block(void){
     ErrorCode e;
-    void *allocatedRecord;
+    void *allocatedRecord=NULL;
     resetAllocatedPool();
     allocatedRecord = safeMalloc(50);
     strcpy(allocatedRecord+50,"6A6A6A6A6A");
@@ -81,10 +81,20 @@ void test_write_content_exceed_into_footer_block(void){
     }
 }
 
+void test_safeFree_should_throw_error_if_free_null_pointer(void){   
+    ErrorCode e;
+    void *allocatedRecord = NULL;
+    Try{
+        safeFree(allocatedRecord);
+        TEST_FAIL_MESSAGE("Should throw free NULL pointer ");
+    }Catch(e){
+        TEST_ASSERT_EQUAL(ERR_FREE_NULL_PTR,e);
+    }
+}
 
-/*
+
 void test_safeMalloc_add_the_record_into_allocated_pool(void){
-	void *allocatedRecord;
+	void *allocatedRecord=NULL;
     resetAllocatedPool();
     allocatedRecord =safeMalloc(100);
     
@@ -95,8 +105,9 @@ void test_safeMalloc_add_the_record_into_allocated_pool(void){
     TEST_ASSERT_NULL(allocatePool->right);
 }
 
+
 void test_safeMalloc_add_the_2_records_into_allocated_pool_a(void){
-    void *allocatedRecord;
+    void *allocatedRecord=NULL;
     resetAllocatedPool();
     allocatedRecord = safeMalloc(50);
     TEST_ASSERT_NOT_NULL(allocatePool);
@@ -113,4 +124,3 @@ void test_safeMalloc_add_the_2_records_into_allocated_pool_a(void){
     TEST_ASSERT_NULL(allocatePool->right->left);
     TEST_ASSERT_NULL(allocatePool->right->right);
 }
-*/

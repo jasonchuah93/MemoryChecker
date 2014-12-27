@@ -43,7 +43,10 @@ void *_safeMalloc(unsigned int size,int lineNumber, char *fileName){
 }
 
 void safeFree(void *memoryToFree){
-    
+    if(memoryToFree == NULL){
+        printf("Trying to free a null pointer!\n");
+        Throw(ERR_FREE_NULL_PTR);
+    }   
    
 }
 
