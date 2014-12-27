@@ -28,11 +28,9 @@ void tearDown(void){}
 void test_genericDelRedBlackTree_remove_r10_from_redBlackTree(void){
     Record r10 = {.memory =(void*)10 , .color ='b'};
     Node *root =NULL;
-    Node *freeRoot = NULL;
     addRecord(&root,(Node*)&r10);
-    freeRoot = deleteRecord(&root,(Node*)&r10);
+    deleteRecord(&root,(Node*)&r10);
     TEST_ASSERT_EQUAL_PTR(NULL,root);
-    TEST_ASSERT_EQUAL_PTR((Node*)&r10,freeRoot);
 }
 
 /**
