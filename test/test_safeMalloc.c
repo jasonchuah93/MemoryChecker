@@ -51,6 +51,38 @@ void test_safeMalloc_verify_the_content_of_header_and_footer(void){
     TEST_ASSERT_EQUAL_STRING(allocatedRecord+200,"5A5A5A5A5A5A5A");
 }
 
+
+
+void test_write_content_into_header_block(void){
+    ErrorCode e;
+    void *allocatedRecord;
+    resetAllocatedPool();
+    allocatedRecord = safeMalloc(50);
+    strcpy(allocatedRecord-15,"6A6A6A6A6A");
+    Try{
+        checkMemoryContent(allocatedRecord);
+        TEST_FAIL_MESSAGE("Should throw wrong header memory ");
+    }Catch(e){
+        TEST_ASSERT_EQUAL(ERR_MEMORY_WRONG,e);
+    }
+}
+
+void test_write_content_exceed_into_footer_block(void){
+    ErrorCode e;
+    void *allocatedRecord;
+    resetAllocatedPool();
+    allocatedRecord = safeMalloc(50);
+    strcpy(allocatedRecord+50,"6A6A6A6A6A");
+    Try{
+        checkMemoryContent(allocatedRecord);
+        TEST_FAIL_MESSAGE("Should throw wrong header memory ");
+    }Catch(e){
+        TEST_ASSERT_EQUAL(ERR_MEMORY_WRONG,e);
+    }
+}
+
+
+/*
 void test_safeMalloc_add_the_record_into_allocated_pool(void){
 	void *allocatedRecord;
     resetAllocatedPool();
@@ -81,11 +113,4 @@ void test_safeMalloc_add_the_2_records_into_allocated_pool_a(void){
     TEST_ASSERT_NULL(allocatePool->right->left);
     TEST_ASSERT_NULL(allocatePool->right->right);
 }
-
-void test_write_content_into_allocated_record(void){
-    void *allocatedRecord;
-    resetAllocatedPool();
-    allocatedRecord = safeMalloc(50);
-    strcpy(allocatedRecord-15,"6A6A6A6A6A");
-    checkMemoryContent(allocatedRecord);
-}
+*/

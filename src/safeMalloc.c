@@ -62,6 +62,10 @@ void resetAllocatedPool(){
 
 void _checkMemoryContent(void *record,int lineNumber, char *fileName){
    if(headerBlock != "5A5A5A5A5A5A5A"){
-        printf("User memory write into header Block at line %d from file %s\n",lineNumber-1,fileName);
+        printf("User memory write into header Block at line %d from file %s\n",lineNumber-2,fileName);
+        Throw(ERR_MEMORY_WRONG);
+   }
+   if(footerBlock != "5A5A5A5A5A5A5A"){
+        printf("User memory write into header Block at line %d from file %s\n",lineNumber-2,fileName);
    }
 }
