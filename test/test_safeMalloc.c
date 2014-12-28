@@ -92,7 +92,7 @@ void test_safeMalloc_should_add_record_into_allocate_pool(void){
     checkHeaderMemoryContent(allocatedRecord-15);
     checkFooterMemoryContent(allocatedRecord+50);
     //safeFree(targetMemory);
-    saveSummary();
+    //saveSummary();
 }
 
 /*
