@@ -48,14 +48,6 @@ void safeFree(void *memoryToFree){
     //addRecord(&freePool,freeNode);
 }
 
-void safeSummary(){
-    if(allocatePool!=NULL){
-        free(headerBlock);
-        free(userBlock);
-        free(footerBlock);
-        free(allocatePool);
-    }
-}
 /*********************************************************************
 * This function will destroy the allocated pool so prevent memory leak
 *

@@ -24,7 +24,6 @@ void safeFree(void *memoryToFree);
 void resetAllocatedPool();
 void _checkHeaderMemoryContent(void *record,int lineNumber, char *fileName);
 void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName);
-void safeSummary();
 void saveSummary();
 void freeNode();
 
