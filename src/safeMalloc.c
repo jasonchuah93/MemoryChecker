@@ -17,7 +17,6 @@ char *footerBlock;
 char *userBlock ;
 
 void *_safeMalloc(int size,int lineNumber, char *fileName){
-    allocatePool=NULL;
     if(size == 0){
         return NULL;
     }else if(size > BUFFER_SIZE){
@@ -41,26 +40,20 @@ void *_safeMalloc(int size,int lineNumber, char *fileName){
 }
 
 void safeFree(void *memoryToFree){
-    Node *freeNode = NULL;
     if(memoryToFree == NULL){
         Throw(ERR_FREE_NULL_PTR);
     }   
-    Record tempRecord={.memory = memoryToFree};
-    Node tempNode = {.data = &tempRecord};
-    freeNode = findRecord(&allocatePool,memoryToFree);
+    Node *freeNode = findRecord(&allocatePool,memoryToFree);
     if(freeNode == NULL){
         return ;
     }
-    freeNode = removeNode(&allocatePool,freeNode);
-    freeNode->left=NULL;
-    freeNode->right=NULL;
-    
-    addRecord(&freePool,freeNode);
+    addRecord(&freePool,(Node*)freeNode);
 }
 
 void safeSummary(){
+    Node *deleteNode;
     if(allocatePool!=NULL){
-        
+        deleteRecord(&allocatePool,deleteNode);
     }
 }
 /*********************************************************************
@@ -74,6 +67,7 @@ void resetAllocatedPool(){
     //Record *newRecord = malloc(sizeof(Record));
     //Node *newNode = malloc(sizeof(Node));
     allocatePool = NULL;
+    freePool = NULL;
 }
 
 void _checkMemoryContent(void *record,int lineNumber, char *fileName){
@@ -84,6 +78,4 @@ void _checkMemoryContent(void *record,int lineNumber, char *fileName){
         printf("User memory write into footer Block at line %d from file %s\n",lineNumber-2,fileName);
         Throw(ERR_CORRUPTED_MEMORY);
    }
-   
-   
 }

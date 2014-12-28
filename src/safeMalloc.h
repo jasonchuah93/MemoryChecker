@@ -22,4 +22,6 @@ void *_safeMalloc(int size,int lineNumber, char *fileName);
 void safeFree(void *memoryToFree);
 void resetAllocatedPool();
 void _checkMemoryContent(void *record,int lineNumber, char *fileName);
+void safeSummary();
+
 #endif // safeMalloc_H
