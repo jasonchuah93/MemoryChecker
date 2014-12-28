@@ -17,6 +17,7 @@ Record *_createRecord(void *memory,int size,int lineNumber,char *fileName){
     record->size = size;
     record->lineNumber = lineNumber;
     record->fileName = fileName;
+    record->color = 'b';
 	return record;
 }
 
