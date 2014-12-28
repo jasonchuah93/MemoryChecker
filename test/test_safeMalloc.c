@@ -77,7 +77,7 @@ void test_write_content_exceed_into_footer_block(void){
         TEST_ASSERT_EQUAL(ERR_CORRUPTED_FOOTER_MEMORY,e);
     }
 }
-
+/*
 void test_safeMalloc_should_add_record_into_allocate_pool(void){
     char *targetMemory = "1A1A1A";
     void *allocatedRecord=NULL;
@@ -95,7 +95,7 @@ void test_safeMalloc_should_add_record_into_allocate_pool(void){
     //saveSummary();
 }
 
-/*
+
 void test_safeMalloc_should_add_two_record_into_allocate_pool(void){
     void *allocatedRecord =NULL;
     resetAllocatedPool();
