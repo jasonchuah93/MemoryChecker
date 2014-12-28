@@ -5,9 +5,9 @@
 #include "MemoryRecord.h"
 #include "compareRecord.h"
 
-void *allocateMemory(unsigned int size);
-void freeMemory(void *memory);
+//void *allocateMemory(unsigned int size);
+//void freeMemory(void *memory);
 
-Node *removeNode(Node **root,Node *nodeToRemove);
+//Node *removeNode(Node **root,Node *nodeToRemove);
 
 #endif // memoryAllocator_H

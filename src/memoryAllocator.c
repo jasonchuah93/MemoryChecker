@@ -6,7 +6,7 @@
   The functions below act as the mocking purpose
   for malloc and free function
 **/
-  
+/*
 void *allocateMemory(unsigned int size){
     void *memory = malloc(size);
 	return memory;
@@ -19,3 +19,4 @@ void freeMemory(void *memory){
 Node *removeNode(Node **root,Node *nodeToRemove){
 
 }
+*/

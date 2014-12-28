@@ -49,9 +49,11 @@ void safeFree(void *memoryToFree){
 }
 
 void safeSummary(){
-    Node *deleteNode;
     if(allocatePool!=NULL){
-        deleteRecord(&allocatePool,deleteNode);
+        free(headerBlock);
+        free(userBlock);
+        free(footerBlock);
+        free(allocatePool);
     }
 }
 /*********************************************************************
@@ -94,9 +96,34 @@ void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName){
     
 }
 
-/*
-else if(record !=footerBlock){
-        printf("user write exceed footer block at line %d from file %s \n",lineNumber-2,fileName);
-        Throw(ERR_CORRUPTED_FOOTER_MEMORY);
+void saveSummary(){
+    free(memoryPool);
+    freeNode(freePool);
+    freePool=NULL;
+    freeNode(allocatePool);
+    allocatePool=NULL;
+}
+
+void freeNode(Node *root){
+    if(root == NULL){
+        return;
     }
-*/
+    if(root->left!=NULL){
+        freeNode(root->left);
+        root->left=NULL;
+        if(root->right!=NULL){
+            freeNode(root->right);
+            root->right=NULL;
+        }
+    }else if(root->right!=NULL){
+        freeNode(root->right);
+        root->right=NULL;
+        if(root->left!=NULL){
+            freeNode(root->left);
+            root->left=NULL;
+        }
+    }else{
+        free(root->data);
+        free(root);
+    }    
+}
