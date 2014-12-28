@@ -7,7 +7,8 @@
 #define FOOTER_SIZE 	HEADER_SIZE
 //Define the function for easy purpose of use
 #define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
-#define checkMemoryContent(record) _checkMemoryContent(record,__LINE__,__FILE__)
+#define checkHeaderMemoryContent(record) _checkHeaderMemoryContent(record,__LINE__,__FILE__)
+#define checkFooterMemoryContent(record) _checkFooterMemoryContent(record,__LINE__,__FILE__)
 #define getMemory(node) (((Record*)((Node*)(node))->data)->memory)
 #define getSize(node) (((Record*)((Node*)(node))->data)->size)
 
@@ -21,7 +22,8 @@ Node *freePool;
 void *_safeMalloc(int size,int lineNumber, char *fileName);
 void safeFree(void *memoryToFree);
 void resetAllocatedPool();
-void _checkMemoryContent(void *record,int lineNumber, char *fileName);
+void _checkHeaderMemoryContent(void *record,int lineNumber, char *fileName);
+void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName);
 void safeSummary();
 
 #endif // safeMalloc_H

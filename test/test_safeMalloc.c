@@ -47,7 +47,7 @@ void test_safeMalloc_verify_the_content_of_header_and_footer(void){
 	TEST_ASSERT_NOT_NULL(allocatePool);
 	TEST_ASSERT_EQUAL(allocatedRecord,getMemory(allocatePool));
     TEST_ASSERT_EQUAL_STRING(allocatedRecord-15,"5A5A5A5A5A5A5A");
-    TEST_ASSERT_EQUAL_STRING(allocatedRecord+200,"7A7A7A7A7A7A7A");
+    TEST_ASSERT_EQUAL_STRING(allocatedRecord+200,"5A5A5A5A5A5A5A");
 }
 
 void test_write_content_into_header_block(void){
@@ -55,12 +55,12 @@ void test_write_content_into_header_block(void){
     char *allocatedRecord=NULL;
     resetAllocatedPool();
     allocatedRecord = safeMalloc(50);
-    strcpy(allocatedRecord-15,"6A6A6A6A6A");
+    strcpy(allocatedRecord-9,"6A6A6A6A6A");
     Try{
-        checkMemoryContent(allocatedRecord);
-        TEST_FAIL_MESSAGE("Should throw wrong header memory ");
+        checkHeaderMemoryContent(allocatedRecord-15);
+        TEST_FAIL_MESSAGE("Should throw corrupted footer memory ");
     }Catch(e){
-        TEST_ASSERT_EQUAL(ERR_CORRUPTED_MEMORY,e);
+        TEST_ASSERT_EQUAL(ERR_CORRUPTED_HEADER_MEMORY,e);
     }
 }
 
@@ -69,27 +69,33 @@ void test_write_content_exceed_into_footer_block(void){
     char *allocatedRecord=NULL;
     resetAllocatedPool();
     allocatedRecord = safeMalloc(50);
-    strcpy(allocatedRecord+50,"6A6A6A6A6A");
+    strcpy(allocatedRecord+45,"6A6A6A6A6A");
     Try{
-        checkMemoryContent(allocatedRecord);
-        TEST_FAIL_MESSAGE("Should throw wrong footer memory ");
+        checkFooterMemoryContent(allocatedRecord+50);
+        TEST_FAIL_MESSAGE("Should throw corrupted footer memory ");
     }Catch(e){
-        TEST_ASSERT_EQUAL(ERR_CORRUPTED_MEMORY,e);
+        TEST_ASSERT_EQUAL(ERR_CORRUPTED_FOOTER_MEMORY,e);
     }
 }
 
 void test_safeMalloc_should_add_record_into_allocate_pool(void){
-    void *allocatedRecord = NULL;
+    char *targetMemory = "1A1A1A";
+    void *allocatedRecord=NULL;
     resetAllocatedPool();
     allocatedRecord = safeMalloc(50);
+    strcpy(allocatedRecord,"1A1A1A");
     TEST_ASSERT_NOT_NULL(allocatePool);
     TEST_ASSERT_EQUAL(allocatedRecord,getMemory(allocatePool));
     TEST_ASSERT_EQUAL(50,getSize(allocatePool));
     TEST_ASSERT_NULL(allocatePool->left);
     TEST_ASSERT_NULL(allocatePool->right);
-    
+    checkHeaderMemoryContent(allocatedRecord-15);
+    checkFooterMemoryContent(allocatedRecord+50);
+    //safeFree(targetMemory);
+    //safeSummary();
 }
 
+/*
 void test_safeMalloc_should_add_two_record_into_allocate_pool(void){
     void *allocatedRecord =NULL;
     resetAllocatedPool();
@@ -106,6 +112,8 @@ void test_safeMalloc_should_add_two_record_into_allocate_pool(void){
     TEST_ASSERT_EQUAL(50,getSize(allocatePool));
     TEST_ASSERT_NULL(allocatePool->left);
     TEST_ASSERT_NOT_NULL(allocatePool->right);
+    safeFree(freeMemory);
+    safeSummary();
 }
 
 void test_safeMalloc_should_add_three_record_into_allocate_pool(void){
@@ -149,7 +157,7 @@ void test_safeFree_should_throw_error_if_free_null_pointer(void){
     }
 }
 
-/*
+
 void test_safeFree_should_remove_record_from_allocate_pool_and_put_into_free_pool(void){
     void *allocatedRecord = NULL;
 }

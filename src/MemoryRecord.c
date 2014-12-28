@@ -20,14 +20,9 @@ Record *_createRecord(void *memory,int size,int lineNumber,char *fileName){
 	return record;
 }
 
-Node *_createNode(void *memory,int size,int lineNumber,char *fileName){
-    Record *record = malloc(sizeof(Record));
+Node *_createNode(Record *record){
     Node *node  = malloc(sizeof(Node));
-    record->memory =memory;
-    record->size = size;
-    record->lineNumber = lineNumber;
-    record->fileName = fileName;
-	node->data  = record;
+    node->data  = record;
     node->left  = NULL;
     node->right = NULL;
     node->color ='b';

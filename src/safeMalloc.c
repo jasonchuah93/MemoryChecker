@@ -14,7 +14,7 @@
 
 char *headerBlock;
 char *footerBlock;
-char *userBlock ;
+char *userBlock;
 
 void *_safeMalloc(int size,int lineNumber, char *fileName){
     if(size == 0){
@@ -33,8 +33,9 @@ void *_safeMalloc(int size,int lineNumber, char *fileName){
     strcpy(headerBlock,"5A5A5A5A5A5A5A");
     userBlock = memoryPool+HEADER_SIZE;
     footerBlock = memoryPool+HEADER_SIZE+size;
-    strcpy(footerBlock,"7A7A7A7A7A7A7A");
-    Node *recordNode = createNode(userBlock,size);
+    strcpy(footerBlock,"5A5A5A5A5A5A5A");
+    Record *tempRecord = createRecord(userBlock,size);
+    Node *recordNode = createNode(tempRecord);
     addRecord(&allocatePool,recordNode);
 	return userBlock;
 }
@@ -43,11 +44,8 @@ void safeFree(void *memoryToFree){
     if(memoryToFree == NULL){
         Throw(ERR_FREE_NULL_PTR);
     }   
-    Node *freeNode = findRecord(&allocatePool,memoryToFree);
-    if(freeNode == NULL){
-        return ;
-    }
-    addRecord(&freePool,(Node*)freeNode);
+    Record *freeNode = (Record*)findRecord(&allocatePool,memoryToFree);
+    //addRecord(&freePool,freeNode);
 }
 
 void safeSummary(){
@@ -70,12 +68,35 @@ void resetAllocatedPool(){
     freePool = NULL;
 }
 
-void _checkMemoryContent(void *record,int lineNumber, char *fileName){
-   if(strcpy(headerBlock,"5A5A5A5A5A5A5A")!="5A5A5A5A5A5A5A"){
-        printf("User memory write into header Block at line %d from file %s\n",lineNumber-2,fileName);
-        Throw(ERR_CORRUPTED_MEMORY);
-   }else if(strcpy(footerBlock,"7A7A7A7A7A7A7A")!= "7A7A7A7A7A7A7A"){
-        printf("User memory write into footer Block at line %d from file %s\n",lineNumber-2,fileName);
-        Throw(ERR_CORRUPTED_MEMORY);
-   }
+void _checkHeaderMemoryContent(void *record,int lineNumber, char *fileName){
+    
+    char *tempRecord;
+    strcpy(tempRecord,"5A5A5A5A5A5A5A");
+    int comp;
+    comp = strncmp(record,tempRecord,15);
+    if(comp>0){    
+        printf("user write exceed header block at line %d from file %s \n",lineNumber-2,fileName);
+        Throw(ERR_CORRUPTED_HEADER_MEMORY);
+    }
+    
 }
+
+void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName){
+    
+    char *tempRecord;
+    strcpy(tempRecord,"5A5A5A5A5A5A5A");
+    int comp;
+    comp = strcmp(record,tempRecord);
+    if(comp>0){    
+        printf("user write exceed header block at line %d from file %s \n",lineNumber-2,fileName);
+        Throw(ERR_CORRUPTED_FOOTER_MEMORY);
+    }
+    
+}
+
+/*
+else if(record !=footerBlock){
+        printf("user write exceed footer block at line %d from file %s \n",lineNumber-2,fileName);
+        Throw(ERR_CORRUPTED_FOOTER_MEMORY);
+    }
+*/
