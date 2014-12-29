@@ -6,7 +6,6 @@
 #include "memoryManager.h"
 #include "MemoryRecord.h"
 #include "compareRecord.h"
-#include "mock_memoryAllocator.h"
 #include "RestructureNode.h"
 #include "redBlackTree.h"
 #include "safeMalloc.h"
@@ -17,6 +16,8 @@ void setUp(void){}
 
 void tearDown(void){}
 
+
+/*
 void test_safeMalloc_should_return_null_if_the_size_input_is_0(void){
     void *allocatedRecord=NULL;
     resetAllocatedPool();
@@ -37,27 +38,25 @@ void test_safeMalloc_should_throw_error_if_input_size_exceed_the_BUFFER_SIZE(voi
 	}
     printf("************************************************************\n");
 }
-
+*/
 
 void test_safeMalloc_verify_the_content_of_header_and_footer(void){
-	char *allocatedRecord=NULL;
     resetAllocatedPool();
-    allocatedRecord = safeMalloc(200);
     
-	TEST_ASSERT_NOT_NULL(allocatePool);
-	TEST_ASSERT_EQUAL(allocatedRecord,getMemory(allocatePool));
-    TEST_ASSERT_EQUAL_STRING(allocatedRecord-15,"5A5A5A5A5A5A5A");
-    TEST_ASSERT_EQUAL_STRING(allocatedRecord+200,"5A5A5A5A5A5A5A");
+    void *allocateRecord= safeMalloc(50);
+    TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL_PTR(((Record*)allocatedPool)->memory,allocateRecord);
+    TEST_ASSERT_EQUAL_STRING(allocateRecord-15,"5A5A5A5A5A5A5A");
+    TEST_ASSERT_EQUAL_STRING(allocateRecord+50,"5A5A5A5A5A5A5A");
 }
 
 void test_write_content_into_header_block(void){
     ErrorCode e;
-    char *allocatedRecord=NULL;
     resetAllocatedPool();
-    allocatedRecord = safeMalloc(50);
-    strcpy(allocatedRecord-9,"6A6A6A6A6A");
+    void *allocateRecord = safeMalloc(50);
+    strcpy(allocateRecord-9,"6A6A6A6A6A");
     Try{
-        checkHeaderMemoryContent(allocatedRecord-15);
+        checkHeaderMemoryContent(allocateRecord);
         TEST_FAIL_MESSAGE("Should throw corrupted footer memory ");
     }Catch(e){
         TEST_ASSERT_EQUAL(ERR_CORRUPTED_HEADER_MEMORY,e);
@@ -66,18 +65,17 @@ void test_write_content_into_header_block(void){
 
 void test_write_content_exceed_into_footer_block(void){
     ErrorCode e;
-    char *allocatedRecord=NULL;
     resetAllocatedPool();
-    allocatedRecord = safeMalloc(50);
-    strcpy(allocatedRecord+45,"6A6A6A6A6A");
+    void *allocateRecord = safeMalloc(50);
+    strcpy(allocateRecord+45,"6A6A6A6A6A");
     Try{
-        checkFooterMemoryContent(allocatedRecord+50);
+        checkFooterMemoryContent(allocateRecord);
         TEST_FAIL_MESSAGE("Should throw corrupted footer memory ");
     }Catch(e){
         TEST_ASSERT_EQUAL(ERR_CORRUPTED_FOOTER_MEMORY,e);
     }
 }
-
+/*
 void test_safeMalloc_should_add_record_into_allocate_pool(void){
     char *targetMemory = "1A1A1A";
     void *allocatedRecord=NULL;
@@ -151,3 +149,4 @@ void test_safeFree_should_throw_error_if_free_null_pointer(void){
 void test_safeFree_should_remove_record_from_allocate_pool_and_put_into_free_pool(void){
     void *allocatedRecord = NULL;
 }
+*/

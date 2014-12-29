@@ -12,5 +12,4 @@ void memoryManagerFreeRecord(Record *record);
 Record *memoryManagerFindRecord(Node *rootPtr,void *targetRecord);
 void memoryManagerDelRecord(Record *record);
 
-
 #endif // memoryManager_H

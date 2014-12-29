@@ -1,4 +1,5 @@
 #include "unity.h"
+#include <stdlib.h>
 #include "MemoryRecord.h"
 #include "Node.h"
 #include "compareRecord.h"
@@ -22,13 +23,21 @@ void tearDown(void){}
 *
 **/     
 
-void test_memoryManagerAddRecord_should_add_r200_into_generic_red_black_tree_if_root_is_empty(void){ 
-    Record r200 = {.memory = (void*)200, .color ='b'};
+void test_memoryManagerAddRecord_should_add_records_into_generic_red_black_tree_if_root_is_empty(void){ 
+    //Record r200 = {.memory = (void*)200, .color ='b'};
+    char *record = malloc(10);
+    char *record2 = malloc(50);
+    char *record3 = malloc(100);
+    Record *testRecord = createRecord(record,10);
+    Record *testRecord2 = createRecord(record2,50);
+    Record *testRecord3 = createRecord(record3,100);
     allocatedPool = NULL;
-    memoryManagerAllocateRecord(&r200);
-    TEST_ASSERT_EQUAL_PTR(allocatedPool,(Node*)&r200);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',(Node*)&r200);
-    
+    memoryManagerAllocateRecord(testRecord);
+    memoryManagerAllocateRecord(testRecord2);
+    memoryManagerAllocateRecord(testRecord3);
+    TEST_ASSERT_NOT_NULL(allocatedPool);
+    TEST_ASSERT_EQUAL_PTR(allocatedPool,testRecord2);
+    TEST_ASSERT_EQUAL_NODE((Node*)testRecord,(Node*)testRecord3,'b',(Node*)testRecord2);
 }
 
 /**

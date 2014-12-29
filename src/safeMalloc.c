@@ -7,14 +7,9 @@
 #include "MemoryRecord.h"
 #include "compareRecord.h"
 #include "redBlackTree.h"
-#include "memoryAllocator.h"
 #include "safeMalloc.h"
 #include "ErrorCode.h"
 #include "CException.h"
-
-char *headerBlock;
-char *footerBlock;
-char *userBlock;
 
 /*********************************************************************
 * This function will allocate memory and create record
@@ -36,15 +31,14 @@ void *_safeMalloc(int size,int lineNumber, char *fileName){
      |  HEADER      |    USER INPUT       |  FOOTER    |
      |      BLOCK   | MEMORY BLOCK        |     BLOCK  |
     *****************************************************/
-    memoryPool = malloc(HEADER_SIZE+size+FOOTER_SIZE);
-	headerBlock = memoryPool;
+    void *memoryPool = malloc(HEADER_SIZE+size+FOOTER_SIZE);
+	void *headerBlock = memoryPool;
     strcpy(headerBlock,"5A5A5A5A5A5A5A");
-    userBlock = memoryPool+HEADER_SIZE;
-    footerBlock = memoryPool+HEADER_SIZE+size;
+    void *userBlock = memoryPool+HEADER_SIZE;
+    void *footerBlock = userBlock+size;
     strcpy(footerBlock,"5A5A5A5A5A5A5A");
     Record *tempRecord = createRecord(userBlock,size);
-    Node *recordNode = createNode(tempRecord);
-    addRecord(&allocatePool,recordNode);
+    memoryManagerAllocateRecord(tempRecord);
 	return userBlock;
 }
 
@@ -57,11 +51,7 @@ void *_safeMalloc(int size,int lineNumber, char *fileName){
 **********************************************************************/
 
 void safeFree(void *memoryToFree){
-    if(memoryToFree == NULL){
-        Throw(ERR_FREE_NULL_PTR);
-    }   
-    Node *freeNode = findRecord(&allocatePool,memoryToFree);
-    addRecord(&freePool,freeNode);
+   
 }
 
 /*********************************************************************
@@ -72,10 +62,8 @@ void safeFree(void *memoryToFree){
 **********************************************************************/
 
 void resetAllocatedPool(){
-    Record *newRecord = malloc(sizeof(Record));
-    Node *newNode = malloc(sizeof(Node));
-    allocatePool = NULL;
-    freePool = NULL;
+    allocatedPool = NULL;
+    
 }
 
 /*********************************************************************
@@ -111,7 +99,7 @@ void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName){
     strcpy(tempRecord,"5A5A5A5A5A5A5A");
     int comp;
     comp = strcmp(record,tempRecord);
-    if(comp>0){    
+    if(comp<0){    
         printf("user write exceed header block at line %d from file %s \n",lineNumber-2,fileName);
         Throw(ERR_CORRUPTED_FOOTER_MEMORY);
     }
@@ -125,16 +113,7 @@ void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName){
 **********************************************************************/
 
 void saveSummary(){
-    Node *tempNode = findRecord(&allocatePool,userBlock);
-    if(tempNode==NULL){
-        printf("Pointer never allocate!\n");
-    }else{
-        addRecord(&freePool,tempNode);
-    }
-    tempNode = findRecord(&userPool,userBlock);
-    if(freePool!=NULL){
-        deleteRecord(tempNode);
-    }
+   
     
 }
 
