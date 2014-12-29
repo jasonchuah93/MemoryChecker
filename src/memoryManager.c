@@ -27,19 +27,19 @@ void memoryManagerAllocateRecord(Record *record){
 }
 
 /*********************************************************************
-* This function will remove allocated record into the freedPool
-*
-*	Input: 	record		the record that going to free into the freedPool
+* This function will dellocate a record from the allocatedPool
+* and place into freePool
+*	Input: 	record		the record that going to add into the tree
 *
 *	Destroy: none
 *	
 **********************************************************************/
 
 void memoryManagerFreeRecord(Record *record){
-    if(allocatedPool == NULL){
-        genericAddRedBlackTree(&allocatedPool,(Node*)record,addAndDelRecordCompare);
+    if(freePool == NULL){
+        genericAddRedBlackTree(&freePool,(Node*)record,addAndDelRecordCompare);
     }else{
-        genericAddRedBlackTree(&allocatedPool,(Node*)record,addAndDelRecordCompare);
+        genericAddRedBlackTree(&freePool,(Node*)record,addAndDelRecordCompare);
     }
 }
 

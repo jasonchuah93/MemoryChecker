@@ -51,7 +51,12 @@ void *_safeMalloc(int size,int lineNumber, char *fileName){
 **********************************************************************/
 
 void safeFree(void *memoryToFree){
-   
+    if(memoryToFree==NULL){
+        Throw(ERR_FREE_NULL_PTR);
+    }
+    Record *foundRecord = memoryManagerFindRecord(allocatedPool,memoryToFree);
+    memoryManagerFreeRecord(foundRecord);
+    memoryManagerDelRecord(foundRecord);
 }
 
 /*********************************************************************
@@ -63,7 +68,7 @@ void safeFree(void *memoryToFree){
 
 void resetAllocatedPool(){
     allocatedPool = NULL;
-    
+    freePool = NULL;
 }
 
 /*********************************************************************

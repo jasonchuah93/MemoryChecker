@@ -29,8 +29,9 @@ void test_genericDelRedBlackTree_remove_r10_from_redBlackTree(void){
     Record r10 = {.memory =(void*)10 , .color ='b'};
     Node *root =NULL;
     addRecord(&root,(Node*)&r10);
-    deleteRecord(&root,(Node*)&r10);
+    Node *removeNode = deleteRecord(&root,(Node*)&r10);
     TEST_ASSERT_EQUAL_PTR(NULL,root);
+    TEST_ASSERT_NOT_NULL(removeNode);
 }
 
 /**

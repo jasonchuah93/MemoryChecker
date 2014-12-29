@@ -191,7 +191,7 @@ void test_memoryManagerFindRecord_find_r100_in_redBlackTree(void){
 
 void test_memoryManagerFindRecord_find_r300_in_r100_r300_record500_redBlackTree(void){
     char *targetMemory = (void*)300;
-    Node *targetRecord;
+    Record *targetRecord;
     Record r100 = {.memory=(void*)100,.color='b'};
     Record r300 = {.memory=(void*)300,.color='r'};
     Record r500 = {.memory=(void*)500,.color='r'};
@@ -207,10 +207,10 @@ void test_memoryManagerFindRecord_find_r300_in_r100_r300_record500_redBlackTree(
     TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',(Node*)&r100);
     TEST_ASSERT_EQUAL_NODE((Node*)&r100,(Node*)&r500,'b',(Node*)&r300);
     
-    targetRecord = (Node*)memoryManagerFindRecord(allocatedPool,targetMemory); 
+    targetRecord = memoryManagerFindRecord(allocatedPool,targetMemory); 
     
     TEST_ASSERT_NOT_NULL(targetRecord);
-    TEST_ASSERT_EQUAL((Node*)&r300,targetRecord);
+    TEST_ASSERT_EQUAL(&r300,targetRecord);
 }
 
 /**
@@ -337,6 +337,7 @@ void test_memoryManagerDelRecord_remove_r10_from_redBlackTree(void){
     memoryManagerAllocateRecord(&r10);
     memoryManagerDelRecord(&r10);
     TEST_ASSERT_EQUAL_PTR(NULL,allocatedPool);
+    
 }
 
 /**

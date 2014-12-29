@@ -5,7 +5,7 @@
 
 //Global variable as the root of the red black tree
 Node *allocatedPool;
-Node *freedPool;
+Node *freePool;
 
 void memoryManagerAllocateRecord(Record *record);
 void memoryManagerFreeRecord(Record *record);

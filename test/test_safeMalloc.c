@@ -91,45 +91,59 @@ void test_safeMalloc_should_add_record_into_allocated_pool(void){
 void test_safeMalloc_should_add_two_records_into_allocated_pool(void){
     resetAllocatedPool();
     
-    void *allocatedRecord = safeMalloc(50);
+    void *allocateRecord = safeMalloc(50);
     TEST_ASSERT_NOT_NULL(allocatedPool);
-    TEST_ASSERT_EQUAL(getMemory(allocatedPool),allocatedRecord);
+    TEST_ASSERT_EQUAL_PTR(getMemory(allocatedPool),allocateRecord);
     TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
     TEST_ASSERT_NULL(allocatedPool->left);
     TEST_ASSERT_NULL(allocatedPool->right);
+    checkHeaderMemoryContent(allocateRecord-15);
+    checkFooterMemoryContent(allocateRecord+50);
     
-    allocatedRecord = safeMalloc(150);
-    TEST_ASSERT_EQUAL(getMemory(allocatedPool->right),allocatedRecord);
+    allocateRecord = safeMalloc(150);
+    TEST_ASSERT_EQUAL_PTR(getMemory(allocatedPool->right),allocateRecord);
     TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
     TEST_ASSERT_EQUAL(150,getSize(allocatedPool->right));
     TEST_ASSERT_NULL(allocatedPool->left);
     TEST_ASSERT_NOT_NULL(allocatedPool->right);
     TEST_ASSERT_NULL(allocatedPool->right->left);
     TEST_ASSERT_NULL(allocatedPool->right->right);
+    checkHeaderMemoryContent(allocateRecord-15);
+    checkFooterMemoryContent(allocateRecord+150);
 }
 
-void test_safeMalloc_should_add_three_record_into_allocated_pool(void){
+void test_safeMalloc_should_add_three_records_into_allocated_pool(void){
     resetAllocatedPool();
-    void *allocatedRecord = safeMalloc(50);
+    void *allocateRecord = safeMalloc(50);
     
     TEST_ASSERT_NOT_NULL(allocatedPool);
-    TEST_ASSERT_EQUAL(allocatedRecord,getMemory(allocatedPool));
+    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(allocatedPool));
     TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
     TEST_ASSERT_NULL(allocatedPool->left);
     TEST_ASSERT_NULL(allocatedPool->right);
+    checkHeaderMemoryContent(allocateRecord-15);
+    checkFooterMemoryContent(allocateRecord+50);
     
-    allocatedRecord = safeMalloc(70);
-    
-    TEST_ASSERT_EQUAL(allocatedRecord,getMemory(allocatedPool->right));
+    allocateRecord = safeMalloc(70);
+    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(allocatedPool->right));
     TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
+    TEST_ASSERT_EQUAL(70,getSize(allocatedPool->right));
     TEST_ASSERT_NULL(allocatedPool->left);
     TEST_ASSERT_NOT_NULL(allocatedPool->right);
+    checkHeaderMemoryContent(allocateRecord-15);
+    checkFooterMemoryContent(allocateRecord+70);
     
-    allocatedRecord = safeMalloc(100);
-    TEST_ASSERT_EQUAL(allocatedRecord,getMemory(allocatedPool->right));
+    allocateRecord = safeMalloc(100);
+    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(allocatedPool->right));
+    TEST_ASSERT_EQUAL(50,getSize(allocatedPool->left));
     TEST_ASSERT_EQUAL(70,getSize(allocatedPool));
+    TEST_ASSERT_EQUAL(100,getSize(allocatedPool->right));
+    TEST_ASSERT_NOT_NULL(allocatedPool->left);
+    TEST_ASSERT_NOT_NULL(allocatedPool->right);
+    checkHeaderMemoryContent(allocateRecord-15);
+    checkFooterMemoryContent(allocateRecord+100);
 }
-/*
+
 void test_safeFree_should_throw_error_if_free_null_pointer(void){   
     ErrorCode e;
     void *allocatedRecord = NULL;
@@ -142,7 +156,119 @@ void test_safeFree_should_throw_error_if_free_null_pointer(void){
 }
 
 
-void test_safeFree_should_remove_record_from_allocate_pool_and_put_into_free_pool(void){
-    void *allocatedRecord = NULL;
+void test_safeFree_should_remove_record_from_allocated_pool_and_put_into_free_pool(void){
+    resetAllocatedPool();
+    
+    void *allocateRecord = safeMalloc(50);
+    TEST_ASSERT_NOT_NULL(allocatedPool);
+    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(allocatedPool));
+    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
+    TEST_ASSERT_NULL(allocatedPool->left);
+    TEST_ASSERT_NULL(allocatedPool->right);
+    checkHeaderMemoryContent(allocateRecord-15);
+    checkFooterMemoryContent(allocateRecord+50);
+    
+    safeFree(allocateRecord);
+    TEST_ASSERT_NOT_NULL(freePool);
+    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(freePool));
+    TEST_ASSERT_EQUAL(50,getSize(freePool));
+    TEST_ASSERT_NULL(freePool->left);
+    TEST_ASSERT_NULL(freePool->right);
+    //To verify that allocatedPool is empty, all records been free
+    //to freePool
+    TEST_ASSERT_NULL(allocatedPool);
 }
-*/
+
+void test_safeFree_should_remove_two_record_from_allocated_pool_and_put_into_free_pool(void){
+    resetAllocatedPool();
+    
+    void *allocateRecord = safeMalloc(50);
+    TEST_ASSERT_NOT_NULL(allocatedPool);
+    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(allocatedPool));
+    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
+    TEST_ASSERT_NULL(allocatedPool->left);
+    TEST_ASSERT_NULL(allocatedPool->right);
+    checkHeaderMemoryContent(allocateRecord-15);
+    checkFooterMemoryContent(allocateRecord+50);
+    
+    void *allocateRecord2 = safeMalloc(70);
+    TEST_ASSERT_EQUAL_PTR(allocateRecord2,getMemory(allocatedPool->right));
+    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
+    TEST_ASSERT_EQUAL(70,getSize(allocatedPool->right));
+    TEST_ASSERT_NULL(allocatedPool->left);
+    TEST_ASSERT_NOT_NULL(allocatedPool->right);
+    checkHeaderMemoryContent(allocateRecord2-15);
+    checkFooterMemoryContent(allocateRecord2+70);
+    
+    safeFree(allocateRecord2);
+    TEST_ASSERT_NOT_NULL(freePool);
+    TEST_ASSERT_NULL(freePool->left);
+    TEST_ASSERT_NULL(freePool->right);
+    TEST_ASSERT_EQUAL(70,getSize(freePool));
+    TEST_ASSERT_EQUAL(allocateRecord2,getMemory(freePool));
+    
+    safeFree(allocateRecord);
+    TEST_ASSERT_NOT_NULL(freePool->left);
+    TEST_ASSERT_NULL(freePool->right);
+    TEST_ASSERT_EQUAL(50,getSize(freePool->left));
+    TEST_ASSERT_EQUAL(allocateRecord,getMemory(freePool->left));
+    
+    //To verify that allocatedPool is empty, all records been free
+    //to freePool
+    TEST_ASSERT_NULL(allocatedPool);
+}
+
+void test_safeFree_should_remove_three_record_from_allocated_pool_and_put_into_free_pool(void){
+    resetAllocatedPool();
+    
+    void *allocateRecord = safeMalloc(50);
+    TEST_ASSERT_NOT_NULL(allocatedPool);
+    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(allocatedPool));
+    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
+    TEST_ASSERT_NULL(allocatedPool->left);
+    TEST_ASSERT_NULL(allocatedPool->right);
+    checkHeaderMemoryContent(allocateRecord-15);
+    checkFooterMemoryContent(allocateRecord+50);
+    
+    void *allocateRecord2 = safeMalloc(70);
+    TEST_ASSERT_EQUAL_PTR(allocateRecord2,getMemory(allocatedPool->right));
+    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
+    TEST_ASSERT_EQUAL(70,getSize(allocatedPool->right));
+    TEST_ASSERT_NULL(allocatedPool->left);
+    TEST_ASSERT_NOT_NULL(allocatedPool->right);
+    checkHeaderMemoryContent(allocateRecord2-15);
+    checkFooterMemoryContent(allocateRecord2+70);
+    
+    void *allocateRecord3 = safeMalloc(100);
+    TEST_ASSERT_EQUAL_PTR(allocateRecord3,getMemory(allocatedPool->right));
+    TEST_ASSERT_EQUAL(50,getSize(allocatedPool->left));
+    TEST_ASSERT_EQUAL(70,getSize(allocatedPool));
+    TEST_ASSERT_EQUAL(100,getSize(allocatedPool->right));
+    TEST_ASSERT_NOT_NULL(allocatedPool->left);
+    TEST_ASSERT_NOT_NULL(allocatedPool->right);
+    checkHeaderMemoryContent(allocateRecord3-15);
+    checkFooterMemoryContent(allocateRecord3+100);
+    
+    safeFree(allocateRecord3);
+    TEST_ASSERT_NOT_NULL(freePool);
+    TEST_ASSERT_NULL(freePool->left);
+    TEST_ASSERT_NULL(freePool->right);
+    TEST_ASSERT_EQUAL(100,getSize(freePool));
+    TEST_ASSERT_EQUAL(allocateRecord3,getMemory(freePool));
+    
+    safeFree(allocateRecord);
+    TEST_ASSERT_NOT_NULL(freePool->left);
+    TEST_ASSERT_NULL(freePool->right);
+    TEST_ASSERT_EQUAL(50,getSize(freePool->left));
+    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(freePool->left));
+    
+    safeFree(allocateRecord2);
+    TEST_ASSERT_NULL(freePool->right);
+    TEST_ASSERT_NOT_NULL(freePool->left);
+    TEST_ASSERT_EQUAL(70,getSize(freePool));
+    TEST_ASSERT_EQUAL(50,getSize(freePool->left));
+    
+    //To verify that allocatedPool is empty, all records been free
+    //to freePool
+    TEST_ASSERT_NULL(allocatedPool);
+}
