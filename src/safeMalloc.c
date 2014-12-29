@@ -16,6 +16,14 @@ char *headerBlock;
 char *footerBlock;
 char *userBlock;
 
+/*********************************************************************
+* This function will allocate memory and create record
+* to add inside the allocated pool
+*
+*	Destroy: none
+*	
+**********************************************************************/
+
 void *_safeMalloc(int size,int lineNumber, char *fileName){
     if(size == 0){
         return NULL;
@@ -40,12 +48,20 @@ void *_safeMalloc(int size,int lineNumber, char *fileName){
 	return userBlock;
 }
 
+/*********************************************************************
+* This function will deallocate memory from allocate pool and place
+* to free pool
+*
+*	Destroy: none
+*	
+**********************************************************************/
+
 void safeFree(void *memoryToFree){
     if(memoryToFree == NULL){
         Throw(ERR_FREE_NULL_PTR);
     }   
-    Record *freeNode = (Record*)findRecord(&allocatePool,memoryToFree);
-    //addRecord(&freePool,freeNode);
+    Node *freeNode = findRecord(&allocatePool,memoryToFree);
+    addRecord(&freePool,freeNode);
 }
 
 /*********************************************************************
@@ -56,11 +72,18 @@ void safeFree(void *memoryToFree){
 **********************************************************************/
 
 void resetAllocatedPool(){
-    //Record *newRecord = malloc(sizeof(Record));
-    //Node *newNode = malloc(sizeof(Node));
+    Record *newRecord = malloc(sizeof(Record));
+    Node *newNode = malloc(sizeof(Node));
     allocatePool = NULL;
     freePool = NULL;
 }
+
+/*********************************************************************
+* This function will check the content of the header block 
+*
+*	Destroy: nonde
+*	Throw error if the memory being overwritten
+**********************************************************************/
 
 void _checkHeaderMemoryContent(void *record,int lineNumber, char *fileName){
     
@@ -75,6 +98,13 @@ void _checkHeaderMemoryContent(void *record,int lineNumber, char *fileName){
     
 }
 
+/*********************************************************************
+* This function will check the content of the footer block
+*
+*	Destroy: nonde
+*	Throw error if the memory being overwritten
+**********************************************************************/
+
 void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName){
     
     char *tempRecord;
@@ -85,37 +115,26 @@ void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName){
         printf("user write exceed header block at line %d from file %s \n",lineNumber-2,fileName);
         Throw(ERR_CORRUPTED_FOOTER_MEMORY);
     }
+}
+
+/*********************************************************************
+* This function will free all the record in allocate pool 
+*
+*	Destroy: allocatedPool
+*	
+**********************************************************************/
+
+void saveSummary(){
+    Node *tempNode = findRecord(&allocatePool,userBlock);
+    if(tempNode==NULL){
+        printf("Pointer never allocate!\n");
+    }else{
+        addRecord(&freePool,tempNode);
+    }
+    tempNode = findRecord(&userPool,userBlock);
+    if(freePool!=NULL){
+        deleteRecord(tempNode);
+    }
     
 }
 
-void saveSummary(){
-    free(memoryPool);
-    freeNode(freePool);
-    freePool=NULL;
-    freeNode(allocatePool);
-    allocatePool=NULL;
-}
-
-void freeNode(Node *root){
-    if(root == NULL){
-        return;
-    }
-    if(root->left!=NULL){
-        freeNode(root->left);
-        root->left=NULL;
-        if(root->right!=NULL){
-            freeNode(root->right);
-            root->right=NULL;
-        }
-    }else if(root->right!=NULL){
-        freeNode(root->right);
-        root->right=NULL;
-        if(root->left!=NULL){
-            freeNode(root->left);
-            root->left=NULL;
-        }
-    }else{
-        free(root->data);
-        free(root);
-    }    
-}

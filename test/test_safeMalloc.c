@@ -91,10 +91,10 @@ void test_safeMalloc_should_add_record_into_allocate_pool(void){
     TEST_ASSERT_NULL(allocatePool->right);
     checkHeaderMemoryContent(allocatedRecord-15);
     checkFooterMemoryContent(allocatedRecord+50);
-    //safeFree(targetMemory);
+    //safeFree(allocatedRecord);
     saveSummary();
 }
-/*
+
 
 void test_safeMalloc_should_add_two_record_into_allocate_pool(void){
     void *allocatedRecord =NULL;
@@ -136,16 +136,6 @@ void test_safeMalloc_should_add_three_record_into_allocate_pool(void){
     safeSummary();
 }
 
-void test_safeFree__move_records_into_free_pool(void){
-    void *allocatedRecord=NULL;
-    char *freeMemory = "1A1A1A1A"; 
-    resetAllocatedPool();
-    allocatedRecord = safeMalloc(50);
-    //strcpy(allocatedRecord,"1A1A1A1A");
-    //safeFree(freeMemory);
-    
-}
-
 void test_safeFree_should_throw_error_if_free_null_pointer(void){   
     ErrorCode e;
     void *allocatedRecord = NULL;
@@ -161,4 +151,3 @@ void test_safeFree_should_throw_error_if_free_null_pointer(void){
 void test_safeFree_should_remove_record_from_allocate_pool_and_put_into_free_pool(void){
     void *allocatedRecord = NULL;
 }
-*/

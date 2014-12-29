@@ -25,6 +25,6 @@ void resetAllocatedPool();
 void _checkHeaderMemoryContent(void *record,int lineNumber, char *fileName);
 void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName);
 void saveSummary();
-void freeNode();
+
 
 #endif // safeMalloc_H
