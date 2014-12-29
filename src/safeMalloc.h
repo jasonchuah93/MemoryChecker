@@ -9,8 +9,8 @@
 #define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
 #define checkHeaderMemoryContent(record) _checkHeaderMemoryContent(record,__LINE__,__FILE__)
 #define checkFooterMemoryContent(record) _checkFooterMemoryContent(record,__LINE__,__FILE__)
-#define getMemory(node) (((Record*)((Node*)(node))->data)->memory)
-#define getSize(node) (((Record*)((Node*)(node))->data)->size)
+#define getMemory(node) (((Record*)node)->memory)
+#define getSize(node) (((Record*)node)->size)
 
 //Functions
 void *_safeMalloc(int size,int lineNumber, char *fileName);
