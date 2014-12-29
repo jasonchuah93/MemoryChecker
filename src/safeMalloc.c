@@ -119,6 +119,5 @@ void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName){
 
 void saveSummary(){
    
-    
 }
 

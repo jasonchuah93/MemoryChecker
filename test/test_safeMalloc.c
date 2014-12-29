@@ -249,26 +249,17 @@ void test_safeFree_should_remove_three_record_from_allocated_pool_and_put_into_f
     checkHeaderMemoryContent(allocateRecord3-15);
     checkFooterMemoryContent(allocateRecord3+100);
     
-    safeFree(allocateRecord3);
+    safeFree(allocateRecord);
     TEST_ASSERT_NOT_NULL(freePool);
     TEST_ASSERT_NULL(freePool->left);
     TEST_ASSERT_NULL(freePool->right);
-    TEST_ASSERT_EQUAL(100,getSize(freePool));
-    TEST_ASSERT_EQUAL(allocateRecord3,getMemory(freePool));
-    
-    safeFree(allocateRecord);
-    TEST_ASSERT_NOT_NULL(freePool->left);
-    TEST_ASSERT_NULL(freePool->right);
-    TEST_ASSERT_EQUAL(50,getSize(freePool->left));
-    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(freePool->left));
+    TEST_ASSERT_EQUAL(50,getSize(freePool));
+    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(freePool));
     
     safeFree(allocateRecord2);
     TEST_ASSERT_NULL(freePool->right);
     TEST_ASSERT_NOT_NULL(freePool->left);
     TEST_ASSERT_EQUAL(70,getSize(freePool));
     TEST_ASSERT_EQUAL(50,getSize(freePool->left));
-    
-    //To verify that allocatedPool is empty, all records been free
-    //to freePool
-    TEST_ASSERT_NULL(allocatedPool);
+   
 }
