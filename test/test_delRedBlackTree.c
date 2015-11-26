@@ -26,7 +26,7 @@ void tearDown(void){}
 **/
 
 void test_genericDelRedBlackTree_remove_r10_from_redBlackTree(void){
-    Record r10 = {.memory =(void*)10 , .color ='b'};
+    Record r10 = {.memoryAddr =(void*)10 , .color ='b'};
     Node *root =NULL;
     addRecord(&root,(Node*)&r10);
     Node *removeNode = deleteRecord(&root,(Node*)&r10);
@@ -43,8 +43,8 @@ void test_genericDelRedBlackTree_remove_r10_from_redBlackTree(void){
 
 void test_delRedBlackTree_remove_r20_from_tree_with_r100_should_throw_error(void){
     CEXCEPTION_T err;
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r20 = {.memory =(void*)20 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r20 = {.memoryAddr =(void*)20 , .color ='r'};
     Node *root = NULL;
     addRecord(&root,(Node*)&r100);
     Try{
@@ -72,8 +72,8 @@ void test_delRedBlackTree_remove_r20_from_tree_with_r100_should_throw_error(void
 
 
 void test_delRedBlackTree_remove_r50_from_tree_with_r100(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
     
     Node *root =NULL;
     addRecord(&root,(Node*)&r100);
@@ -97,8 +97,8 @@ void test_delRedBlackTree_remove_r50_from_tree_with_r100(void){
 **/
 
 void test_delRedBlackTree_remove_r250_from_tree_with_r100(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r250 = {.memory =(void*)250 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r250 = {.memoryAddr =(void*)250 , .color ='r'};
     
     Node *root =NULL;
     addRecord(&root,(Node*)&r100);
@@ -122,9 +122,9 @@ void test_delRedBlackTree_remove_r250_from_tree_with_r100(void){
 **/
 
 void test_delRedBlackTree_remove_r50_from_tree_with_r100_r250(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
-    Record r250 = {.memory =(void*)250 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
+    Record r250 = {.memoryAddr =(void*)250 , .color ='r'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r100);
@@ -150,9 +150,9 @@ void test_delRedBlackTree_remove_r50_from_tree_with_r100_r250(void){
 **/
 
 void test_delRedBlackTree_remove_r250_from_tree_with_r100_r250(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
-    Record r250 = {.memory =(void*)250 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
+    Record r250 = {.memoryAddr =(void*)250 , .color ='r'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r100);
@@ -186,11 +186,11 @@ void test_delRedBlackTree_remove_r250_from_tree_with_r100_r250(void){
 **/
 
 void test_delRedBlackTree_remove_r50_from_tree_with_r50_r100_r150_r200_r300(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
-    Record r200 = {.memory =(void*)200 , .color ='r'};
-    Record r150 = {.memory =(void*)150 , .color ='r'};
-    Record r300 = {.memory =(void*)300 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
+    Record r200 = {.memoryAddr =(void*)200 , .color ='r'};
+    Record r150 = {.memoryAddr =(void*)150 , .color ='r'};
+    Record r300 = {.memoryAddr =(void*)300 , .color ='r'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r100);
@@ -228,11 +228,11 @@ void test_delRedBlackTree_remove_r50_from_tree_with_r50_r100_r150_r200_r300(void
 **/
 
 void test_delRedBlackTree_remove_r200_from_tree_with_r10_r50_r80_r100_r200(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r10 = {.memory =(void*)10 , .color ='r'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
-    Record r80 = {.memory =(void*)80 , .color ='r'};
-    Record r200 = {.memory =(void*)200 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r10 = {.memoryAddr =(void*)10 , .color ='r'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
+    Record r80 = {.memoryAddr =(void*)80 , .color ='r'};
+    Record r200 = {.memoryAddr =(void*)200 , .color ='r'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r100);
@@ -269,11 +269,11 @@ void test_delRedBlackTree_remove_r200_from_tree_with_r10_r50_r80_r100_r200(void)
 **/
 
 void test_delRedBlackTree_remove_r50_from_tree_with_r10_r50_r80_r100_r200(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r10 = {.memory =(void*)10 , .color ='r'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
-    Record r80 = {.memory =(void*)80 , .color ='r'};
-    Record r200 = {.memory =(void*)200 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r10 = {.memoryAddr =(void*)10 , .color ='r'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
+    Record r80 = {.memoryAddr =(void*)80 , .color ='r'};
+    Record r200 = {.memoryAddr =(void*)200 , .color ='r'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r100);
@@ -310,13 +310,13 @@ void test_delRedBlackTree_remove_r50_from_tree_with_r10_r50_r80_r100_r200(void){
 **/
 
 void test_delRedBlackTree_remove_r10_from_tree_with_r10_r50_r80_r100_r200_r150_r300(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r10 = {.memory =(void*)10 , .color ='r'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
-    Record r80 = {.memory =(void*)80 , .color ='r'};
-    Record r200 = {.memory =(void*)200 , .color ='r'};
-    Record r150 = {.memory =(void*)150 , .color ='r'};
-    Record r300 = {.memory =(void*)300 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r10 = {.memoryAddr =(void*)10 , .color ='r'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
+    Record r80 = {.memoryAddr =(void*)80 , .color ='r'};
+    Record r200 = {.memoryAddr =(void*)200 , .color ='r'};
+    Record r150 = {.memoryAddr =(void*)150 , .color ='r'};
+    Record r300 = {.memoryAddr =(void*)300 , .color ='r'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r100);
@@ -359,13 +359,13 @@ void test_delRedBlackTree_remove_r10_from_tree_with_r10_r50_r80_r100_r200_r150_r
 **/
 
 void test_delRedBlackTree_remove_r80_from_tree_with_r10_r50_r80_r100_r200_r150_r300(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r10 = {.memory =(void*)10 , .color ='r'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
-    Record r80 = {.memory =(void*)80 , .color ='r'};
-    Record r200 = {.memory =(void*)200 , .color ='r'};
-    Record r150 = {.memory =(void*)150 , .color ='r'};
-    Record r300 = {.memory =(void*)300 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r10 = {.memoryAddr =(void*)10 , .color ='r'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
+    Record r80 = {.memoryAddr =(void*)80 , .color ='r'};
+    Record r200 = {.memoryAddr =(void*)200 , .color ='r'};
+    Record r150 = {.memoryAddr =(void*)150 , .color ='r'};
+    Record r300 = {.memoryAddr =(void*)300 , .color ='r'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r100);
@@ -408,13 +408,13 @@ void test_delRedBlackTree_remove_r80_from_tree_with_r10_r50_r80_r100_r200_r150_r
 **/
 
 void test_delRedBlackTree_remove_r150_from_tree_with_r10_r50_r80_r100_r200_r150_r300(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r10 = {.memory =(void*)10 , .color ='r'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
-    Record r80 = {.memory =(void*)80 , .color ='r'};
-    Record r200 = {.memory =(void*)200 , .color ='r'};
-    Record r150 = {.memory =(void*)150 , .color ='r'};
-    Record r300 = {.memory =(void*)300 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r10 = {.memoryAddr =(void*)10 , .color ='r'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
+    Record r80 = {.memoryAddr =(void*)80 , .color ='r'};
+    Record r200 = {.memoryAddr =(void*)200 , .color ='r'};
+    Record r150 = {.memoryAddr =(void*)150 , .color ='r'};
+    Record r300 = {.memoryAddr =(void*)300 , .color ='r'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r100);
@@ -457,13 +457,13 @@ void test_delRedBlackTree_remove_r150_from_tree_with_r10_r50_r80_r100_r200_r150_
 **/
 
 void test_delRedBlackTree_remove_r300_from_tree_with_r10_r50_r80_r100_r200_r150_r300(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r10 = {.memory =(void*)10 , .color ='r'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
-    Record r80 = {.memory =(void*)80 , .color ='r'};
-    Record r200 = {.memory =(void*)200 , .color ='r'};
-    Record r150 = {.memory =(void*)150 , .color ='r'};
-    Record r300 = {.memory =(void*)300 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r10 = {.memoryAddr =(void*)10 , .color ='r'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
+    Record r80 = {.memoryAddr =(void*)80 , .color ='r'};
+    Record r200 = {.memoryAddr =(void*)200 , .color ='r'};
+    Record r150 = {.memoryAddr =(void*)150 , .color ='r'};
+    Record r300 = {.memoryAddr =(void*)300 , .color ='r'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r100);
@@ -508,8 +508,8 @@ void test_delRedBlackTree_remove_r300_from_tree_with_r10_r50_r80_r100_r200_r150_
 *****************************************/
 
 void test_genericDelRedBlackTree_given_r50_r10_then_remove_successor_r50_should_return_r10(void){
-    Record r50 = {.memory =(void*)50 , .color ='b'};
-    Record r10 = {.memory =(void*)10 , .color ='r'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='b'};
+    Record r10 = {.memoryAddr =(void*)10 , .color ='r'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r50);
@@ -533,9 +533,9 @@ void test_genericDelRedBlackTree_given_r50_r10_then_remove_successor_r50_should_
 *****************************************/
 
 void test_genericDelRedBlackTree_given_r50_r10_r100_then_remove_successor_r50_should_return_r100_r10(void){
-    Record r50 = {.memory =(void*)50 , .color ='b'};
-    Record r10 = {.memory =(void*)10 , .color ='r'};
-    Record r100 = {.memory =(void*)100 , .color ='r'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='b'};
+    Record r10 = {.memoryAddr =(void*)10 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='r'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r50);
@@ -567,14 +567,14 @@ void test_genericDelRedBlackTree_given_r50_r10_r100_then_remove_successor_r50_sh
 **/
 
 void test_genericDelRedBlackTree_given_r50_r10_r80_r100_r200_r150_r180_r300_then_remove_successor_r150(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
-    Record r200 = {.memory =(void*)200 , .color ='r'};
-    Record r10 = {.memory =(void*)10 , .color ='r'};
-    Record r80 = {.memory =(void*)80 , .color ='r'};
-    Record r150 = {.memory =(void*)150 , .color ='r'};
-    Record r300 = {.memory =(void*)300 , .color ='r'};
-    Record r180 = {.memory =(void*)180 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
+    Record r200 = {.memoryAddr =(void*)200 , .color ='r'};
+    Record r10 = {.memoryAddr =(void*)10 , .color ='r'};
+    Record r80 = {.memoryAddr =(void*)80 , .color ='r'};
+    Record r150 = {.memoryAddr =(void*)150 , .color ='r'};
+    Record r300 = {.memoryAddr =(void*)300 , .color ='r'};
+    Record r180 = {.memoryAddr =(void*)180 , .color ='r'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r100);
@@ -622,14 +622,14 @@ void test_genericDelRedBlackTree_given_r50_r10_r80_r100_r200_r150_r180_r300_then
 **/
 
 void test_genericDelRedBlackTree_given_r50_r10_r80_r100_r200_r150_r180_r300_then_remove_successor_r200(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
-    Record r200 = {.memory =(void*)200 , .color ='r'};
-    Record r10 = {.memory =(void*)10 , .color ='r'};
-    Record r80 = {.memory =(void*)80 , .color ='r'};
-    Record r150 = {.memory =(void*)150 , .color ='r'};
-    Record r300 = {.memory =(void*)300 , .color ='r'};
-    Record r180 = {.memory =(void*)180 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
+    Record r200 = {.memoryAddr =(void*)200 , .color ='r'};
+    Record r10 = {.memoryAddr =(void*)10 , .color ='r'};
+    Record r80 = {.memoryAddr =(void*)80 , .color ='r'};
+    Record r150 = {.memoryAddr =(void*)150 , .color ='r'};
+    Record r300 = {.memoryAddr =(void*)300 , .color ='r'};
+    Record r180 = {.memoryAddr =(void*)180 , .color ='r'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r100);

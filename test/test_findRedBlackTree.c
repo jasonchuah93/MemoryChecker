@@ -25,7 +25,7 @@ void tearDown(void){}
 void test_genericFindRedBlackTree_find_r100_in_redBlackTree(void){
     char *targetMemory = (void*)100;
     Node *targetRecord;
-    Record r100 = {.memory=(void*)100,.color='b'};
+    Record r100 = {.memoryAddr=(void*)100,.color='b'};
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r100);
@@ -52,8 +52,8 @@ void test_genericFindRedBlackTree_find_r100_in_redBlackTree(void){
 void test_genericFindRedBlackTree_find_r50_in_r100_redBlackTree(void){
     char *targetMemory = (void*)50;
     Node *targetRecord;
-    Record r100 = {.memory=(void*)100,.color='b'};
-    Record r50 = {.memory=(void*)50,.color='r'};
+    Record r100 = {.memoryAddr=(void*)100,.color='b'};
+    Record r50 = {.memoryAddr=(void*)50,.color='r'};
     Node *node100 =(Node*)&r100;
     Node *node50 =(Node*)&r50;
     
@@ -84,8 +84,8 @@ void test_genericFindRedBlackTree_find_r50_in_r100_redBlackTree(void){
 void test_genericFindRedBlackTree_find_r500_in_r100_redBlackTree(void){
     char *targetMemory = (void*)500;
     Node *targetRecord;
-    Record r100 = {.memory=(void*)100,.color='b'};
-    Record r500 = {.memory=(void*)500,.color='r'};
+    Record r100 = {.memoryAddr=(void*)100,.color='b'};
+    Record r500 = {.memoryAddr=(void*)500,.color='r'};
     Node *node100 =(Node*)&r100;
     Node *node500 =(Node*)&r500;
     
@@ -119,9 +119,9 @@ void test_genericFindRedBlackTree_find_r500_in_r100_redBlackTree(void){
 void test_genericFindRedBlackTree_find_r300_in_r100_r300_record500_redBlackTree(void){
     char *targetMemory = (void*)300;
     Node *targetRecord;
-    Record record100 = {.memory=(void*)100,.color='b'};
-    Record record300 = {.memory=(void*)300,.color='r'};
-    Record record500 = {.memory=(void*)500,.color='r'};
+    Record record100 = {.memoryAddr=(void*)100,.color='b'};
+    Record record300 = {.memoryAddr=(void*)300,.color='r'};
+    Record record500 = {.memoryAddr=(void*)500,.color='r'};
     
     Node *node100 =(Node*)&record100;
     Node *node300 =(Node*)&record300;
@@ -159,9 +159,9 @@ void test_genericFindRedBlackTree_find_r300_in_r100_r300_record500_redBlackTree(
 void test_genericFindRedBlackTree_find_r100_in_r50_r80_r100_redBlackTree(void){
     char *targetMemory = (void*)100;
     Node *targetRecord;
-    Record record50 = {.memory=(void*)50,.color='r'};
-    Record record80 = {.memory=(void*)80,.color='r'};
-    Record record100 = {.memory=(void*)100,.color='b'};
+    Record record50 = {.memoryAddr=(void*)50,.color='r'};
+    Record record80 = {.memoryAddr=(void*)80,.color='r'};
+    Record record100 = {.memoryAddr=(void*)100,.color='b'};
     
     Node *node50 =(Node*)&record50;
     Node *node80 =(Node*)&record80;
@@ -203,27 +203,27 @@ void test_genericFindRedBlackTree_find_r100_in_r50_r80_r100_redBlackTree(void){
 void test_genericFindRedBlackTree_find_r1150_in_large_redBlackTree(void){
     char *targetMemory = (void*)1150;
     Node *targetRecord;
-    Record r1000 = {.memory=(void*)1000,.color='b'};
-    Record r500 = {.memory=(void*)500,.color='r'};
-    Record r250 = {.memory=(void*)250,.color='r'};
-    Record r100 = {.memory=(void*)100,.color='r'};
-    Record r50 = {.memory=(void*)50,.color='r'};
-    Record r450 = {.memory=(void*)450,.color='r'};
-    Record r300 = {.memory=(void*)300,.color='r'};
-    Record r700 = {.memory=(void*)700,.color='r'};
-    Record r630 = {.memory=(void*)630,.color='r'};
-    Record r680 = {.memory=(void*)680,.color='r'};
-    Record r950 = {.memory=(void*)950,.color='r'};
-    Record r800 = {.memory=(void*)800,.color='r'};
-    Record r1500 = {.memory=(void*)1500,.color='r'};
-    Record r1200 = {.memory=(void*)1200,.color='r'};
-    Record r1800 = {.memory=(void*)1800,.color='r'};
-    Record r1150 = {.memory=(void*)1150,.color='r'};
-    Record r1340 = {.memory=(void*)1340,.color='r'};
-    Record r1450 = {.memory=(void*)1450,.color='r'};
-    Record r1600 = {.memory=(void*)1600,.color='r'};
-    Record r1950 = {.memory=(void*)1950,.color='r'};
-    Record r2000 = {.memory=(void*)2000,.color='r'};
+    Record r1000 = {.memoryAddr=(void*)1000,.color='b'};
+    Record r500 = {.memoryAddr=(void*)500,.color='r'};
+    Record r250 = {.memoryAddr=(void*)250,.color='r'};
+    Record r100 = {.memoryAddr=(void*)100,.color='r'};
+    Record r50 = {.memoryAddr=(void*)50,.color='r'};
+    Record r450 = {.memoryAddr=(void*)450,.color='r'};
+    Record r300 = {.memoryAddr=(void*)300,.color='r'};
+    Record r700 = {.memoryAddr=(void*)700,.color='r'};
+    Record r630 = {.memoryAddr=(void*)630,.color='r'};
+    Record r680 = {.memoryAddr=(void*)680,.color='r'};
+    Record r950 = {.memoryAddr=(void*)950,.color='r'};
+    Record r800 = {.memoryAddr=(void*)800,.color='r'};
+    Record r1500 = {.memoryAddr=(void*)1500,.color='r'};
+    Record r1200 = {.memoryAddr=(void*)1200,.color='r'};
+    Record r1800 = {.memoryAddr=(void*)1800,.color='r'};
+    Record r1150 = {.memoryAddr=(void*)1150,.color='r'};
+    Record r1340 = {.memoryAddr=(void*)1340,.color='r'};
+    Record r1450 = {.memoryAddr=(void*)1450,.color='r'};
+    Record r1600 = {.memoryAddr=(void*)1600,.color='r'};
+    Record r1950 = {.memoryAddr=(void*)1950,.color='r'};
+    Record r2000 = {.memoryAddr=(void*)2000,.color='r'};
     
     Node *node1000 =(Node*)&r1000; 
     Node *node500 =(Node*)&r500; 
@@ -313,27 +313,27 @@ void test_genericFindRedBlackTree_find_r1150_in_large_redBlackTree(void){
 void test_genericFindRedBlackTree_find_r250_in_large_redBlackTree(void){
     char *targetMemory = (void*)250;
     Node *targetRecord;
-    Record r1000 = {.memory=(void*)1000,.color='b'};
-    Record r500 = {.memory=(void*)500,.color='r'};
-    Record r250 = {.memory=(void*)250,.color='r'};
-    Record r100 = {.memory=(void*)100,.color='r'};
-    Record r50 = {.memory=(void*)50,.color='r'};
-    Record r450 = {.memory=(void*)450,.color='r'};
-    Record r300 = {.memory=(void*)300,.color='r'};
-    Record r700 = {.memory=(void*)700,.color='r'};
-    Record r630 = {.memory=(void*)630,.color='r'};
-    Record r680 = {.memory=(void*)680,.color='r'};
-    Record r950 = {.memory=(void*)950,.color='r'};
-    Record r800 = {.memory=(void*)800,.color='r'};
-    Record r1500 = {.memory=(void*)1500,.color='r'};
-    Record r1200 = {.memory=(void*)1200,.color='r'};
-    Record r1800 = {.memory=(void*)1800,.color='r'};
-    Record r1150 = {.memory=(void*)1150,.color='r'};
-    Record r1340 = {.memory=(void*)1340,.color='r'};
-    Record r1450 = {.memory=(void*)1450,.color='r'};
-    Record r1600 = {.memory=(void*)1600,.color='r'};
-    Record r1950 = {.memory=(void*)1950,.color='r'};
-    Record r2000 = {.memory=(void*)2000,.color='r'};
+    Record r1000 = {.memoryAddr=(void*)1000,.color='b'};
+    Record r500 = {.memoryAddr=(void*)500,.color='r'};
+    Record r250 = {.memoryAddr=(void*)250,.color='r'};
+    Record r100 = {.memoryAddr=(void*)100,.color='r'};
+    Record r50 = {.memoryAddr=(void*)50,.color='r'};
+    Record r450 = {.memoryAddr=(void*)450,.color='r'};
+    Record r300 = {.memoryAddr=(void*)300,.color='r'};
+    Record r700 = {.memoryAddr=(void*)700,.color='r'};
+    Record r630 = {.memoryAddr=(void*)630,.color='r'};
+    Record r680 = {.memoryAddr=(void*)680,.color='r'};
+    Record r950 = {.memoryAddr=(void*)950,.color='r'};
+    Record r800 = {.memoryAddr=(void*)800,.color='r'};
+    Record r1500 = {.memoryAddr=(void*)1500,.color='r'};
+    Record r1200 = {.memoryAddr=(void*)1200,.color='r'};
+    Record r1800 = {.memoryAddr=(void*)1800,.color='r'};
+    Record r1150 = {.memoryAddr=(void*)1150,.color='r'};
+    Record r1340 = {.memoryAddr=(void*)1340,.color='r'};
+    Record r1450 = {.memoryAddr=(void*)1450,.color='r'};
+    Record r1600 = {.memoryAddr=(void*)1600,.color='r'};
+    Record r1950 = {.memoryAddr=(void*)1950,.color='r'};
+    Record r2000 = {.memoryAddr=(void*)2000,.color='r'};
     
     Node *node1000 =(Node*)&r1000; 
     Node *node500 =(Node*)&r500; 
@@ -423,27 +423,27 @@ void test_genericFindRedBlackTree_find_r250_in_large_redBlackTree(void){
 void test_genericFindRedBlackTree_find_r1450_in_large_redBlackTree(void){
     char *targetMemory = (void*)1450;
     Node *targetRecord;
-    Record r1000 = {.memory=(void*)1000,.color='b'};
-    Record r500 = {.memory=(void*)500,.color='r'};
-    Record r250 = {.memory=(void*)250,.color='r'};
-    Record r100 = {.memory=(void*)100,.color='r'};
-    Record r50 = {.memory=(void*)50,.color='r'};
-    Record r450 = {.memory=(void*)450,.color='r'};
-    Record r300 = {.memory=(void*)300,.color='r'};
-    Record r700 = {.memory=(void*)700,.color='r'};
-    Record r630 = {.memory=(void*)630,.color='r'};
-    Record r680 = {.memory=(void*)680,.color='r'};
-    Record r950 = {.memory=(void*)950,.color='r'};
-    Record r800 = {.memory=(void*)800,.color='r'};
-    Record r1500 = {.memory=(void*)1500,.color='r'};
-    Record r1200 = {.memory=(void*)1200,.color='r'};
-    Record r1800 = {.memory=(void*)1800,.color='r'};
-    Record r1150 = {.memory=(void*)1150,.color='r'};
-    Record r1340 = {.memory=(void*)1340,.color='r'};
-    Record r1450 = {.memory=(void*)1450,.color='r'};
-    Record r1600 = {.memory=(void*)1600,.color='r'};
-    Record r1950 = {.memory=(void*)1950,.color='r'};
-    Record r2000 = {.memory=(void*)2000,.color='r'};
+    Record r1000 = {.memoryAddr=(void*)1000,.color='b'};
+    Record r500 = {.memoryAddr=(void*)500,.color='r'};
+    Record r250 = {.memoryAddr=(void*)250,.color='r'};
+    Record r100 = {.memoryAddr=(void*)100,.color='r'};
+    Record r50 = {.memoryAddr=(void*)50,.color='r'};
+    Record r450 = {.memoryAddr=(void*)450,.color='r'};
+    Record r300 = {.memoryAddr=(void*)300,.color='r'};
+    Record r700 = {.memoryAddr=(void*)700,.color='r'};
+    Record r630 = {.memoryAddr=(void*)630,.color='r'};
+    Record r680 = {.memoryAddr=(void*)680,.color='r'};
+    Record r950 = {.memoryAddr=(void*)950,.color='r'};
+    Record r800 = {.memoryAddr=(void*)800,.color='r'};
+    Record r1500 = {.memoryAddr=(void*)1500,.color='r'};
+    Record r1200 = {.memoryAddr=(void*)1200,.color='r'};
+    Record r1800 = {.memoryAddr=(void*)1800,.color='r'};
+    Record r1150 = {.memoryAddr=(void*)1150,.color='r'};
+    Record r1340 = {.memoryAddr=(void*)1340,.color='r'};
+    Record r1450 = {.memoryAddr=(void*)1450,.color='r'};
+    Record r1600 = {.memoryAddr=(void*)1600,.color='r'};
+    Record r1950 = {.memoryAddr=(void*)1950,.color='r'};
+    Record r2000 = {.memoryAddr=(void*)2000,.color='r'};
     
     Node *node1000 =(Node*)&r1000; 
     Node *node500 =(Node*)&r500; 

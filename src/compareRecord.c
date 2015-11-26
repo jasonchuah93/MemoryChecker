@@ -19,11 +19,11 @@ int findRecordCompare(Node **recordFromRedBlackTree,void *targetMemory){
 	Record *_recordFromRedBlackTree=(Record*)*recordFromRedBlackTree;
     char *_targetMemory=(char*)targetMemory;
   
-    if((char*)_recordFromRedBlackTree->memory > _targetMemory){
+    if((char*)_recordFromRedBlackTree->memoryAddr > _targetMemory){
        return 1;
-    }else if((char*)_recordFromRedBlackTree->memory < _targetMemory){
+    }else if((char*)_recordFromRedBlackTree->memoryAddr < _targetMemory){
        return -1;
-    }else if((char*)_recordFromRedBlackTree->memory == _targetMemory){
+    }else if((char*)_recordFromRedBlackTree->memoryAddr == _targetMemory){
        return 0;
     }
 }
@@ -43,9 +43,9 @@ int findRecordCompare(Node **recordFromRedBlackTree,void *targetMemory){
 
 int addAndDelRecordCompare(Node **recordFromRedBlackTree,Record *targetRecord){
 	Record *_recordFromRedBlackTree=(Record*)*recordFromRedBlackTree;
-    if(_recordFromRedBlackTree->memory > targetRecord->memory)
+    if(_recordFromRedBlackTree->memoryAddr > targetRecord->memoryAddr)
         return 1;
-    else if(_recordFromRedBlackTree->memory < targetRecord->memory)
+    else if(_recordFromRedBlackTree->memoryAddr < targetRecord->memoryAddr)
         return -1;
     else
         return 0;

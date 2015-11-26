@@ -24,7 +24,6 @@ void tearDown(void){}
 **/     
 
 void test_memoryManagerAddRecord_should_add_records_into_generic_red_black_tree_if_root_is_empty(void){ 
-    //Record r200 = {.memory = (void*)200, .color ='b'};
     char *record = malloc(10);
     char *record2 = malloc(50);
     char *record3 = malloc(100);
@@ -36,8 +35,8 @@ void test_memoryManagerAddRecord_should_add_records_into_generic_red_black_tree_
     memoryManagerAllocateRecord(testRecord2);
     memoryManagerAllocateRecord(testRecord3);
     TEST_ASSERT_NOT_NULL(allocatedPool);
-    TEST_ASSERT_EQUAL_PTR(allocatedPool,testRecord2);
-    TEST_ASSERT_EQUAL_NODE((Node*)testRecord,(Node*)testRecord3,'b',(Node*)testRecord2);
+    TEST_ASSERT_EQUAL_PTR(allocatedPool,testRecord);
+    TEST_ASSERT_EQUAL_NODE((Node*)testRecord3,(Node*)testRecord2,'b',(Node*)testRecord);
 }
 
 /**
@@ -50,8 +49,8 @@ void test_memoryManagerAddRecord_should_add_records_into_generic_red_black_tree_
 *
 **/     
 void test_memoryManagerAddRecord_should_add_r100_into_r200_generic_red_black_tree(void){ 
-    Record r200 = {.memory = (void*)200, .color ='b'};
-    Record r100 = {.memory = (void*)100, .color ='r'};
+    Record r200 = {.memoryAddr = (void*)200, .color ='b'};
+    Record r100 = {.memoryAddr = (void*)100, .color ='r'};
     allocatedPool = NULL;
     memoryManagerAllocateRecord(&r200);
     memoryManagerAllocateRecord(&r100);
@@ -69,8 +68,8 @@ void test_memoryManagerAddRecord_should_add_r100_into_r200_generic_red_black_tre
 *
 **/     
 void test_memoryManagerAddRecord_should_add_r500_into_r200_generic_red_black_tree(void){
-    Record r200 = {.memory = (void*)200, .color ='b'};
-    Record r500 = {.memory = (void*)500, .color ='r'};
+    Record r200 = {.memoryAddr = (void*)200, .color ='b'};
+    Record r500 = {.memoryAddr = (void*)500, .color ='r'};
     allocatedPool = NULL;
     memoryManagerAllocateRecord(&r200);
     memoryManagerAllocateRecord(&r500);
@@ -91,9 +90,9 @@ void test_memoryManagerAddRecord_should_add_r500_into_r200_generic_red_black_tre
 **/     
 
 void test_memoryManagerAddRecord_should_add_r30_into_r200_r50_generic_red_black_tree(void){
-    Record r200 = {.memory = (void*)200, .color ='b'};
-    Record r30 = {.memory = (void*)30, .color ='r'};
-    Record r50 = {.memory = (void*)50, .color ='r'};
+    Record r200 = {.memoryAddr = (void*)200, .color ='b'};
+    Record r30 = {.memoryAddr = (void*)30, .color ='r'};
+    Record r50 = {.memoryAddr = (void*)50, .color ='r'};
     allocatedPool = NULL;
     memoryManagerAllocateRecord(&r200);
     memoryManagerAllocateRecord(&r50);
@@ -117,9 +116,9 @@ void test_memoryManagerAddRecord_should_add_r30_into_r200_r50_generic_red_black_
 **/     
 
 void test_memoryManagerAddRecord_should_add_r300_into_r200_r500_generic_red_black_tree(void){
-    Record r200 = {.memory = (void*)200, .color ='b'};
-    Record r300 = {.memory = (void*)300, .color ='r'};
-    Record r500 = {.memory = (void*)500, .color ='r'};
+    Record r200 = {.memoryAddr = (void*)200, .color ='b'};
+    Record r300 = {.memoryAddr = (void*)300, .color ='r'};
+    Record r500 = {.memoryAddr = (void*)500, .color ='r'};
     allocatedPool = NULL;
     memoryManagerAllocateRecord(&r200);
     memoryManagerAllocateRecord(&r500);
@@ -140,7 +139,7 @@ void test_memoryManagerAddRecord_should_add_r300_into_r200_r500_generic_red_blac
 
 void test_memoryManagerAddRecord_should_throw_error_if_add_same_record_with_root_into_generic_red_black_tree(void){ 
     ErrorCode e;
-    Record r200 = {.memory = (void*)200, .color ='b'};
+    Record r200 = {.memoryAddr = (void*)200, .color ='b'};
     allocatedPool = NULL;
     memoryManagerAllocateRecord(&r200);
     Try{
@@ -163,7 +162,7 @@ void test_memoryManagerAddRecord_should_throw_error_if_add_same_record_with_root
 void test_memoryManagerFindRecord_find_r100_in_redBlackTree(void){
     char *targetMemory = (void*)100;
     Node *targetRecord;
-    Record r100 = {.memory=(void*)100,.color='b'};
+    Record r100 = {.memoryAddr=(void*)100,.color='b'};
     
     allocatedPool =NULL;
     memoryManagerAllocateRecord(&r100);
@@ -192,9 +191,9 @@ void test_memoryManagerFindRecord_find_r100_in_redBlackTree(void){
 void test_memoryManagerFindRecord_find_r300_in_r100_r300_record500_redBlackTree(void){
     char *targetMemory = (void*)300;
     Record *targetRecord;
-    Record r100 = {.memory=(void*)100,.color='b'};
-    Record r300 = {.memory=(void*)300,.color='r'};
-    Record r500 = {.memory=(void*)500,.color='r'};
+    Record r100 = {.memoryAddr=(void*)100,.color='b'};
+    Record r300 = {.memoryAddr=(void*)300,.color='r'};
+    Record r500 = {.memoryAddr=(void*)500,.color='r'};
     
     allocatedPool =NULL;
     memoryManagerAllocateRecord(&r100);
@@ -232,27 +231,27 @@ void test_memoryManagerFindRecord_find_r300_in_r100_r300_record500_redBlackTree(
 void test_memoryManagerFindRecord_find_r1450_in_large_redBlackTree(void){
     char *targetMemory = (void*)1450;
     Node *targetRecord;
-    Record r1000 = {.memory=(void*)1000,.color='b'};
-    Record r500 = {.memory=(void*)500,.color='r'};
-    Record r250 = {.memory=(void*)250,.color='r'};
-    Record r100 = {.memory=(void*)100,.color='r'};
-    Record r50 = {.memory=(void*)50,.color='r'};
-    Record r450 = {.memory=(void*)450,.color='r'};
-    Record r300 = {.memory=(void*)300,.color='r'};
-    Record r700 = {.memory=(void*)700,.color='r'};
-    Record r630 = {.memory=(void*)630,.color='r'};
-    Record r680 = {.memory=(void*)680,.color='r'};
-    Record r950 = {.memory=(void*)950,.color='r'};
-    Record r800 = {.memory=(void*)800,.color='r'};
-    Record r1500 = {.memory=(void*)1500,.color='r'};
-    Record r1200 = {.memory=(void*)1200,.color='r'};
-    Record r1800 = {.memory=(void*)1800,.color='r'};
-    Record r1150 = {.memory=(void*)1150,.color='r'};
-    Record r1340 = {.memory=(void*)1340,.color='r'};
-    Record r1450 = {.memory=(void*)1450,.color='r'};
-    Record r1600 = {.memory=(void*)1600,.color='r'};
-    Record r1950 = {.memory=(void*)1950,.color='r'};
-    Record r2000 = {.memory=(void*)2000,.color='r'};
+    Record r1000 = {.memoryAddr=(void*)1000,.color='b'};
+    Record r500 = {.memoryAddr=(void*)500,.color='r'};
+    Record r250 = {.memoryAddr=(void*)250,.color='r'};
+    Record r100 = {.memoryAddr=(void*)100,.color='r'};
+    Record r50 = {.memoryAddr=(void*)50,.color='r'};
+    Record r450 = {.memoryAddr=(void*)450,.color='r'};
+    Record r300 = {.memoryAddr=(void*)300,.color='r'};
+    Record r700 = {.memoryAddr=(void*)700,.color='r'};
+    Record r630 = {.memoryAddr=(void*)630,.color='r'};
+    Record r680 = {.memoryAddr=(void*)680,.color='r'};
+    Record r950 = {.memoryAddr=(void*)950,.color='r'};
+    Record r800 = {.memoryAddr=(void*)800,.color='r'};
+    Record r1500 = {.memoryAddr=(void*)1500,.color='r'};
+    Record r1200 = {.memoryAddr=(void*)1200,.color='r'};
+    Record r1800 = {.memoryAddr=(void*)1800,.color='r'};
+    Record r1150 = {.memoryAddr=(void*)1150,.color='r'};
+    Record r1340 = {.memoryAddr=(void*)1340,.color='r'};
+    Record r1450 = {.memoryAddr=(void*)1450,.color='r'};
+    Record r1600 = {.memoryAddr=(void*)1600,.color='r'};
+    Record r1950 = {.memoryAddr=(void*)1950,.color='r'};
+    Record r2000 = {.memoryAddr=(void*)2000,.color='r'};
     
     allocatedPool =NULL;
     memoryManagerAllocateRecord(&r1000);
@@ -332,7 +331,7 @@ void test_memoryManagerFindRecord_find_r1450_in_large_redBlackTree(void){
 **/
 
 void test_memoryManagerDelRecord_remove_r10_from_redBlackTree(void){
-    Record r10 = {.memory =(void*)10 , .color ='b'};
+    Record r10 = {.memoryAddr =(void*)10 , .color ='b'};
     allocatedPool =NULL;
     memoryManagerAllocateRecord(&r10);
     memoryManagerDelRecord(&r10);
@@ -349,8 +348,8 @@ void test_memoryManagerDelRecord_remove_r10_from_redBlackTree(void){
 
 void test_memoryManagerDelRecord_remove_r20_from_tree_with_r100_should_throw_error(void){
     CEXCEPTION_T err;
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r20 = {.memory =(void*)20 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r20 = {.memoryAddr =(void*)20 , .color ='r'};
     allocatedPool = NULL;
     memoryManagerAllocateRecord(&r100);
     Try{
@@ -372,9 +371,9 @@ void test_memoryManagerDelRecord_remove_r20_from_tree_with_r100_should_throw_err
 **/
 
 void test_memoryManagerDelRecord_remove_r250_r100_from_tree_with_r100_r250(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
-    Record r250 = {.memory =(void*)250 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
+    Record r250 = {.memoryAddr =(void*)250 , .color ='r'};
     
     allocatedPool = NULL;
     memoryManagerAllocateRecord(&r100);
@@ -405,11 +404,11 @@ void test_memoryManagerDelRecord_remove_r250_r100_from_tree_with_r100_r250(void)
 **/
 
 void test_memoryManagerDelRecord_remove_r200_r100_r50_from_tree_with_r10_r50_r80_r100_r200(void){
-    Record r100 = {.memory =(void*)100 , .color ='b'};
-    Record r10 = {.memory =(void*)10 , .color ='r'};
-    Record r50 = {.memory =(void*)50 , .color ='r'};
-    Record r80 = {.memory =(void*)80 , .color ='r'};
-    Record r200 = {.memory =(void*)200 , .color ='r'};
+    Record r100 = {.memoryAddr =(void*)100 , .color ='b'};
+    Record r10 = {.memoryAddr =(void*)10 , .color ='r'};
+    Record r50 = {.memoryAddr =(void*)50 , .color ='r'};
+    Record r80 = {.memoryAddr =(void*)80 , .color ='r'};
+    Record r200 = {.memoryAddr =(void*)200 , .color ='r'};
     
     allocatedPool = NULL;
     memoryManagerAllocateRecord(&r100);

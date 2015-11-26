@@ -2,7 +2,6 @@
 #define Node_H
 
 typedef struct Node Node;
-
 struct Node {
  Node *left;
  Node *right;

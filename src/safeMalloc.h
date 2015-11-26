@@ -9,7 +9,7 @@
 #define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
 #define checkHeaderMemoryContent(record) _checkHeaderMemoryContent(record,__LINE__,__FILE__)
 #define checkFooterMemoryContent(record) _checkFooterMemoryContent(record,__LINE__,__FILE__)
-#define getMemory(node) (((Record*)node)->memory)
+#define getMemory(node) (((Record*)node)->memoryAddr)
 #define getSize(node) (((Record*)node)->size)
 
 //Functions
