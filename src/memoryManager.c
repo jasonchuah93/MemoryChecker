@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <malloc.h>
 #include "MemoryRecord.h"
 #include "Node.h"
 #include "compareRecord.h"
@@ -8,7 +9,25 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
-
+/*********************************************************************
+* This function will create a memory pool to allocate memory
+*
+*	Input: memorySize --> user can input the size of allocation
+*                         if user input 0, the program will use the default 
+                          memory size
+*	Destroy: none
+*	
+**********************************************************************/
+void *initializeMemoryPool(int memorySize){
+	if(memorySize == 0){
+		memorySize = DEFAULT_MEMORY_SIZE;
+	}
+	Pool *newPool = malloc(sizeof(Pool));
+	newPool->size = memorySize;
+	newPool->memoryAddr = memoryPool;
+	
+	return newPool;
+}
 /*********************************************************************
 * This function will allocate a new record into the allocatedPool
 *
