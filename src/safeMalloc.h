@@ -1,17 +1,12 @@
 #ifndef safeMalloc_H
 #define safeMalloc_H
 
-//Define the Memory Size for the allocator use.
-#define HEADER_SIZE 	50
-#define BUFFER_SIZE     500
-#define FOOTER_SIZE 	HEADER_SIZE
 //Define the function for easy purpose of use
 #define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
 #define checkHeaderMemoryContent(record) _checkHeaderMemoryContent(record,__LINE__,__FILE__)
 #define checkFooterMemoryContent(record) _checkFooterMemoryContent(record,__LINE__,__FILE__)
 #define getMemory(node) (((Record*)node)->memoryAddr)
 #define getSize(node) (((Record*)node)->size)
-
 //Functions
 void *_safeMalloc(int size,int lineNumber, char *fileName);
 void safeFree(void *memoryToFree);

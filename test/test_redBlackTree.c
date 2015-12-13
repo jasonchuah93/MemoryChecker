@@ -1,4 +1,9 @@
 #include "unity.h"
+#include <stdlib.h>
+#include <string.h>
+#include <malloc.h>
+#include "MemoryBlocks.h"
+#include "mock_MallocWrapper.h"
 #include "Node.h"
 #include "Rotation.h"
 #include "MemoryRecord.h"
@@ -10,7 +15,6 @@
 #include "CException.h"
 
 void setUp(void){}
-
 void tearDown(void){}
 
 /*****************************************
@@ -25,8 +29,12 @@ void tearDown(void){}
 *	NULL              r200
 **/
 
-void test_genericAddRedBlackTree_add_r200_into_redBlackTree(void){
-    Record r200 = {.memoryAddr = (void*)200};
+void test_genericAddRedBlackTree_add_a_record_into_redBlackTree(void){
+    MemoryBlocks ptrBlock = {.header2[49] = "#####" , .memory2[199] = "abcdef", .footer2[49] = "#####"};
+    
+    _malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)&ptrBlock);
+    void *allocateMemBlock = allocateMemory(200);
+    Record *newRecord = createRecord(200,allocateMemBlock);
     
     Node *root = NULL;
     addRecord(&root,(Node*)&r200);

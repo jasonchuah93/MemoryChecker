@@ -8,12 +8,13 @@
 #include "compareRecord.h"
 #include "redBlackTree.h"
 #include "safeMalloc.h"
+#include "MallocWrapper.h"
 #include "ErrorCode.h"
 #include "CException.h"
 
 /*********************************************************************
-* This function will allocate memory and create record
-* to add inside the allocated pool
+* This function will allocate memory and create the relevant descriptor
+* then add inside the allocated pool
 *
 *	Destroy: none
 *	
@@ -21,6 +22,7 @@
 
 void *_safeMalloc(int size,int lineNumber, char *fileName){
     if(size == 0){
+        free(size);
         return NULL;
     }else if(size > BUFFER_SIZE){
         printf("Out of Buffer Size at line %d from file %s\n",lineNumber,fileName);
@@ -31,15 +33,7 @@ void *_safeMalloc(int size,int lineNumber, char *fileName){
      |  HEADER      |    USER INPUT       |  FOOTER    |
      |      BLOCK   | MEMORY BLOCK        |     BLOCK  |
     *****************************************************/
-    void *memoryPool = malloc(HEADER_SIZE+size+FOOTER_SIZE);
-	void *headerBlock = memoryPool;
-    strcpy(headerBlock,"5A5A5A5A5A5A5A");
-    void *userBlock = memoryPool+HEADER_SIZE;
-    void *footerBlock = userBlock+size;
-    strcpy(footerBlock,"5A5A5A5A5A5A5A");
-    Record *tempRecord = createRecord(userBlock,size);
-    memoryManagerAllocateRecord(tempRecord);
-	return userBlock;
+    
 }
 
 /*********************************************************************

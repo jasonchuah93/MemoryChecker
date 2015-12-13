@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <malloc.h>
+#include "MallocWrapper.h"
 #include "Node.h"
-#include "MemoryRecord.h"
 
-#define createNode(record) _createNode(record)
 
 /**
     This function will create node which contain a record as the input parameter.
@@ -12,7 +12,7 @@
     Output : node
 **/
 
-Node *_createNode(Record *record){
+Node *createNode(Record *record){
     Node *node  = malloc(sizeof(Node));
     node->data  = record;
     node->left  = NULL;

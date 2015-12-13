@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "Node.h"
 #include "MemoryRecord.h"
+#include "compareRecord.h"
 
 /***********************************************************************************************************
 * Compare the record inside the redBlackTree(RBT) with the incoming record
@@ -15,15 +16,14 @@
 *
 ************************************************************************************************************/
 
-int findRecordCompare(Node **recordFromRedBlackTree,void *targetMemory){
-	Record *_recordFromRedBlackTree=(Record*)*recordFromRedBlackTree;
-    char *_targetMemory=(char*)targetMemory;
-  
-    if((char*)_recordFromRedBlackTree->memoryAddr > _targetMemory){
+int findRecordCompare(Node **recordFromRedBlackTree,char *targetMemoryAddr){
+	char *recordAddr = ((Record*)((Node*)*recordFromRedBlackTree)->data)->memoryAllocateAddr;
+    
+    if(recordAddr > targetMemoryAddr){
        return 1;
-    }else if((char*)_recordFromRedBlackTree->memoryAddr < _targetMemory){
+    }else if(recordAddr < targetMemoryAddr){
        return -1;
-    }else if((char*)_recordFromRedBlackTree->memoryAddr == _targetMemory){
+    }else if(recordAddr == targetMemoryAddr){
        return 0;
     }
 }
