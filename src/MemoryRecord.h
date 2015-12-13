@@ -1,28 +1,18 @@
 #ifndef MemoryRecord_H
 #define MemoryRecord_H
 
-#include "Node.h"
-
-//For friendly use without extra parameter
-#define createRecord(memory,size) _createRecord(memory,size,__LINE__,__FILE__)
-#define createNode(record) _createNode(record)
+#define createRecord(size,memoryBlock) _createRecord(size,memoryBlock,__LINE__,__FILE__)
 
 typedef struct Record Record;
 struct Record{
-    Node *left;
-    Node *right;
-    char color; // 'b' or 'r'(black or red)
-    void *data;
-    //Record structure
-    void *headerAddr;
-    void *memoryAddr;
-    void *footerAddr;
-    unsigned int size;
+    int size;
+	char *headerAddr;
+    char *memoryAllocateAddr;
+    char *footerAddr;
     int lineNumber;
     char *fileName;
 };
 
-Record *_createRecord(void *memory,int size,int lineNumber,char *fileName);
-Node *_createNode(Record *record);
+Record *_createRecord(int size,void *memoryBlock,int lineNumber,char *fileName);
 
 #endif // MemoryRecord_H

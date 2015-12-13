@@ -6,13 +6,6 @@
 //Define memory size
 #define DEFAULT_MEMORY_SIZE 300
 
-typedef struct Pool Pool;
-struct Pool{
-   int size;
-   void *memoryAddr;
-   
-};
-
 //Define 3 types of pool
 //General memory pool which has the fixed block size 
 //for allocation 
