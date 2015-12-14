@@ -6,6 +6,6 @@
 
 #else 
 	char *_malloc(int size);
-	void _free(char* ptr);
+	void _free(void* ptr);
 	
 #endif //TEST

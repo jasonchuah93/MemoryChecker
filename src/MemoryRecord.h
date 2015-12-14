@@ -4,13 +4,12 @@
 #define createRecord(size,memoryBlock) _createRecord(size,memoryBlock,__LINE__,__FILE__)
 #define allocateMemory(size) _allocateMemory(size,__LINE__,__FILE__)
 
-//Define the Memory Size for the allocator use.
-#define HEADER_SIZE 	50
-#define FOOTER_SIZE 	HEADER_SIZE
+#include "MallocWrapper.h"
+#include "MemoryBlocks.h"
 
-typedef struct Record Record;
-struct Record{
-    int size;
+typedef struct Allocation Allocation;
+struct Allocation{
+    int unsigned size;
 	char *headerAddr;
     char *memoryAllocateAddr;
     char *footerAddr;
@@ -18,8 +17,18 @@ struct Record{
     char *fileName;
 };
 
-void *_allocateMemory(int size,int lineNumber,char *fileName);
+typedef struct Record Record;
+struct Record{
+    int unsigned size;
+	char *headerAddr;
+    char *memoryAllocateAddr;
+    char *footerAddr;
+    int lineNumber;
+    char *fileName;
+};
+
+Allocation *_allocateMemory(int unsigned size,int lineNumber,char *fileName);
+Record *_createRecord(int unsigned size,void *memoryBlock,int lineNumber,char *fileName);
 void freeMemory(void *memoryPtr);
-Record *_createRecord(int size,void *memoryBlock,int lineNumber,char *fileName);
 
 #endif // MemoryRecord_H

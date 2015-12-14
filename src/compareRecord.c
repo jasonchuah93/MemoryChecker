@@ -1,10 +1,8 @@
 #include <stdio.h>
-#include "Node.h"
-#include "MemoryRecord.h"
 #include "compareRecord.h"
 
 /***********************************************************************************************************
-* Compare the record inside the redBlackTree(RBT) with the incoming record
+* Compare the memoryAddr in descriptor locate in redBlackTree(RBT) with the incoming memoryAddr
 *
 *	Input: 	recordFromRedBlackTree	the record inside the node of RBT 
 *			targetMemory			the target that going to find in the RBT	
@@ -15,15 +13,14 @@
 *	Destroy: none
 *
 ************************************************************************************************************/
-
-int findRecordCompare(Node **recordFromRedBlackTree,char *targetMemoryAddr){
+int findRecordCompare(Node **recordFromRedBlackTree,Allocation *targetMemoryAddr){
 	char *recordAddr = ((Record*)((Node*)*recordFromRedBlackTree)->data)->memoryAllocateAddr;
-    
-    if(recordAddr > targetMemoryAddr){
+    char *compareAddr = targetMemoryAddr->memoryAllocateAddr;
+    if(recordAddr > compareAddr){
        return 1;
-    }else if(recordAddr < targetMemoryAddr){
+    }else if(recordAddr < compareAddr){
        return -1;
-    }else if(recordAddr == targetMemoryAddr){
+    }else if(recordAddr == compareAddr){
        return 0;
     }
 }
@@ -40,16 +37,14 @@ int findRecordCompare(Node **recordFromRedBlackTree,char *targetMemoryAddr){
 *	Destroy: none
 *
 ************************************************************************************************************/
-
-int addAndDelRecordCompare(Node **recordFromRedBlackTree,Record *targetRecord){
-	Record *_recordFromRedBlackTree=(Record*)*recordFromRedBlackTree;
-    if(_recordFromRedBlackTree->memoryAddr > targetRecord->memoryAddr)
+int addAndDelRecordCompare(Node **recordFromRedBlackTree,Allocation *targetMemoryAddr){
+	char *recordAddr = ((Record*)((Node*)*recordFromRedBlackTree)->data)->memoryAllocateAddr;
+    char *compareAddr = targetMemoryAddr->memoryAllocateAddr;
+    if(recordAddr > compareAddr)
         return 1;
-    else if(_recordFromRedBlackTree->memoryAddr < targetRecord->memoryAddr)
+    else if(recordAddr < compareAddr)
         return -1;
-    else
+    else if(recordAddr == compareAddr){
         return 0;
+    }
 }
-
-
-

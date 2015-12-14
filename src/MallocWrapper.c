@@ -5,6 +5,6 @@ char *_malloc(int size){
 	return malloc(size);
 }
 
-void _free(char *ptr){
+void _free(void *ptr){
 	free(ptr);
 }

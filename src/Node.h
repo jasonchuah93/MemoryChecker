@@ -1,6 +1,7 @@
 #ifndef Node_H
 #define Node_H
 
+#include "MallocWrapper.h"
 #include "MemoryRecord.h"
 
 typedef struct Node Node;
