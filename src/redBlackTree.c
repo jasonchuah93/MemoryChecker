@@ -15,11 +15,11 @@
 
 void handleColor(Node **rootPtr,Node *deleteNode){
   Node *root = *rootPtr;
-  if(root->left->color == 'r' && root->right->color == 'r'){
+  if(root->left->color == 'r' || root->right->color == 'r'){
         root->left->color ='b';
         root->right->color ='b';
         root->color ='r';
-      }
+    }
 }
 
 /*********************************************************************
@@ -33,51 +33,55 @@ void handleColor(Node **rootPtr,Node *deleteNode){
 *	
 **********************************************************************/
 
-void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addAndDelRecordCompare)(Node **rootPtr,Record *newNode)){
+void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addAndDelRecordCompare)(Node **rootPtr,Node *newNode)){
     _genericAddRedBlackTree(rootPtr,newNode,addAndDelRecordCompare);    
     (*rootPtr)->color='b';
 }
 
-void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compareRecord)(Node **rootPtr,Record *newNode)){
+void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compareRecord)(Node **rootPtr,Node *newNode)){
     Node *root = *rootPtr;
     int compare=0;
     if(root == NULL){
         *rootPtr = newNode;
         return;
     }
-    if (root->left!=NULL && root->right!=NULL){
+    
+	if (root->left!=NULL && root->right!=NULL)
         handleColor(rootPtr,newNode); 
-    }
-    compare = compareRecord(&root,(Record*)newNode);
-    if(compare == 1){
+	
+	compare = compareRecord(&root,newNode);
+    
+	if(compare == 1)
         _genericAddRedBlackTree(&root->left,newNode,compareRecord);
-    }else if(compare == -1){
+    else if(compare == -1)
         _genericAddRedBlackTree(&root->right,newNode,compareRecord);
-    }else if(compare == 0){ 
+    else if(compare == 0)
         Throw(ERR_EQUIVALENT_RECORD);
-    }
-
-    if(root->left!=NULL && root->right==NULL){
-        if(root->left->left !=NULL){
-            //if(root->left->color == 'r' && root->left->left->color == 'r'){
+	
+	if(root->left!=NULL && root->right==NULL){
+        if(root->left->left !=NULL && root->left->right == NULL){
+            if(root->left->color == 'r' && root->left->left->color == 'r')
                 rightRotate(rootPtr);
-            //}
-        }else if(root->left->right !=NULL){
-            //if(root->left->color == 'r' && root->left->right->color == 'r'){
+        }else if(root->left->left ==NULL && root->left->right !=NULL){
+            if(root->left->color == 'r' && root->left->right->color == 'r')
                 leftRightRotate(rootPtr);
-            //}
-        }
+		}else if(root->left->left != NULL && root->left->right !=NULL){
+			if(root->left->color == 'b' && root->left->left->color == 'r')
+                root->left->left->color = 'b';
+				rightRotate(rootPtr);
+		}
     }else if(root->left==NULL && root->right!=NULL){
-        if(root->right->right !=NULL){
-            //if(root->right->color == 'r' && root->right->right->color == 'r'){
-                leftRotate(rootPtr);
-            //}
-        }else if(root->right->left !=NULL){
-            //if(root->right->color == 'r' && root->right->left->color == 'r'){
+		if(root->right->left !=NULL && root->right->right == NULL){
+            if(root->right->color == 'r' && root->right->left->color == 'r')
                 rightLeftRotate(rootPtr);
-            //}
+        }else if(root->right->left !=NULL && root->right->right !=NULL){
+			if(root->right->color == 'b' && root->right->left->color == 'r')
+				rightLeftRotate(rootPtr);
+		}else if(root->right->left == NULL && root->right->right !=NULL){
+            if(root->right->color == 'r' && root->right->right->color == 'r')
+                leftRotate(rootPtr);
         }
-    }
+	}
 }
 
 /*********************************************************************
@@ -92,7 +96,7 @@ void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compareRecord)(N
 *	Destroy: none
 *	
 **********************************************************************/
-
+/*
 Node *genericFindRedBlackTree(Node **rootPtr,void *targetMemory, int(*findRecordCompare)(Node **rootPtr,void *targetMemory)){
     int compare ;
     Node *root = *rootPtr;
@@ -111,7 +115,7 @@ Node *genericFindRedBlackTree(Node **rootPtr,void *targetMemory, int(*findRecord
     return targetRoot;
     
 }
-
+*/
 /*********************************************************************
 * This function will delete record in the red black tree
 *
@@ -124,7 +128,7 @@ Node *genericFindRedBlackTree(Node **rootPtr,void *targetMemory, int(*findRecord
 *	Destroy: none
 *	
 **********************************************************************/
-
+/*
 Node *genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*addAndDelRecordCompare)(Node **rootPtr,Record *deleteNode)){
     Node *node = _genericDelRedBlackTree(rootPtr,deleteNode,addAndDelRecordCompare);
     if(*rootPtr!=NULL)
@@ -165,12 +169,11 @@ Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecor
     restructureRedBlackTree(rootPtr,deleteNode);
     return node;
 }
-
+*/
 /*******************************************
     This function use to remove the most 
     left node in the RedBlackTree
 *********************************************/
-
 Node *removeNextLargerSuccessor(Node **rootPtr){
 	Node *removeNode;
 	

@@ -37,9 +37,9 @@ int findRecordCompare(Node **recordFromRedBlackTree,Allocation *targetMemoryAddr
 *	Destroy: none
 *
 ************************************************************************************************************/
-int addAndDelRecordCompare(Node **recordFromRedBlackTree,Allocation *targetMemoryAddr){
+int addAndDelRecordCompare(Node **recordFromRedBlackTree,Node *compareRecord){
 	char *recordAddr = ((Record*)((Node*)*recordFromRedBlackTree)->data)->memoryAllocateAddr;
-    char *compareAddr = targetMemoryAddr->memoryAllocateAddr;
+    char *compareAddr = ((Record*)((Node*)compareRecord)->data)->memoryAllocateAddr;
     if(recordAddr > compareAddr)
         return 1;
     else if(recordAddr < compareAddr)

@@ -6,6 +6,6 @@
 #include "MemoryBlocks.h"
 
 int findRecordCompare(Node **recordFromRedBlackTree,Allocation *targetMemoryAddr);
-int addAndDelRecordCompare(Node **recordFromRedBlackTree,Allocation *targetMemoryAddr);
+int addAndDelRecordCompare(Node **recordFromRedBlackTree,Node *compareRecord);
 	
 #endif // compareRecord_H
