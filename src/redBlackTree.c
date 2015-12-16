@@ -128,18 +128,18 @@ Node *genericFindRedBlackTree(Node **rootPtr,void *targetMemory, int(*findRecord
 *	Destroy: none
 *	
 **********************************************************************/
-/*
-Node *genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*addAndDelRecordCompare)(Node **rootPtr,Record *deleteNode)){
+
+Node *genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*addAndDelRecordCompare)(Node **rootPtr,Node *deleteNode)){
     Node *node = _genericDelRedBlackTree(rootPtr,deleteNode,addAndDelRecordCompare);
     if(*rootPtr!=NULL)
         (*rootPtr)->color='b';
     return node;
 }
 
-Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecord)(Node **rootPtr,Record *newNode)){
+Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecord)(Node **rootPtr,Node *deleteNode)){
     int compare ; char tempColor;
     Node *node , *tempRoot ,*tempLeftChild, *tempRightChild, *root = *rootPtr;
-    compare = compareRecord(&root,(Record*)deleteNode);
+    compare = compareRecord(&root,deleteNode);
     if(compare == 0){
         if(rightChild){
             tempRoot = removeNextLargerSuccessor(&rightChild);
@@ -155,6 +155,7 @@ Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecor
             (*rootPtr)->color = 'b';
         }else{
             *rootPtr=NULL;
+			node = deleteNode;
         }
         return node;
     }else{
@@ -169,7 +170,7 @@ Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecor
     restructureRedBlackTree(rootPtr,deleteNode);
     return node;
 }
-*/
+
 /*******************************************
     This function use to remove the most 
     left node in the RedBlackTree

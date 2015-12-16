@@ -10,8 +10,6 @@
 #include "redBlackTree.h"
 #include "RestructureNode.h"
 #include "CustomAssertions.h"
-#include "ErrorCode.h"
-#include "CException.h"
 
 void setUp(void){}
 void tearDown(void){}
@@ -23,9 +21,9 @@ void tearDown(void){}
 *******************************************/
 /**
 *   root              root
-*	 |    add r100     |
+*	 |    add n100     |
 *	 v    --------->   v
-*	NULL              r100
+*	NULL              n100
 **/
 void test_addRecord_should_add_record_into_empty_root(void){
 	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "##########"};
@@ -47,16 +45,16 @@ void test_addRecord_should_add_record_into_empty_root(void){
 *******************************************/
 /**
 *    root              root
-*     |     add r100    |
+*     |     add n100    |
 *     v     -------->   v
-*    r200              r200	    
+*    n200              n200	    
 *    / \               / \
-*   -   -           r100  -   
+*   -   -           n100  -   
 **/
 void test_addRecord_should_add_new_record_into_non_empty_root(void){
     Record r200 = {.memoryAllocateAddr =(void*)200 };
 	Record r100 = {.memoryAllocateAddr =(void*)100 };  
-	Node n200 = {.data=&r200 ,.color='b'};
+	Node n200 = {.data=&r200 ,.color='r'};
 	Node n100 = {.data=&r100 ,.color='r'};
 	
     Node *root = NULL;
@@ -70,7 +68,7 @@ void test_addRecord_should_add_new_record_into_non_empty_root(void){
 
 /**
 *       root                root
-*         |     add r500      |
+*         |     add n500      |
 *         v    --------->     v
 *        n200               n200       
 *        /  \               /   \
@@ -81,7 +79,7 @@ void test_addRecord_add_n500_into_n200_root(void){
     Record r200 = {.memoryAllocateAddr =(void*)200};  
     Record r500 = {.memoryAllocateAddr =(void*)500};
     
-	Node n200 = {.data=&r200 ,.color='b'};
+	Node n200 = {.data=&r200 ,.color='r'};
 	Node n500 = {.data=&r500 ,.color='r'};
 	
     Node *root = NULL;
@@ -100,11 +98,11 @@ void test_addRecord_add_n500_into_n200_root(void){
 *******************************************/
 /**
 *     root             root
-*     |    add r300     |
+*     |    add n300     |
 *     v    -------->    v
-*   r200              r200        
+*   n200              n200        
 *   /  \              /   \      
-*  r100 -          r100  r300
+*  n100 -          n100  n300
 **/
 void test_addRecord_add_n300_into_n100_n200_root(void){
     Record r100 = {.memoryAllocateAddr =(void*)100 };  
@@ -112,7 +110,7 @@ void test_addRecord_add_n300_into_n100_n200_root(void){
     Record r300 = {.memoryAllocateAddr =(void*)300 };  
     
 	Node n100 = {.data=&r100 ,.color='r'};
-	Node n200 = {.data=&r200 ,.color='b'};
+	Node n200 = {.data=&r200 ,.color='r'};
 	Node n300 = {.data=&r300 ,.color='r'};
 	
     Node *root = NULL;
@@ -127,12 +125,40 @@ void test_addRecord_add_n300_into_n100_n200_root(void){
 }
 
 /**
+*     root             root
+*     |    add n300     |
+*     v    -------->    v
+*   n100              n200        
+*   /  \              /   \      
+*  -   n200       n100  n300
+**/
+void test_addRecord_add_n200_and_n300_into_n100_root(void){
+    Record r100 = {.memoryAllocateAddr =(void*)100 };  
+    Record r200 = {.memoryAllocateAddr =(void*)200 };
+    Record r300 = {.memoryAllocateAddr =(void*)300 };  
+    
+	Node n100 = {.data=&r100 ,.color='r'};
+	Node n200 = {.data=&r200 ,.color='r'};
+	Node n300 = {.data=&r300 ,.color='r'};
+	
+    Node *root = NULL;
+    addRecord(&root,&n100);
+    addRecord(&root,&n200);
+    addRecord(&root,&n300);
+    
+    TEST_ASSERT_EQUAL_PTR(&n200,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&n100);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&n300);
+    TEST_ASSERT_EQUAL_NODE(&n100,&n300,'b',root);
+}
+
+/**
 *        root                root
-*          |       add r100   |
+*          |       add n100   |
 *          v      --------->  v
-*        r200               r200    
+*        n200               n200    
 *       /    \              /  \
-*      -    r300         r100  r300  
+*      -    n300         n100  n300  
 **/
 void test_addRecord_add_n100_into_n300_n200_root(void){
     Record r100 = {.memoryAllocateAddr =(void*)100 };  

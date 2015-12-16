@@ -8,7 +8,7 @@
 //Make these define for easy programming
 #define addRecord(rootPtr,newNode) genericAddRedBlackTree(rootPtr,newNode,addAndDelRecordCompare)
 #define findRecord(rootPtr,targetMemory) genericFindRedBlackTree(rootPtr,targetMemory,findRecordCompare)
-#define deleteRecord(rootPtr,deleteNode) genericDelRedBlackTree(rootPtr,deleteNode,addAndDelRecordCompare)
+#define removeRecord(rootPtr,deleteNode) genericDelRedBlackTree(rootPtr,deleteNode,addAndDelRecordCompare)
 #define leftChild (*rootPtr)->left
 #define rightChild (*rootPtr)->right
 #define leftGrandChild (*rootPtr)->left->left
@@ -19,8 +19,8 @@
 void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addAndDelRecordCompare)(Node **rootPtr,Node *newNode));
 void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compareRecord)(Node **rootPtr,Node *newNode));
 Node *genericFindRedBlackTree(Node **rootPtr,void *targetMemory, int(*findRecordCompare)(Node **rootPtr,void *targetMemory));
-Node *genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*addAndDelRecordCompare)(Node **rootPtr,Record *newNode));  
-Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecord)(Node **rootPtr,Record *newNode));
+Node *genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*addAndDelRecordCompare)(Node **rootPtr,Node *deleteNode));
+Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecord)(Node **rootPtr,Node *deleteNode));
 Node *removeNextLargerSuccessor(Node **rootPtr);
 
 
