@@ -1,265 +1,359 @@
 #include "unity.h"
 #include <stdlib.h>
 #include <string.h>
+#include "MemoryBlocks.h"
+#include "mock_MallocWrapper.h"
 #include "Node.h"
 #include "Rotation.h"
-#include "memoryManager.h"
 #include "MemoryRecord.h"
 #include "compareRecord.h"
-#include "RestructureNode.h"
 #include "redBlackTree.h"
+#include "RestructureNode.h"
+#include "CustomAssertions.h"
 #include "safeMalloc.h"
-#include "ErrorCode.h"
-#include "CException.h"
 
 void setUp(void){}
-
 void tearDown(void){}
 
+#define leftPool allocatedPool->left
+#define rightPool allocatedPool->right
 
-
-void test_safeMalloc_should_return_null_if_the_size_input_is_0(void){
-    void *allocatedRecord=NULL;
-    resetAllocatedPool();
-    allocatedRecord = safeMalloc(0);
-    TEST_ASSERT_NULL(safeMalloc(0));
+void test_safeMalloc_allocate_size_100_should_create_record_descriptor_and_add_into_allocated_pool(void){
+	initializePool();
+	char *allocatedMemory;
+	MemoryBlock1 ptrBlock = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)sizeof(ptrBlock.header));
+	allocatedMemory =(char*)safeMalloc(100);
+	
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(50,allocatedMemory-50);
+	TEST_ASSERT_EQUAL(100,allocatedMemory);
+	TEST_ASSERT_EQUAL(200,allocatedMemory+100);
+	TEST_ASSERT_EQUAL(100,memorySize(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',allocatedPool);
+	
+	_free_Expect(allocatedMemory);
+    freeMemory(allocatedMemory);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
 }
 
-void test_safeMalloc_should_throw_error_if_input_size_exceed_the_BUFFER_SIZE(void){
-    ErrorCode e;
-    Try
-	{
-        safeMalloc(2000);
-		TEST_FAIL_MESSAGE("Should throw exceed buffer size ");
-	}
-	Catch(e)
-	{
-		TEST_ASSERT_EQUAL(ERR_EXCEED_BUFFER_SIZE,e);
-	}
-    printf("************************************************************\n");
+void test_safeMalloc_allocate_size_100_and_200_should_create_descriptor_and_add_into_allocated_pool(void){
+	initializePool();
+	char *allocatedMemory100,*allocatedMemory200;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock2 ptrBlock2 = {.header[49] = "@@@@@@@@@@" , .memory[199] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)sizeof(ptrBlock1.memory));
+	allocatedMemory100 = (char*)safeMalloc(100);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)sizeof(ptrBlock2.memory));
+	allocatedMemory200 = (char*)safeMalloc(200);
+	
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(100,memorySize(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(200,memorySize(rightPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightPool);
+	TEST_ASSERT_EQUAL_NODE(NULL,rightPool,'b',allocatedPool);
+	
+	//Free memory and pool 
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
 }
 
-void test_safeMalloc_verify_the_content_of_header_and_footer(void){
-    resetAllocatedPool();
-    void *allocateRecord= safeMalloc(50);
-    
-    TEST_ASSERT_NOT_NULL(allocatedPool);
-	TEST_ASSERT_EQUAL_PTR(getMemory(allocatedPool),allocateRecord);
-    TEST_ASSERT_EQUAL_STRING(allocateRecord-15,"5A5A5A5A5A5A5A");
-    TEST_ASSERT_EQUAL_STRING(allocateRecord+50,"5A5A5A5A5A5A5A");
+void test_safeMalloc_allocate_size_200_and_100_should_create_descriptor_and_add_into_allocated_pool(void){
+	initializePool();
+	char *allocatedMemory100,*allocatedMemory200;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock2 ptrBlock2 = {.header[49] = "##########" , .memory[199] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)sizeof(ptrBlock2.memory));
+	allocatedMemory200 = (char*)safeMalloc(200);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)sizeof(ptrBlock1.memory));
+	allocatedMemory100 = (char*)safeMalloc(100);
+	
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(100,memorySize(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
+	TEST_ASSERT_EQUAL_NODE(leftPool,NULL,'b',allocatedPool);
+	
+	
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
 }
 
-void test_write_content_into_header_block(void){
-    ErrorCode e;
-    resetAllocatedPool();
-    void *allocateRecord = safeMalloc(50);
-    strcpy(allocateRecord-9,"6A6A6A6A6A");
-    Try{
-        checkHeaderMemoryContent(allocateRecord);
-        TEST_FAIL_MESSAGE("Should throw corrupted footer memory ");
-    }Catch(e){
-        TEST_ASSERT_EQUAL(ERR_CORRUPTED_HEADER_MEMORY,e);
-    }
+void test_safeMalloc_allocate_size_200_and_100_and_300_should_create_descriptor_and_add_into_allocated_pool(void){
+	initializePool();
+	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300;
+	
+	MemoryBlock2 ptrBlock2 = {.header[49] = "##########" , .memory[199] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "%%%%%%%%%%" , .memory[299] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)sizeof(ptrBlock2.memory));
+	allocatedMemory200 = (char*)safeMalloc(200);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)sizeof(ptrBlock1.memory));
+	allocatedMemory100 = (char*)safeMalloc(100);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)sizeof(ptrBlock3.memory));
+	allocatedMemory300 = (char*)safeMalloc(300);
+	
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(100,memorySize(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(300,memorySize(rightPool));
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightPool);
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//Free memory and pool 
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
 }
 
-void test_write_content_exceed_into_footer_block(void){
-    ErrorCode e;
-    resetAllocatedPool();
-    void *allocateRecord = safeMalloc(50);
-    strcpy(allocateRecord+45,"6A6A6A6A6A");
-    Try{
-        checkFooterMemoryContent(allocateRecord);
-        TEST_FAIL_MESSAGE("Should throw corrupted footer memory ");
-    }Catch(e){
-        TEST_ASSERT_EQUAL(ERR_CORRUPTED_FOOTER_MEMORY,e);
-    }
-}
-
-void test_safeMalloc_should_add_record_into_allocated_pool(void){
-    resetAllocatedPool();
-    void *allocateRecord = safeMalloc(50);
-    
-    TEST_ASSERT_NOT_NULL(allocatedPool);
-    TEST_ASSERT_EQUAL_PTR(getMemory(allocatedPool),allocateRecord);
-    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
-    TEST_ASSERT_NULL(allocatedPool->left);
-    TEST_ASSERT_NULL(allocatedPool->right);
-    checkHeaderMemoryContent(allocateRecord-15);
-    checkFooterMemoryContent(allocateRecord+50);
-}
-
-void test_safeMalloc_should_add_two_records_into_allocated_pool(void){
-    resetAllocatedPool();
-    
-    void *allocateRecord = safeMalloc(50);
-    TEST_ASSERT_NOT_NULL(allocatedPool);
-    TEST_ASSERT_EQUAL_PTR(getMemory(allocatedPool),allocateRecord);
-    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
-    TEST_ASSERT_NULL(allocatedPool->left);
-    TEST_ASSERT_NULL(allocatedPool->right);
-    checkHeaderMemoryContent(allocateRecord-15);
-    checkFooterMemoryContent(allocateRecord+50);
-    
-    allocateRecord = safeMalloc(150);
-    TEST_ASSERT_EQUAL_PTR(getMemory(allocatedPool->right),allocateRecord);
-    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
-    TEST_ASSERT_EQUAL(150,getSize(allocatedPool->right));
-    TEST_ASSERT_NULL(allocatedPool->left);
-    TEST_ASSERT_NOT_NULL(allocatedPool->right);
-    TEST_ASSERT_NULL(allocatedPool->right->left);
-    TEST_ASSERT_NULL(allocatedPool->right->right);
-    checkHeaderMemoryContent(allocateRecord-15);
-    checkFooterMemoryContent(allocateRecord+150);
-}
-
-void test_safeMalloc_should_add_three_records_into_allocated_pool(void){
-    resetAllocatedPool();
-    void *allocateRecord = safeMalloc(50);
-    
-    TEST_ASSERT_NOT_NULL(allocatedPool);
-    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(allocatedPool));
-    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
-    TEST_ASSERT_NULL(allocatedPool->left);
-    TEST_ASSERT_NULL(allocatedPool->right);
-    checkHeaderMemoryContent(allocateRecord-15);
-    checkFooterMemoryContent(allocateRecord+50);
-    
-    allocateRecord = safeMalloc(70);
-    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(allocatedPool->right));
-    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
-    TEST_ASSERT_EQUAL(70,getSize(allocatedPool->right));
-    TEST_ASSERT_NULL(allocatedPool->left);
-    TEST_ASSERT_NOT_NULL(allocatedPool->right);
-    checkHeaderMemoryContent(allocateRecord-15);
-    checkFooterMemoryContent(allocateRecord+70);
-    
-    allocateRecord = safeMalloc(100);
-    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(allocatedPool->right));
-    TEST_ASSERT_EQUAL(50,getSize(allocatedPool->left));
-    TEST_ASSERT_EQUAL(70,getSize(allocatedPool));
-    TEST_ASSERT_EQUAL(100,getSize(allocatedPool->right));
-    TEST_ASSERT_NOT_NULL(allocatedPool->left);
-    TEST_ASSERT_NOT_NULL(allocatedPool->right);
-    checkHeaderMemoryContent(allocateRecord-15);
-    checkFooterMemoryContent(allocateRecord+100);
-}
-
-void test_safeFree_should_throw_error_if_free_null_pointer(void){   
-    ErrorCode e;
-    void *allocatedRecord = NULL;
-    Try{
-        safeFree(allocatedRecord);
-        TEST_FAIL_MESSAGE("Should throw free NULL pointer ");
-    }Catch(e){
-        TEST_ASSERT_EQUAL(ERR_FREE_NULL_PTR,e);
-    }
+void test_safeMalloc_allocate_size_100_and_200_and_300_should_create_descriptor_and_add_into_allocated_pool(void){
+	initializePool();
+	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock2 ptrBlock2 = {.header[49] = "@@@@@@@@@@" , .memory[199] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "%%%%%%%%%%" , .memory[299] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)sizeof(ptrBlock1.memory));
+	allocatedMemory100 = (char*)safeMalloc(100);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)sizeof(ptrBlock2.memory));
+	allocatedMemory200 = (char*)safeMalloc(200);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)sizeof(ptrBlock3.memory));
+	allocatedMemory300 = (char*)safeMalloc(300);
+	
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(100,memorySize(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(300,memorySize(rightPool));
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightPool);
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//Free memory and pool 
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
 }
 
 
-void test_safeFree_should_remove_record_from_allocated_pool_and_put_into_free_pool(void){
-    resetAllocatedPool();
-    
-    void *allocateRecord = safeMalloc(50);
-    TEST_ASSERT_NOT_NULL(allocatedPool);
-    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(allocatedPool));
-    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
-    TEST_ASSERT_NULL(allocatedPool->left);
-    TEST_ASSERT_NULL(allocatedPool->right);
-    checkHeaderMemoryContent(allocateRecord-15);
-    checkFooterMemoryContent(allocateRecord+50);
-    
-    safeFree(allocateRecord);
-    TEST_ASSERT_NOT_NULL(freePool);
-    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(freePool));
-    TEST_ASSERT_EQUAL(50,getSize(freePool));
-    TEST_ASSERT_NULL(freePool->left);
-    TEST_ASSERT_NULL(freePool->right);
-    //To verify that allocatedPool is empty, all records been free
-    //to freePool
-    TEST_ASSERT_NULL(allocatedPool);
+void test_safeMalloc_allocate_size_200_and_300_and_100_should_create_descriptor_and_add_into_allocated_pool(void){
+	initializePool();
+	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock2 ptrBlock2 = {.header[49] = "@@@@@@@@@@" , .memory[199] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "%%%%%%%%%%" , .memory[299] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)sizeof(ptrBlock2.memory));
+	allocatedMemory200 = (char*)safeMalloc(200);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)sizeof(ptrBlock3.memory));
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)sizeof(ptrBlock1.memory));
+	allocatedMemory100 = (char*)safeMalloc(100);
+	
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(100,memorySize(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(300,memorySize(rightPool));
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightPool);
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//Free memory and pool 
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
 }
 
-void test_safeFree_should_remove_two_record_from_allocated_pool_and_put_into_free_pool(void){
-    resetAllocatedPool();
-    
-    void *allocateRecord = safeMalloc(50);
-    TEST_ASSERT_NOT_NULL(allocatedPool);
-    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(allocatedPool));
-    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
-    TEST_ASSERT_NULL(allocatedPool->left);
-    TEST_ASSERT_NULL(allocatedPool->right);
-    checkHeaderMemoryContent(allocateRecord-15);
-    checkFooterMemoryContent(allocateRecord+50);
-    
-    void *allocateRecord2 = safeMalloc(70);
-    TEST_ASSERT_EQUAL_PTR(allocateRecord2,getMemory(allocatedPool->right));
-    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
-    TEST_ASSERT_EQUAL(70,getSize(allocatedPool->right));
-    TEST_ASSERT_NULL(allocatedPool->left);
-    TEST_ASSERT_NOT_NULL(allocatedPool->right);
-    checkHeaderMemoryContent(allocateRecord2-15);
-    checkFooterMemoryContent(allocateRecord2+70);
-    
-    safeFree(allocateRecord2);
-    TEST_ASSERT_NOT_NULL(freePool);
-    TEST_ASSERT_NULL(freePool->left);
-    TEST_ASSERT_NULL(freePool->right);
-    TEST_ASSERT_EQUAL(70,getSize(freePool));
-    TEST_ASSERT_EQUAL(allocateRecord2,getMemory(freePool));
-    
-    safeFree(allocateRecord);
-    TEST_ASSERT_NOT_NULL(freePool->left);
-    TEST_ASSERT_NULL(freePool->right);
-    TEST_ASSERT_EQUAL(50,getSize(freePool->left));
-    TEST_ASSERT_EQUAL(allocateRecord,getMemory(freePool->left));
-    
-    //To verify that allocatedPool is empty, all records been free
-    //to freePool
-    TEST_ASSERT_NULL(allocatedPool);
+void test_safeMalloc_allocate_size_200_and_300_and_400_should_create_descriptor_and_add_into_allocated_pool(void){
+	initializePool();
+	char *allocatedMemory200,*allocatedMemory300,*allocatedMemory400;
+	
+	MemoryBlock2 ptrBlock2 = {.header[49] = "##########" , .memory[199] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "@@@@@@@@@@" , .memory[299] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "%%%%%%%%%%" , .memory[399] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)sizeof(ptrBlock2.memory));
+	allocatedMemory200 = (char*)safeMalloc(200);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)sizeof(ptrBlock3.memory));
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)sizeof(ptrBlock4.memory));
+	allocatedMemory400 = (char*)safeMalloc(400);
+	
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(300,memorySize(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(200,memorySize(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(400,memorySize(rightPool));
+	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightPool);
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//Free memory and pool 
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
 }
 
-void test_safeFree_should_remove_three_record_from_allocated_pool_and_put_into_free_pool(void){
-    resetAllocatedPool();
-    
-    void *allocateRecord = safeMalloc(50);
-    TEST_ASSERT_NOT_NULL(allocatedPool);
-    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(allocatedPool));
-    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
-    TEST_ASSERT_NULL(allocatedPool->left);
-    TEST_ASSERT_NULL(allocatedPool->right);
-    checkHeaderMemoryContent(allocateRecord-15);
-    checkFooterMemoryContent(allocateRecord+50);
-    
-    void *allocateRecord2 = safeMalloc(70);
-    TEST_ASSERT_EQUAL_PTR(allocateRecord2,getMemory(allocatedPool->right));
-    TEST_ASSERT_EQUAL(50,getSize(allocatedPool));
-    TEST_ASSERT_EQUAL(70,getSize(allocatedPool->right));
-    TEST_ASSERT_NULL(allocatedPool->left);
-    TEST_ASSERT_NOT_NULL(allocatedPool->right);
-    checkHeaderMemoryContent(allocateRecord2-15);
-    checkFooterMemoryContent(allocateRecord2+70);
-    
-    void *allocateRecord3 = safeMalloc(100);
-    TEST_ASSERT_EQUAL_PTR(allocateRecord3,getMemory(allocatedPool->right));
-    TEST_ASSERT_EQUAL(50,getSize(allocatedPool->left));
-    TEST_ASSERT_EQUAL(70,getSize(allocatedPool));
-    TEST_ASSERT_EQUAL(100,getSize(allocatedPool->right));
-    TEST_ASSERT_NOT_NULL(allocatedPool->left);
-    TEST_ASSERT_NOT_NULL(allocatedPool->right);
-    checkHeaderMemoryContent(allocateRecord3-15);
-    checkFooterMemoryContent(allocateRecord3+100);
-    
-    safeFree(allocateRecord);
-    TEST_ASSERT_NOT_NULL(freePool);
-    TEST_ASSERT_NULL(freePool->left);
-    TEST_ASSERT_NULL(freePool->right);
-    TEST_ASSERT_EQUAL(50,getSize(freePool));
-    TEST_ASSERT_EQUAL_PTR(allocateRecord,getMemory(freePool));
-    
-    safeFree(allocateRecord2);
-    TEST_ASSERT_NULL(freePool->right);
-    TEST_ASSERT_NOT_NULL(freePool->left);
-    TEST_ASSERT_EQUAL(70,getSize(freePool));
-    TEST_ASSERT_EQUAL(50,getSize(freePool->left));
-   
+void test_safeMalloc_allocate_size_400_and_300_and_200_should_create_descriptor_and_add_into_allocated_pool(void){
+	initializePool();
+	char *allocatedMemory200,*allocatedMemory300,*allocatedMemory400;
+	
+	MemoryBlock2 ptrBlock2 = {.header[49] = "##########" , .memory[199] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "@@@@@@@@@@" , .memory[299] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "%%%%%%%%%%" , .memory[399] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)sizeof(ptrBlock4.memory));
+	allocatedMemory400 = (char*)safeMalloc(400);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)sizeof(ptrBlock3.memory));
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)sizeof(ptrBlock2.memory));
+	allocatedMemory200 = (char*)safeMalloc(200);
+	
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(300,memorySize(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(200,memorySize(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(400,memorySize(rightPool));
+	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightPool);
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//Free memory and pool 
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+}
+
+void test_safeMalloc_allocate_size_300_and_100_and_200_should_create_descriptor_and_add_into_allocated_pool(void){
+	initializePool();
+	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock2 ptrBlock2 = {.header[49] = "@@@@@@@@@@" , .memory[199] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "%%%%%%%%%%" , .memory[299] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)sizeof(ptrBlock3.memory));
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)sizeof(ptrBlock1.memory));
+	allocatedMemory100 = (char*)safeMalloc(100);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)sizeof(ptrBlock2.memory));
+	allocatedMemory200 = (char*)safeMalloc(200);
+	
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(100,memorySize(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(300,memorySize(rightPool));
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightPool);
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//Free memory and pool 
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+}
+
+void test_safeMalloc_allocate_size_100_and_400_and_200_should_create_descriptor_and_add_into_allocated_pool(void){
+	initializePool();
+	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory400;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock2 ptrBlock2 = {.header[49] = "@@@@@@@@@@" , .memory[199] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "%%%%%%%%%%" , .memory[399] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)sizeof(ptrBlock1.memory));
+	allocatedMemory100 = (char*)safeMalloc(100);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)sizeof(ptrBlock4.memory));
+	allocatedMemory400 = (char*)safeMalloc(400);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)sizeof(ptrBlock2.memory));
+	allocatedMemory200 = (char*)safeMalloc(200);
+	
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(100,memorySize(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(400,memorySize(rightPool));
+	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightPool);
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//Free memory and pool 
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
 }

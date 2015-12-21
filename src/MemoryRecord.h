@@ -4,6 +4,8 @@
 #define createRecord(size,memoryBlock) _createRecord(size,memoryBlock,__LINE__,__FILE__)
 #define allocateMemory(size) _allocateMemory(size,__LINE__,__FILE__)
 
+#include <stdlib.h>
+#include <string.h>
 #include "MallocWrapper.h"
 #include "MemoryBlocks.h"
 

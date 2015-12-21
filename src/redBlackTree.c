@@ -33,17 +33,18 @@ void handleColor(Node **rootPtr,Node *deleteNode){
 *	
 **********************************************************************/
 
-void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addAndDelRecordCompare)(Node **rootPtr,Node *newNode)){
-    _genericAddRedBlackTree(rootPtr,newNode,addAndDelRecordCompare);    
+void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addRecordCompare)(Node **rootPtr,Node *newNode)){
+    _genericAddRedBlackTree(rootPtr,newNode,addRecordCompare);    
     (*rootPtr)->color='b';
 }
 
 void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compareRecord)(Node **rootPtr,Node *newNode)){
     Node *root = *rootPtr;
     int compare=0;
-    if(root == NULL){
-        *rootPtr = newNode;
-        return;
+    if(*rootPtr == NULL){
+		*rootPtr = newNode;
+        (*rootPtr)->color='r';
+		return;
     }
     
 	if (root->left!=NULL && root->right!=NULL)
@@ -51,12 +52,18 @@ void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compareRecord)(N
 	
 	compare = compareRecord(&root,newNode);
     
-	if(compare == 1)
+	if(compare == 1){
+		
         _genericAddRedBlackTree(&root->left,newNode,compareRecord);
-    else if(compare == -1)
+	}
+    else if(compare == -1){
+		
         _genericAddRedBlackTree(&root->right,newNode,compareRecord);
-    else if(compare == 0)
-        Throw(ERR_EQUIVALENT_RECORD);
+	}
+    else if(compare == 0){
+		printf("2nd test");
+		Throw(ERR_EQUIVALENT_RECORD);
+	}
 	
 	if(root->left!=NULL && root->right==NULL){
         if(root->left->left !=NULL && root->left->right == NULL){
@@ -129,17 +136,18 @@ Node *genericFindRedBlackTree(Node **rootPtr,void *targetMemory, int(*findRecord
 *	
 **********************************************************************/
 
-Node *genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*addAndDelRecordCompare)(Node **rootPtr,Node *deleteNode)){
-    Node *node = _genericDelRedBlackTree(rootPtr,deleteNode,addAndDelRecordCompare);
+Node *genericDelRedBlackTree(Node **rootPtr,char *targetMemory, int(*findAndRemoveRecordCompare)(Node **rootPtr,char *targetMemory)){
+    Node *node = _genericDelRedBlackTree(rootPtr,targetMemory,findAndRemoveRecordCompare);
     if(*rootPtr!=NULL)
         (*rootPtr)->color='b';
     return node;
 }
 
-Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecord)(Node **rootPtr,Node *deleteNode)){
-    int compare ; char tempColor;
-    Node *node , *tempRoot ,*tempLeftChild, *tempRightChild, *root = *rootPtr;
-    compare = compareRecord(&root,deleteNode);
+Node *_genericDelRedBlackTree(Node **rootPtr,char *targetMemory, int(*compareRecord)(Node **rootPtr,char *targetMemory)){
+    int compare ; char tempColor; Node *targetMemoryRecord;
+    ((Record*)((Node*)targetMemoryRecord)->data)->memoryAllocateAddr = targetMemory;
+	Node *node , *tempRoot ,*tempLeftChild, *tempRightChild, *root = *rootPtr;
+    compare = compareRecord(&root,targetMemory);
     if(compare == 0){
         if(rightChild){
             tempRoot = removeNextLargerSuccessor(&rightChild);
@@ -148,26 +156,26 @@ Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecor
             *rootPtr = tempRoot;
             leftChild=tempLeftChild; rightChild = tempRightChild;
             (*rootPtr)->color=tempColor;
-            restructureRedBlackTree(rootPtr,deleteNode);
+            restructureRedBlackTree(rootPtr,targetMemoryRecord);
         }else if(leftChild){
             rightRotate(rootPtr);
             node = removeNextLargerSuccessor(&rightChild);
             (*rootPtr)->color = 'b';
         }else{
             *rootPtr=NULL;
-			node = deleteNode;
+			node = targetMemoryRecord;
         }
         return node;
     }else{
         if(leftChild == NULL && rightChild == NULL){
             Throw(ERR_NODE_UNAVAILABLE);
         }else if(compare == 1){
-            node= _genericDelRedBlackTree(&leftChild,deleteNode,compareRecord);
+            node= _genericDelRedBlackTree(&leftChild,targetMemory,compareRecord);
         }else if(compare == -1){
-            node= _genericDelRedBlackTree(&rightChild,deleteNode,compareRecord);
+            node= _genericDelRedBlackTree(&rightChild,targetMemory,compareRecord);
         }
     }
-    restructureRedBlackTree(rootPtr,deleteNode);
+    restructureRedBlackTree(rootPtr,targetMemoryRecord);
     return node;
 }
 

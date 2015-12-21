@@ -15,7 +15,6 @@ Node *createNode(Record *record){
     node->data  = record;
     node->left  = NULL;
     node->right = NULL;
-    node->color ='b';
-    
+    node->color = 'r';
     return node;
 }

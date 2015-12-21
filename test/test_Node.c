@@ -22,7 +22,7 @@ void test_createNode_should_store_record_descriptor_inside_the_node(void){
     ptrNode = createNode(ptrRecord);
     TEST_ASSERT_NOT_NULL(ptrNode);
     TEST_ASSERT_EQUAL(ptrRecord,ptrNode->data);
-    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',ptrNode);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',ptrNode);
     
      _free_Expect(ptr);
     freeMemory(ptr);
@@ -31,3 +31,4 @@ void test_createNode_should_store_record_descriptor_inside_the_node(void){
      _free_Expect(ptrNode);
     freeMemory(ptrNode);
 }
+

@@ -79,8 +79,8 @@ void test_addRecord_add_n500_into_n200_root(void){
     Record r200 = {.memoryAllocateAddr =(void*)200};  
     Record r500 = {.memoryAllocateAddr =(void*)500};
     
-	Node n200 = {.data=&r200 ,.color='r'};
-	Node n500 = {.data=&r500 ,.color='r'};
+    Node n200 = {.data=&r200 ,.color='r'};
+    Node n500 = {.data=&r500 ,.color='r'};
 	
     Node *root = NULL;
     addRecord(&root,&n200);
@@ -485,7 +485,7 @@ void test_addRecord_add_n250_into_n500_n50_n300_n200_root(void){
 	
 	Node n250 = {.data=&r250 ,.color='r'};
 	Node n500 = {.data=&r500 ,.color='r'};
-	Node n50 = {.data=&r50 ,.color='b'};
+	Node n50 = {.data=&r50 ,.color='r'};
 	Node n300 = {.data=&r300 ,.right = &n500 ,.color='b'};
 	Node n200 = {.data=&r200 ,.left = &n50 ,.right = &n300, .color='b'};
 	
@@ -533,4 +533,5 @@ void test_addRecord_add_n250_into_n500_n300_n200_root(void){
 	TEST_ASSERT_EQUAL_NODE(NULL,&n500,'b',&n300);
 	TEST_ASSERT_EQUAL_NODE(&n200,&n300,'b',&n250);
 }
+
 

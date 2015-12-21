@@ -1,19 +1,29 @@
 #ifndef safeMalloc_H
 #define safeMalloc_H
 
-//Define the function for easy purpose of use
+#include <stdlib.h>
+#include <string.h>
+#include "MallocWrapper.h"
+#include "MemoryBlocks.h"
+#include "Node.h"
+#include "Rotation.h"
+#include "MemoryRecord.h"
+#include "compareRecord.h"
+#include "redBlackTree.h"
+#include "RestructureNode.h"
+
 #define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
-#define checkHeaderMemoryContent(record) _checkHeaderMemoryContent(record,__LINE__,__FILE__)
-#define checkFooterMemoryContent(record) _checkFooterMemoryContent(record,__LINE__,__FILE__)
-#define getMemory(node) (((Record*)node)->memoryAddr)
-#define getSize(node) (((Record*)node)->size)
+
+Node *allocatedPool;
+
 //Functions
-void *_safeMalloc(int size,int lineNumber, char *fileName);
-void safeFree(void *memoryToFree);
-void resetAllocatedPool();
-void _checkHeaderMemoryContent(void *record,int lineNumber, char *fileName);
-void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName);
-void saveSummary();
+void initializePool();
+void *_safeMalloc(int unsigned size,int lineNumber, char *fileName);
+//void safeFree(void *memoryToFree);
+//void resetAllocatedPool();
+//void _checkHeaderMemoryContent(void *record,int lineNumber, char *fileName);
+//void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName);
+//void saveSummary();
 
 
 #endif // safeMalloc_H

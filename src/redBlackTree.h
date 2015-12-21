@@ -6,9 +6,9 @@
 #include "compareRecord.h"
 
 //Make these define for easy programming
-#define addRecord(rootPtr,newNode) genericAddRedBlackTree(rootPtr,newNode,addAndDelRecordCompare)
-#define findRecord(rootPtr,targetMemory) genericFindRedBlackTree(rootPtr,targetMemory,findRecordCompare)
-#define removeRecord(rootPtr,deleteNode) genericDelRedBlackTree(rootPtr,deleteNode,addAndDelRecordCompare)
+#define addRecord(rootPtr,newNode) genericAddRedBlackTree(rootPtr,newNode,addRecordCompare)
+#define findRecord(rootPtr,targetMemory) genericFindRedBlackTree(rootPtr,targetMemory,findAndRemoveRecordCompare)
+#define removeRecord(rootPtr,targetMemory) genericDelRedBlackTree(rootPtr,targetMemory,findAndRemoveRecordCompare)
 #define leftChild (*rootPtr)->left
 #define rightChild (*rootPtr)->right
 #define leftGrandChild (*rootPtr)->left->left
@@ -16,11 +16,14 @@
 #define leftRightGrandChild (*rootPtr)->left->right
 #define rightLeftGrandChild (*rootPtr)->right->left
 
-void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addAndDelRecordCompare)(Node **rootPtr,Node *newNode));
+void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addRecordCompare)(Node **rootPtr,Node *newNode));
 void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compareRecord)(Node **rootPtr,Node *newNode));
-Node *genericFindRedBlackTree(Node **rootPtr,void *targetMemory, int(*findRecordCompare)(Node **rootPtr,void *targetMemory));
-Node *genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*addAndDelRecordCompare)(Node **rootPtr,Node *deleteNode));
-Node *_genericDelRedBlackTree(Node **rootPtr,Node *deleteNode, int(*compareRecord)(Node **rootPtr,Node *deleteNode));
+
+Node *genericFindRedBlackTree(Node **rootPtr,char *targetMemory, int(*findAndRemoveRecordCompare)(Node **rootPtr,char *targetMemory));
+
+Node *genericDelRedBlackTree(Node **rootPtr,char *targetMemory, int(*findAndRemoveRecordCompare)(Node **rootPtr,char *targetMemory));
+Node *_genericDelRedBlackTree(Node **rootPtr,char *targetMemory, int(*compareRecord)(Node **rootPtr,char *targetMemory));
+
 Node *removeNextLargerSuccessor(Node **rootPtr);
 
 

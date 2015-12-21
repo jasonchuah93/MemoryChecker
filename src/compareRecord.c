@@ -13,14 +13,13 @@
 *	Destroy: none
 *
 ************************************************************************************************************/
-int findRecordCompare(Node **recordFromRedBlackTree,Allocation *targetMemoryAddr){
+int findAndRemoveRecordCompare(Node **recordFromRedBlackTree,char *targetMemoryAddr){
 	char *recordAddr = ((Record*)((Node*)*recordFromRedBlackTree)->data)->memoryAllocateAddr;
-    char *compareAddr = targetMemoryAddr->memoryAllocateAddr;
-    if(recordAddr > compareAddr){
+    if(recordAddr > targetMemoryAddr){
        return 1;
-    }else if(recordAddr < compareAddr){
+    }else if(recordAddr < targetMemoryAddr){
        return -1;
-    }else if(recordAddr == compareAddr){
+    }else if(recordAddr == targetMemoryAddr){
        return 0;
     }
 }
@@ -37,14 +36,16 @@ int findRecordCompare(Node **recordFromRedBlackTree,Allocation *targetMemoryAddr
 *	Destroy: none
 *
 ************************************************************************************************************/
-int addAndDelRecordCompare(Node **recordFromRedBlackTree,Node *compareRecord){
-	char *recordAddr = ((Record*)((Node*)*recordFromRedBlackTree)->data)->memoryAllocateAddr;
-    char *compareAddr = ((Record*)((Node*)compareRecord)->data)->memoryAllocateAddr;
-    if(recordAddr > compareAddr)
+int addRecordCompare(Node **recordFromRedBlackTree,Node *compareRecord){
+	char *recordAddr = memoryAddr(*recordFromRedBlackTree);
+    char *compareAddr = memoryAddr(compareRecord);
+    
+	if(recordAddr > compareAddr)
         return 1;
-    else if(recordAddr < compareAddr)
-        return -1;
-    else if(recordAddr == compareAddr){
-        return 0;
-    }
+    else if(recordAddr < compareAddr){
+		return -1;
+	}
+    else if(recordAddr == compareAddr)
+		return 0;
+    
 }
