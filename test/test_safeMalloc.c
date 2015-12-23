@@ -357,3 +357,46 @@ void test_safeMalloc_allocate_size_100_and_400_and_200_should_create_descriptor_
 	_free_Expect(allocatedPool);
     freeMemory(allocatedPool);
 }
+
+void test_safeMalloc_allocate_size_400_and_200_and_300_and_100_should_create_descriptor_and_add_into_allocated_pool(void){
+	initializePool();
+	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock2 ptrBlock2 = {.header[49] = "@@@@@@@@@@" , .memory[199] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "@@@@@@@@@@" , .memory[299] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "%%%%%%%%%%" , .memory[399] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)sizeof(ptrBlock4.memory));
+	allocatedMemory400 = (char*)safeMalloc(400);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)sizeof(ptrBlock2.memory));
+	allocatedMemory200 = (char*)safeMalloc(200);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)sizeof(ptrBlock3.memory));
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)sizeof(ptrBlock1.memory));
+	allocatedMemory100 = (char*)safeMalloc(100);
+	
+	
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(300,memorySize(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(200,memorySize(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(400,memorySize(rightPool));
+	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(allocatedPool->left->left,NULL,'b',leftPool);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',rightPool);
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//Free memory and pool 
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+}

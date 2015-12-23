@@ -14,12 +14,11 @@
 *********************************************/
 
 void handleColor(Node **rootPtr,Node *deleteNode){
-  Node *root = *rootPtr;
-  if(root->left->color == 'r' || root->right->color == 'r'){
-        root->left->color ='b';
-        root->right->color ='b';
-        root->color ='r';
-    }
+	if((*rootPtr)->left->color == 'r' && (*rootPtr)->right->color == 'r'){
+		(*rootPtr)->color ='r';
+		(*rootPtr)->left->color ='b';
+		(*rootPtr)->right->color ='b';
+	}
 }
 
 /*********************************************************************
@@ -36,58 +35,69 @@ void handleColor(Node **rootPtr,Node *deleteNode){
 void genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*addRecordCompare)(Node **rootPtr,Node *newNode)){
     _genericAddRedBlackTree(rootPtr,newNode,addRecordCompare);    
     (*rootPtr)->color='b';
+	if((*rootPtr)->left != NULL && (*rootPtr)->right != NULL)
+		if((*rootPtr)->left->color == 'b' && (*rootPtr)->right->color == 'b')
+			(*rootPtr)->color='r';
 }
 
 void _genericAddRedBlackTree(Node **rootPtr,Node *newNode, int(*compareRecord)(Node **rootPtr,Node *newNode)){
-    Node *root = *rootPtr;
-    int compare=0;
+	int compare=0;
     if(*rootPtr == NULL){
 		*rootPtr = newNode;
         (*rootPtr)->color='r';
 		return;
     }
     
-	if (root->left!=NULL && root->right!=NULL)
-        handleColor(rootPtr,newNode); 
+	if ((*rootPtr)->left!=NULL && (*rootPtr)->right!=NULL){
+        handleColor(rootPtr,newNode);
+	}
 	
-	compare = compareRecord(&root,newNode);
+	compare = compareRecord(rootPtr,newNode);
     
 	if(compare == 1){
 		
-        _genericAddRedBlackTree(&root->left,newNode,compareRecord);
+        _genericAddRedBlackTree(&(*rootPtr)->left,newNode,compareRecord);
 	}
     else if(compare == -1){
 		
-        _genericAddRedBlackTree(&root->right,newNode,compareRecord);
+        _genericAddRedBlackTree(&(*rootPtr)->right,newNode,compareRecord);
 	}
     else if(compare == 0){
 		printf("2nd test");
 		Throw(ERR_EQUIVALENT_RECORD);
 	}
 	
-	if(root->left!=NULL && root->right==NULL){
-        if(root->left->left !=NULL && root->left->right == NULL){
-            if(root->left->color == 'r' && root->left->left->color == 'r')
-                rightRotate(rootPtr);
-        }else if(root->left->left ==NULL && root->left->right !=NULL){
-            if(root->left->color == 'r' && root->left->right->color == 'r')
-                leftRightRotate(rootPtr);
-		}else if(root->left->left != NULL && root->left->right !=NULL){
-			if(root->left->color == 'b' && root->left->left->color == 'r')
-                root->left->left->color = 'b';
+	if((*rootPtr)->left!=NULL){
+		if((*rootPtr)->left->left !=NULL){
+			if((*rootPtr)->left->color == 'r' && (*rootPtr)->left->left->color == 'r'){
 				rightRotate(rootPtr);
+				(*rootPtr)->right->color = 'r';
+			}
+		}else if((*rootPtr)->left->right !=NULL){
+			if((*rootPtr)->left->color == 'r' && (*rootPtr)->left->right->color == 'r'){
+				leftRightRotate(rootPtr);
+				(*rootPtr)->right->color = 'r';
+			}
 		}
-    }else if(root->left==NULL && root->right!=NULL){
-		if(root->right->left !=NULL && root->right->right == NULL){
-            if(root->right->color == 'r' && root->right->left->color == 'r')
-                rightLeftRotate(rootPtr);
-        }else if(root->right->left !=NULL && root->right->right !=NULL){
-			if(root->right->color == 'b' && root->right->left->color == 'r')
+	}else if((*rootPtr)->right!=NULL){
+		if((*rootPtr)->right->right != NULL){
+			if((*rootPtr)->right->color == 'r' && (*rootPtr)->right->right->color == 'r'){
+				leftRotate(rootPtr);
+				(*rootPtr)->left->color = 'r';
+			}
+		}else if((*rootPtr)->right->left !=NULL){
+			if((*rootPtr)->right->color == 'r' && (*rootPtr)->right->left->color == 'r'){
 				rightLeftRotate(rootPtr);
-		}else if(root->right->left == NULL && root->right->right !=NULL){
-            if(root->right->color == 'r' && root->right->right->color == 'r')
-                leftRotate(rootPtr);
-        }
+				(*rootPtr)->left->color = 'r';
+			}
+		}
+	}
+	
+	if((*rootPtr)->right !=NULL && (*rootPtr)->right->left !=NULL){
+		if((*rootPtr)->right->color == 'r' && (*rootPtr)->right->left->color == 'r'){
+			(*rootPtr)->right->left->color = 'b';
+			(*rootPtr)->right->right->color = 'b';
+		}
 	}
 }
 
