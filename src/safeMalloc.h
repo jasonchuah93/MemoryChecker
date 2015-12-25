@@ -14,12 +14,12 @@
 
 #define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
 
-Node *allocatedPool;
+Node *allocatedPool,*freePool;
 
 //Functions
 void initializePool();
 void *_safeMalloc(int unsigned size,int lineNumber, char *fileName);
-//void safeFree(void *memoryToFree);
+
 //void resetAllocatedPool();
 //void _checkHeaderMemoryContent(void *record,int lineNumber, char *fileName);
 //void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName);

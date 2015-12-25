@@ -19,11 +19,12 @@
 ********************************************************/
 
 int isNodeBlack(Node **node){
-	if(*node!=NULL && (*node)->color=='b'){
+	if((*node) == NULL )
 		return 1;
-	}else{
+	else if(*node!=NULL && (*node)->color=='b')
+		return 1;
+	else
 		return 0;
-	}
 }
 
 /********************************************************
@@ -176,7 +177,8 @@ void restructureRedLeft(Node **nodePtr,Node *delNode){
 **************************************************/
 
 void restructureRedBlackTree(Node **nodePtr,Node *removeNode){
-    if(isDoubleNodeBlack(leftChild,removeNode)){
+    
+	if(isDoubleNodeBlack(leftChild,removeNode)){
         if(isNodeRed(&rightChild)){
             if(rightLeftGrandChild !=NULL && rightGrandChild !=NULL){
                 restructureRedRight(nodePtr,removeNode);

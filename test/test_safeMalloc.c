@@ -109,7 +109,6 @@ void test_safeMalloc_allocate_size_200_and_100_and_300_should_create_descriptor_
 	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
 	MemoryBlock3 ptrBlock3 = {.header[49] = "%%%%%%%%%%" , .memory[299] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
 	
-	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)sizeof(ptrBlock2.memory));
 	allocatedMemory200 = (char*)safeMalloc(200);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)sizeof(ptrBlock1.memory));
@@ -432,22 +431,24 @@ void test_safeMalloc_allocate_size_500_400_and_200_and_300_and_100_should_create
 	
 	
 	TEST_ASSERT_NOT_NULL(allocatedPool);
-	TEST_ASSERT_EQUAL(400,memorySize(allocatedPool));
-	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(allocatedPool));
-	/*
-	TEST_ASSERT_EQUAL(200,memorySize(leftPool));
-	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(100,memorySize(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
 	TEST_ASSERT_EQUAL(400,memorySize(rightPool));
 	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(rightPool));
-	TEST_ASSERT_EQUAL(100,memorySize(leftChildPool));
-	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftChildPool));
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftChildPool);
-	TEST_ASSERT_EQUAL_NODE(allocatedPool->left->left,NULL,'b',leftPool);
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',rightPool);
-	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'r',allocatedPool);
-	*/
+	TEST_ASSERT_EQUAL(300,memorySize(rightLeftChildPool));
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(rightLeftChildPool));
+	TEST_ASSERT_EQUAL(500,memorySize(rightChildPool));
+	TEST_ASSERT_EQUAL(allocatedMemory500,memoryAddr(rightChildPool));
+	
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',rightChildPool);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',rightLeftChildPool);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
+	TEST_ASSERT_EQUAL_NODE(rightLeftChildPool,rightChildPool,'r',rightPool);
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
 	//Free memory and pool 
-	/*
 	_free_Expect(allocatedMemory100);
     freeMemory(allocatedMemory100);
 	_free_Expect(allocatedMemory200);
@@ -460,5 +461,4 @@ void test_safeMalloc_allocate_size_500_400_and_200_and_300_and_100_should_create
     freeMemory(allocatedMemory500);
 	_free_Expect(allocatedPool);
     freeMemory(allocatedPool);
-	*/
 }

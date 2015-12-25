@@ -6,7 +6,8 @@
 *	Destroy: none
 **********************************************************************/
 void initializePool(){
-	allocatedPool=NULL;
+	allocatedPool = NULL;
+	freePool = NULL;
 }
 
 /*********************************************************************

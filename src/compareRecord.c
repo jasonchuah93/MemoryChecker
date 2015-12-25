@@ -39,13 +39,11 @@ int findAndRemoveRecordCompare(Node **recordFromRedBlackTree,char *targetMemoryA
 int addRecordCompare(Node **recordFromRedBlackTree,Node *compareRecord){
 	char *recordAddr = memoryAddr(*recordFromRedBlackTree);
     char *compareAddr = memoryAddr(compareRecord);
-    
-	if(recordAddr > compareAddr)
+    if(recordAddr > compareAddr)
         return 1;
     else if(recordAddr < compareAddr){
 		return -1;
 	}
     else if(recordAddr == compareAddr)
 		return 0;
-    
 }

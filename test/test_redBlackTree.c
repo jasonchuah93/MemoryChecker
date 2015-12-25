@@ -507,47 +507,6 @@ void test_addRecord_add_n250_into_n500_n50_n300_n200_root(void){
 }
 
 /**
-*       root            root                      
-*        |    add n250	  |                        
-*        v   --------->   v      
-*       n200             n200   
-*     /    \            /  \    
-*   n50     n300      n50   n300
-*            \              /  \   
-*            n500        n250   n500 
-*
-**/
-void test_addRecord_add_n100_into_n500_n400_n300_n200_root(void){
-	Record r100 = {.memoryAllocateAddr =(void*)100 };  
-	Record r200 = {.memoryAllocateAddr =(void*)200 };
-	Record r300 = {.memoryAllocateAddr =(void*)300 };
-	Record r400 = {.memoryAllocateAddr =(void*)400 };
-	Record r500 = {.memoryAllocateAddr =(void*)500 };
-	
-	Node n100 = {.data=&r100 ,.color='r'};
-	Node n200 = {.data=&r200 ,.color='r'};
-	Node n300 = {.data=&r300 ,.color='r'};
-	Node n400 = {.data=&r400 ,.color='r'};
-	Node n500 = {.data=&r500 ,.color='r'};
-	
-	
-	Node *root = NULL;
-	addRecord(&root,&n500);
-	addRecord(&root,&n400);
-    addRecord(&root,&n300);
-	addRecord(&root,&n200);
-	addRecord(&root,&n100);
-	
-	TEST_ASSERT_EQUAL_PTR(&n200,root);
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',&n500);
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',&n300);
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',&n100);
-	TEST_ASSERT_EQUAL_NODE(&n300,&n500,'r',&n400);
-	TEST_ASSERT_EQUAL_NODE(&n100,&n400,'b',root);
-}
-
-
-/**
 *       root             root                 
 *        |    add n70	  |                      
 *        v   --------->   v         
