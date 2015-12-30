@@ -36,18 +36,17 @@ Allocation *_allocateMemory(int unsigned size,int lineNumber,char *fileName){
 			lineNumber	the lineNumber allocated memory block
 			fileName	the file location of allocated memory block
 **/
-Record *_createRecord(int unsigned size,void *memoryBlock,int lineNumber,char *fileName){
+Record *_createRecord(int unsigned size,Allocation *memoryBlock,int lineNumber,char *fileName){
     Record *descriptor = (Record*)malloc(sizeof(Record));
     descriptor->size = size;
-	descriptor->headerAddr = ((Allocation*)memoryBlock)->headerAddr;
-	descriptor->memoryAllocateAddr = ((Allocation*)memoryBlock)->memoryAllocateAddr;
-    descriptor->footerAddr = ((Allocation*)memoryBlock)->footerAddr;
-    descriptor->lineNumber = ((Allocation*)memoryBlock)->lineNumber;
-    descriptor->fileName = ((Allocation*)memoryBlock)->fileName;
+	descriptor->headerAddr = memoryBlock->headerAddr;
+	descriptor->memoryAllocateAddr = memoryBlock->memoryAllocateAddr;
+    descriptor->footerAddr = memoryBlock->footerAddr;
+    descriptor->lineNumber = memoryBlock->lineNumber;
+    descriptor->fileName = memoryBlock->fileName;
    
 	return descriptor;
 }
-
 
 void freeMemory(void *memoryPtr){
     _free(memoryPtr);

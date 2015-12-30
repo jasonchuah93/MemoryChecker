@@ -30,7 +30,7 @@ struct Record{
 };
 
 Allocation *_allocateMemory(int unsigned size,int lineNumber,char *fileName);
-Record *_createRecord(int unsigned size,void *memoryBlock,int lineNumber,char *fileName);
+Record *_createRecord(int unsigned size,Allocation *memoryBlock,int lineNumber,char *fileName);
 void freeMemory(void *memoryPtr);
 
 #endif // MemoryRecord_H
