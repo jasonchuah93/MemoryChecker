@@ -36,9 +36,9 @@ Allocation *_allocateMemory(int unsigned size,int lineNumber,char *fileName){
 			lineNumber	the lineNumber allocated memory block
 			fileName	the file location of allocated memory block
 **/
-Record *_createRecord(int unsigned size,Allocation *memoryBlock,int lineNumber,char *fileName){
+Record *_createRecord(Allocation *memoryBlock,int lineNumber,char *fileName){
     Record *descriptor = (Record*)malloc(sizeof(Record));
-    descriptor->size = size;
+    descriptor->size = memoryBlock->size;
 	descriptor->headerAddr = memoryBlock->headerAddr;
 	descriptor->memoryAllocateAddr = memoryBlock->memoryAllocateAddr;
     descriptor->footerAddr = memoryBlock->footerAddr;

@@ -13,15 +13,17 @@
 *	Destroy: none
 *
 ************************************************************************************************************/
-int findAndRemoveRecordCompare(Node **recordFromRedBlackTree,char *targetMemoryAddr){
-	char *recordAddr = ((Record*)((Node*)*recordFromRedBlackTree)->data)->memoryAllocateAddr;
-    if(recordAddr > targetMemoryAddr){
-       return 1;
-    }else if(recordAddr < targetMemoryAddr){
-       return -1;
-    }else if(recordAddr == targetMemoryAddr){
-       return 0;
-    }
+int findRecordCompare(Node **recordFromRedBlackTree,void *targetMemoryAddr){
+	char *recordAddr = memoryAddr(*recordFromRedBlackTree);
+    if(recordAddr == (char*)targetMemoryAddr){
+		return 0;
+	}else{
+		if(recordAddr > (char*)targetMemoryAddr){
+			return 1;
+		}else if(recordAddr < (char*)targetMemoryAddr){
+			return -1;
+		}
+	}
 }
 
 /***********************************************************************************************************

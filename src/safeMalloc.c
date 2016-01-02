@@ -24,7 +24,7 @@ void *_safeMalloc(int unsigned size,int lineNumber, char *fileName){
      |      BLOCK   | MEMORY BLOCK        |     BLOCK  |
     *****************************************************/
     Allocation *ptrMemory = allocateMemory(size);
-	Record *ptrRecord = createRecord(size,ptrMemory);
+	Record *ptrRecord = createRecord(ptrMemory);
 	Node *ptrNode = createNode(ptrRecord);
 	addRecord(&allocatedPool,ptrNode);
 	return ptrMemory->memoryAllocateAddr;

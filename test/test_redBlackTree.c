@@ -29,7 +29,7 @@ void tearDown(void){}
 void test_addRecord_should_add_record_into_empty_root(void){
 	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "##########"};
 	Allocation block1 = {.memoryAllocateAddr = (char*)sizeof(ptrBlock1.memory)};
-    Record *ptrRecord1 = createRecord(100,&block1);
+    Record *ptrRecord1 = createRecord(&block1);
     Node *r100 = createNode(ptrRecord1);
 	
 	Node *root = NULL;

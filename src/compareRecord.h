@@ -8,7 +8,7 @@
 #define memorySize(node) (((Record*)((Node*)(node))->data)->size)
 #define memoryAddr(node) (((Record*)((Node*)(node))->data)->memoryAllocateAddr)
 
-int findAndRemoveRecordCompare(Node **recordFromRedBlackTree,char *targetMemoryAddr);
+int findRecordCompare(Node **recordFromRedBlackTree,void *targetMemoryAddr);
 int addRecordCompare(Node **recordFromRedBlackTree,Node *compareRecord);
 	
 #endif // compareRecord_H

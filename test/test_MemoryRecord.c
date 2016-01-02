@@ -47,7 +47,7 @@ void test_createRecord_should_create_descriptor_with_allocated_size_and_memory(v
     TEST_ASSERT_EQUAL(38,ptr->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_MemoryRecord.c",ptr->fileName);
     
-    ptrRecord = createRecord(200,ptr);
+    ptrRecord = createRecord(ptr);
     TEST_ASSERT_NOT_NULL(ptrRecord);
     TEST_ASSERT_EQUAL(ptr->headerAddr,ptrRecord->headerAddr);
     TEST_ASSERT_EQUAL(ptr->memoryAllocateAddr,ptrRecord->memoryAllocateAddr);

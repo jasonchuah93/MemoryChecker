@@ -134,15 +134,85 @@ Node *_genericDelRedBlackTree(Node **rootPtr,Node *delNode, int(*compareRecord)(
 				*rootPtr=NULL;
 				return node;
 			}
-		}else if(compare == 1){
-			node = _genericDelRedBlackTree(&leftChild,delNode,compareRecord);
-			
-		}else if(compare == -1){
-			node = _genericDelRedBlackTree(&rightChild,delNode,compareRecord);
+		}else{
+			if(compare == 1){
+				node = _genericDelRedBlackTree(&leftChild,delNode,compareRecord);
+			}else if(compare == -1){
+				node = _genericDelRedBlackTree(&rightChild,delNode,compareRecord);
+			}
 		}
-	
 	restructureRedBlackTree(rootPtr,delNode);
 	return node;
+}
+
+/*********************************************************************
+ * This function will find record in the red black tree
+ *
+ *	Input: 	rootPtr			the root of the tree
+ *			targerMemory	the memory user want to look for in tree
+ 			compare			pointer to a function to decide the rules to find record
+ *	
+ *	Output: found return 1
+ *			Not found return 0
+ *
+ *	Destroy: none
+ *	
+**********************************************************************/
+
+Node *genericFindRedBlackTree(Node **rootPtr,void *targetMemory,int(*findRecordCompare)(Node **rootPtr,void *targetMemory)){
+    int compare ;
+	Node *foundNode;
+	if((char*)targetMemory > memoryAddr(*rootPtr)){
+		if(rightChild->left == NULL && rightChild->right == NULL){
+			if((char*)targetMemory != memoryAddr(rightChild)){
+				Throw(ERR_INVALID_ADDRESS);
+				return;
+			}
+		}
+	}else if((char*)targetMemory < memoryAddr(*rootPtr)){
+		if(leftChild->left == NULL && leftChild->right == NULL){
+			if((char*)targetMemory != memoryAddr(leftChild)){
+				Throw(ERR_INVALID_ADDRESS);
+				return;
+			}
+		}
+	}	
+	compare = findRecordCompare(rootPtr,targetMemory);
+    if(compare == 0){
+		foundNode = *rootPtr;
+	}else if(compare == 1){
+        foundNode = genericFindRedBlackTree(&leftChild,targetMemory,findRecordCompare);
+	}else if(compare == -1){
+		foundNode = genericFindRedBlackTree(&rightChild,targetMemory,findRecordCompare);
+	}
+	return foundNode;
+}
+
+int findRedBlackTree(Node **rootPtr,void *targetMemory,int(*findRecordCompare)(Node **rootPtr,void *targetMemory)){
+    int compare ;
+	if((char*)targetMemory > memoryAddr(*rootPtr)){
+		if(rightChild->left == NULL && rightChild->right == NULL){
+			if((char*)targetMemory != memoryAddr(rightChild)){
+				//Throw(ERR_INVALID_ADDRESS);
+				return 0;
+			}
+		}
+	}else if((char*)targetMemory < memoryAddr(*rootPtr)){
+		if(leftChild->left == NULL && leftChild->right == NULL){
+			if((char*)targetMemory != memoryAddr(leftChild)){
+				//Throw(ERR_INVALID_ADDRESS);
+				return 0;
+			}
+		}
+	}	
+	compare = findRecordCompare(rootPtr,targetMemory);
+    if(compare == 0){
+		return 1;
+    }else if(compare == 1){
+		findRedBlackTree(&leftChild,targetMemory,findRecordCompare);
+	}else if(compare == -1){
+		findRedBlackTree(&rightChild,targetMemory,findRecordCompare);
+	}
 }
 
 /*******************************************

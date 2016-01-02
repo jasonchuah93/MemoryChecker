@@ -1,7 +1,7 @@
 #ifndef MemoryRecord_H
 #define MemoryRecord_H
 
-#define createRecord(size,memoryBlock) _createRecord(size,memoryBlock,__LINE__,__FILE__)
+#define createRecord(memoryBlock) _createRecord(memoryBlock,__LINE__,__FILE__)
 #define allocateMemory(size) _allocateMemory(size,__LINE__,__FILE__)
 
 #include <stdlib.h>
@@ -30,7 +30,7 @@ struct Record{
 };
 
 Allocation *_allocateMemory(int unsigned size,int lineNumber,char *fileName);
-Record *_createRecord(int unsigned size,Allocation *memoryBlock,int lineNumber,char *fileName);
+Record *_createRecord(Allocation *memoryBlock,int lineNumber,char *fileName);
 void freeMemory(void *memoryPtr);
 
 #endif // MemoryRecord_H
