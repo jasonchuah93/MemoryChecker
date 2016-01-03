@@ -13,13 +13,6 @@ void _safeFree(void *memoryToFree,int lineNumber,char *fileName){
 		Throw(ERR_INVALID_POOL);
 		//return;
 	}else{
-		/*
-		if((char*)memoryToFree > memoryAddr(allocatedPool) && (char*)memoryToFree < memoryAddr(allocatedPool)+memorySize(allocatedPool)){
-			printf("Trying to free the address between allocatedMemory and footerMemory at \nfile: %s,line: %d\n",fileName,lineNumber);
-			Throw(ERR_INCORRECT_ADDRESS);
-			//return;
-		}
-		*/
 		allocatedPoolCompare = find(&allocatedPool,memoryToFree);
 		if(allocatedPoolCompare == 1){
 			foundNode = findRecord(&allocatedPool,memoryToFree);
@@ -31,10 +24,10 @@ void _safeFree(void *memoryToFree,int lineNumber,char *fileName){
 				if(freePoolCompare == 1){
 					printf("Trying to free the same address twice at file: %s,line: %d\n",fileName,lineNumber);
 					Throw(ERR_FREED_TWICE);
-					//return;
+					return;
 				}
 			}
-			printf("Trying to free address not in allocatedPool at file: %s,line: %d\n",fileName,lineNumber);
+			printf("Trying to free incorrect memory address at file: %s,line: %d\n",fileName,lineNumber);
 			Throw(ERR_INVALID_ADDRESS);
 			//return;
 		}

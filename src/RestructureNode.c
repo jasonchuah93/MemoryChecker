@@ -183,7 +183,7 @@ void restructureRedBlackTree(Node **nodePtr,Node *removeNode){
                 restructureRedRight(nodePtr,removeNode);
             }
         }else if(isNodeBlack(&rightChild) && isNodeRed(&rightLeftGrandChild)){
-            restructureBlackLeftWithOneRedChild(nodePtr);
+            restructureBlackRightWithOneRedChild(nodePtr);
         }else if(isNodeBlack(&rightChild) && isNodeRed(&rightGrandChild)){
 			restructureBlackRightWithOneRedChild(nodePtr);
 		}
