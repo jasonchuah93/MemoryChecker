@@ -59,7 +59,8 @@ void test_createRecord_should_create_descriptor_with_allocated_size_and_memory(v
     TEST_ASSERT_EQUAL(38,ptrRecord->lineNumber);
     TEST_ASSERT_EQUAL_STRING("test/test_MemoryRecord.c",ptrRecord->fileName);
     
-     _free_Expect(ptr);
+	
+	 _free_Expect(ptr);
     freeMemory(ptr);
      _free_Expect(ptrRecord);
     freeMemory(ptrRecord);
