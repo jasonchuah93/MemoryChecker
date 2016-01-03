@@ -108,39 +108,37 @@ Node *genericDelRedBlackTree(Node **rootPtr,Node *delNode, int(*addRecordCompare
 Node *_genericDelRedBlackTree(Node **rootPtr,Node *delNode, int(*compareRecord)(Node **rootPtr,Node *delNode)){
     int compare ; char tempColor; 
     Node *node , *tempRoot ,*tempLeftChild, *tempRightChild,*removeSuccessor,tempSuccessor;
-		compare = compareRecord(rootPtr,delNode);
-		if(compare == 0){
-			if(rightChild != NULL){
-				node = *rootPtr;
-				removeSuccessor = removeNextLargerSuccessor(&rightChild);
-				tempSuccessor = *removeSuccessor;
-				tempLeftChild = leftChild ; 
-				tempRightChild = rightChild;
-				tempColor = (*rootPtr)->color; 
-				*rootPtr = removeSuccessor;
-				leftChild = tempLeftChild; 
-				rightChild = tempRightChild;
-				(*rootPtr)->color = tempColor;
-				node->left = NULL;
-				node->right = NULL;
-				restructureRedBlackTree(rootPtr,&tempSuccessor);
-				return node;
-			}else if(leftChild != NULL){
-				rightRotate(rootPtr);
-				node = removeNextLargerSuccessor(&rightChild);
-				(*rootPtr)->color = 'b';
-			}else{
-				node = *rootPtr;
-				*rootPtr=NULL;
-				return node;
-			}
+	compare = compareRecord(rootPtr,delNode);
+	if(compare == 0){
+		if(rightChild != NULL){
+			node = *rootPtr;
+			removeSuccessor = removeNextLargerSuccessor(&rightChild);
+			tempSuccessor = *removeSuccessor;
+			tempLeftChild = leftChild ; 
+			tempRightChild = rightChild;
+			tempColor = (*rootPtr)->color; 
+			*rootPtr = removeSuccessor;
+			leftChild = tempLeftChild; 
+			rightChild = tempRightChild;
+			(*rootPtr)->color = tempColor;
+			node->left = NULL;
+			node->right = NULL;
+			restructureRedBlackTree(rootPtr,&tempSuccessor);
+			return node;
+		}else if(leftChild != NULL){
+			rightRotate(rootPtr);
+			node = removeNextLargerSuccessor(&rightChild);
+			(*rootPtr)->color = 'b';
 		}else{
-			if(compare == 1){
-				node = _genericDelRedBlackTree(&leftChild,delNode,compareRecord);
-			}else if(compare == -1){
-				node = _genericDelRedBlackTree(&rightChild,delNode,compareRecord);
-			}
+			node = *rootPtr;
+			*rootPtr=NULL;
+			return node;
 		}
+	}else if(compare == 1){
+		node = _genericDelRedBlackTree(&leftChild,delNode,compareRecord);
+	}else if(compare == -1){
+		node = _genericDelRedBlackTree(&rightChild,delNode,compareRecord);
+	}
 	restructureRedBlackTree(rootPtr,delNode);
 	return node;
 }
@@ -162,6 +160,7 @@ Node *_genericDelRedBlackTree(Node **rootPtr,Node *delNode, int(*compareRecord)(
 Node *genericFindRedBlackTree(Node **rootPtr,void *targetMemory,int(*findRecordCompare)(Node **rootPtr,void *targetMemory)){
     int compare ;
 	Node *foundNode;
+	/*
 	if((char*)targetMemory > memoryAddr(*rootPtr)){
 		if(rightChild->left == NULL && rightChild->right == NULL){
 			if((char*)targetMemory != memoryAddr(rightChild)){
@@ -176,7 +175,8 @@ Node *genericFindRedBlackTree(Node **rootPtr,void *targetMemory,int(*findRecordC
 				return;
 			}
 		}
-	}	
+	}
+	*/
 	compare = findRecordCompare(rootPtr,targetMemory);
     if(compare == 0){
 		foundNode = *rootPtr;
@@ -185,26 +185,31 @@ Node *genericFindRedBlackTree(Node **rootPtr,void *targetMemory,int(*findRecordC
 	}else if(compare == -1){
 		foundNode = genericFindRedBlackTree(&rightChild,targetMemory,findRecordCompare);
 	}
+	
 	return foundNode;
 }
 
 int findRedBlackTree(Node **rootPtr,void *targetMemory,int(*findRecordCompare)(Node **rootPtr,void *targetMemory)){
     int compare ;
+	
 	if((char*)targetMemory > memoryAddr(*rootPtr)){
-		if(rightChild->left == NULL && rightChild->right == NULL){
+		if(rightChild == NULL){
+			return 0;
+		}else if(rightChild->left == NULL && rightChild->right == NULL){
 			if((char*)targetMemory != memoryAddr(rightChild)){
-				//Throw(ERR_INVALID_ADDRESS);
 				return 0;
 			}
 		}
 	}else if((char*)targetMemory < memoryAddr(*rootPtr)){
-		if(leftChild->left == NULL && leftChild->right == NULL){
+		if(leftChild == NULL){
+			return 0;
+		}else if(leftChild->left == NULL && leftChild->right == NULL){
 			if((char*)targetMemory != memoryAddr(leftChild)){
-				//Throw(ERR_INVALID_ADDRESS);
 				return 0;
 			}
 		}
-	}	
+	}
+	
 	compare = findRecordCompare(rootPtr,targetMemory);
     if(compare == 0){
 		return 1;

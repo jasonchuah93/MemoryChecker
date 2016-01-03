@@ -27,87 +27,22 @@ void tearDown(void){}
 #define rightLeftChildPool allocatedPool->right->left
 //FreePool
 #define leftFreePool freePool->left
+#define rightFreePool freePool->right
 
-
-void test_safeFree_should_free_record_from_allocatedPool_to_freePool(void){
-	initializePool();
-	char *allocatedMemory;
-	MemoryBlock1 ptrBlock = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock.memory))-50);
-	allocatedMemory = (char*)safeMalloc(100);
-	safeFree(allocatedMemory);
-	
-	TEST_ASSERT_NULL(allocatedPool);
-	TEST_ASSERT_NOT_NULL(freePool);
-	TEST_ASSERT_EQUAL(allocatedMemory,memoryAddr(freePool));
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
-	
-	_free_Expect(allocatedMemory);
-    freeMemory(allocatedMemory);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
-}
-
-void test_safeFree_should_throw_error_if_free_null_allocatedPool(void){
+void test_safeFree_should_throw_error_if_header_memory_been_modified(void){
 	initializePool();
 	ErrorCode e;
-	char *allocatedMemory = (char*)500;
-	
-	Try{
-		safeFree(allocatedMemory);
-		TEST_FAIL_MESSAGE("Should not free allocatedPool");
-	}Catch(e){
-		TEST_ASSERT_EQUAL(ERR_INVALID_POOL,e);
-	}
-}
-
-void test_safeFree_should_throw_error_if_free_address_not_in_the_allocatedPool(void){
-	initializePool();
-	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory400,*allocatedMemory500,*allocatedMemory600,*randomAddr;
-	randomAddr = (char*)800;
-	ErrorCode e;
-	
+	char *allocatedMemory100;
 	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
-	MemoryBlock2 ptrBlock2 = {.header[49] = "##########" , .memory[199] = "abcdef", .footer[49] = "$$$$$$$$$$"};
-	MemoryBlock4 ptrBlock4 = {.header[49] = "@@@@@@@@@@" , .memory[399] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
-	MemoryBlock5 ptrBlock5 = {.header[49] = "##########" , .memory[499] = "abcdef", .footer[49] = "$$$$$$$$$$"};
-	MemoryBlock6 ptrBlock6 = {.header[49] = "%%%%%%%%%%" , .memory[599] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
-	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
-	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),((char*)sizeof(ptrBlock6.memory))-50);
-	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+500+FOOTER_SIZE)),((char*)sizeof(ptrBlock5.memory))-50);
-	allocatedMemory500 = (char*)safeMalloc(500);
-	
-	Try{
-		safeFree(randomAddr);
-		TEST_FAIL_MESSAGE("Should not free address not in pool");
-	}Catch(e){
-		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS,e);
-	}
 	
 	_free_Expect(allocatedMemory100);
     freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory200);
-    freeMemory(allocatedMemory200);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory500);
-    freeMemory(allocatedMemory500);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
 	_free_Expect(allocatedPool);
     freeMemory(allocatedPool);
 }
 
-/*
 void test_safeFree_should_throw_error_if_free_the_same_address_twice(void){
 	initializePool();
 	ErrorCode e;
@@ -156,37 +91,740 @@ void test_safeFree_should_throw_error_if_free_the_same_address_twice(void){
     freeMemory(freePool);
 }
 
-void test_safeFree_should_throw_error_if_header_memory_been_modified(void){
+void test_safeFree_should_throw_error_if_free_the_same_address_twice_right_node(void){
 	initializePool();
 	ErrorCode e;
-	char *allocatedMemory100;
-	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	char *allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
+	
+	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "@@@@@@@@@@" , .memory[399] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock6 ptrBlock6 = {.header[49] = "%%%%%%%%%%" , .memory[599] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
+	allocatedMemory400 = (char*)safeMalloc(400);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),((char*)sizeof(ptrBlock6.memory))-50);
+	allocatedMemory600 = (char*)safeMalloc(600);
+	
+	safeFree(allocatedMemory600);
+	
+	//AllocatedPool
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
+	TEST_ASSERT_EQUAL_NODE(leftPool,NULL,'b',allocatedPool);
+	
+	//FreePool
+	TEST_ASSERT_NOT_NULL(freePool);
+	TEST_ASSERT_EQUAL(allocatedMemory600,memoryAddr(freePool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
+	
+	Try{
+		safeFree(allocatedMemory600);
+		TEST_FAIL_MESSAGE("Should not free same address");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
+	}
+	
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedMemory600);
+    freeMemory(allocatedMemory600);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+	_free_Expect(freePool);
+    freeMemory(freePool);
+}
+
+void test_safeFree_should_throw_error_if_free_the_same_address_twice_left_node(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
+	
+	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "@@@@@@@@@@" , .memory[399] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock6 ptrBlock6 = {.header[49] = "%%%%%%%%%%" , .memory[599] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
+	allocatedMemory400 = (char*)safeMalloc(400);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),((char*)sizeof(ptrBlock6.memory))-50);
+	allocatedMemory600 = (char*)safeMalloc(600);
+	
+	safeFree(allocatedMemory300);
+	
+	//AllocatedPool
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory600,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightPool);
+	TEST_ASSERT_EQUAL_NODE(NULL,rightPool,'b',allocatedPool);
+	
+	//FreePool
+	TEST_ASSERT_NOT_NULL(freePool);
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(freePool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
+	
+	Try{
+		safeFree(allocatedMemory300);
+		TEST_FAIL_MESSAGE("Should not free same address");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
+	}
+	
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedMemory600);
+    freeMemory(allocatedMemory600);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+	_free_Expect(freePool);
+    freeMemory(freePool);
+}
+
+void test_safeFree_should_throw_error_if_free_the_same_address_twice_leftChild_node(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory100,*allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "@@@@@@@@@@" , .memory[399] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock6 ptrBlock6 = {.header[49] = "%%%%%%%%%%" , .memory[599] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
+	allocatedMemory400 = (char*)safeMalloc(400);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),((char*)sizeof(ptrBlock6.memory))-50);
+	allocatedMemory600 = (char*)safeMalloc(600);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
 	allocatedMemory100 = (char*)safeMalloc(100);
+	
+	safeFree(allocatedMemory100);
+	
+	//AllocatedPool
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory600,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//FreePool
+	TEST_ASSERT_NOT_NULL(freePool);
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(freePool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
+	
+	Try{
+		safeFree(allocatedMemory100);
+		TEST_FAIL_MESSAGE("Should not free same address");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
+	}
 	
 	_free_Expect(allocatedMemory100);
     freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedMemory600);
+    freeMemory(allocatedMemory600);
 	_free_Expect(allocatedPool);
     freeMemory(allocatedPool);
+	_free_Expect(freePool);
+    freeMemory(freePool);
 }
 
-void test_safeFree_should_throw_error_if_free_between_the_memoryAddr(void){
+void test_safeFree_should_throw_error_if_free_the_same_address_twice_leftRightChild_node(void){
 	initializePool();
 	ErrorCode e;
-	char *allocatedMemory100;
-	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	char *allocatedMemory100,*allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "@@@@@@@@@@" , .memory[399] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock6 ptrBlock6 = {.header[49] = "%%%%%%%%%%" , .memory[599] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
+	allocatedMemory400 = (char*)safeMalloc(400);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),((char*)sizeof(ptrBlock6.memory))-50);
+	allocatedMemory600 = (char*)safeMalloc(600);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
 	allocatedMemory100 = (char*)safeMalloc(100);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
+	allocatedMemory300 = (char*)safeMalloc(300);
+	
+	safeFree(allocatedMemory300);
+	
+	//AllocatedPool
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory600,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//FreePool
+	TEST_ASSERT_NOT_NULL(freePool);
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(freePool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
 	
 	Try{
-		safeFree(allocatedMemory100+10);
-		TEST_FAIL_MESSAGE("Should not free different address");
+		safeFree(allocatedMemory300);
+		TEST_FAIL_MESSAGE("Should not free same address");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
+	}
+	
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedMemory600);
+    freeMemory(allocatedMemory600);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+	_free_Expect(freePool);
+    freeMemory(freePool);
+}
+
+void test_safeFree_should_throw_error_if_free_the_same_address_twice_rightChild_node(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory100,*allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "@@@@@@@@@@" , .memory[399] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock6 ptrBlock6 = {.header[49] = "%%%%%%%%%%" , .memory[599] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
+	allocatedMemory400 = (char*)safeMalloc(400);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
+	allocatedMemory100 = (char*)safeMalloc(100);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),((char*)sizeof(ptrBlock6.memory))-50);
+	allocatedMemory600 = (char*)safeMalloc(600);
+	
+	safeFree(allocatedMemory600);
+	
+	//AllocatedPool
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//FreePool
+	TEST_ASSERT_NOT_NULL(freePool);
+	TEST_ASSERT_EQUAL(allocatedMemory600,memoryAddr(freePool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
+	
+	Try{
+		safeFree(allocatedMemory600);
+		TEST_FAIL_MESSAGE("Should not free same address");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
+	}
+	
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedMemory600);
+    freeMemory(allocatedMemory600);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+	_free_Expect(freePool);
+    freeMemory(freePool);
+}
+
+void test_safeFree_should_throw_error_if_free_the_same_address_twice_rightLeftChild_node(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory100,*allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "@@@@@@@@@@" , .memory[399] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock6 ptrBlock6 = {.header[49] = "%%%%%%%%%%" , .memory[599] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),((char*)sizeof(ptrBlock6.memory))-50);
+	allocatedMemory600 = (char*)safeMalloc(600);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
+	allocatedMemory100 = (char*)safeMalloc(100);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
+	allocatedMemory400 = (char*)safeMalloc(400);
+	
+	safeFree(allocatedMemory400);
+	
+	//AllocatedPool
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory600,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//FreePool
+	TEST_ASSERT_NOT_NULL(freePool);
+	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(freePool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
+	
+	Try{
+		safeFree(allocatedMemory400);
+		TEST_FAIL_MESSAGE("Should not free same address");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
+	}
+	
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedMemory600);
+    freeMemory(allocatedMemory600);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+	_free_Expect(freePool);
+    freeMemory(freePool);
+}
+
+void test_safeFree_should_throw_error_if_free_the_n800_address_twice(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400,*allocatedMemory500,*allocatedMemory600,*allocatedMemory700,*allocatedMemory800;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock2 ptrBlock2 = {.header[49] = "##########" , .memory[199] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "@@@@@@@@@@" , .memory[399] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock5 ptrBlock5 = {.header[49] = "@@@@@@@@@@" , .memory[499] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock6 ptrBlock6 = {.header[49] = "%%%%%%%%%%" , .memory[599] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock7 ptrBlock7 = {.header[49] = "%%%%%%%%%%" , .memory[699] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock8 ptrBlock8 = {.header[49] = "%%%%%%%%%%" , .memory[799] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),((char*)sizeof(ptrBlock6.memory))-50);
+	allocatedMemory600 = (char*)safeMalloc(600);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
+	allocatedMemory100 = (char*)safeMalloc(100);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
+	allocatedMemory200 = (char*)safeMalloc(200);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
+	allocatedMemory400 = (char*)safeMalloc(400);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+700+FOOTER_SIZE)),((char*)sizeof(ptrBlock7.memory))-50);
+	allocatedMemory700 = (char*)safeMalloc(700);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),((char*)sizeof(ptrBlock8.memory))-50);
+	allocatedMemory800 = (char*)safeMalloc(800);
+	
+	safeFree(allocatedMemory800);
+	//AllocatedPool
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory600,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//FreePool
+	TEST_ASSERT_NOT_NULL(freePool);
+	TEST_ASSERT_EQUAL(allocatedMemory800,memoryAddr(freePool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
+	
+	Try{
+		safeFree(allocatedMemory800);
+		TEST_FAIL_MESSAGE("Should not free same address");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
+	}
+	
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedMemory600);
+    freeMemory(allocatedMemory600);
+	_free_Expect(allocatedMemory700);
+    freeMemory(allocatedMemory700);
+	_free_Expect(allocatedMemory800);
+    freeMemory(allocatedMemory800);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+	_free_Expect(freePool);
+    freeMemory(freePool);
+}
+
+void test_safeFree_should_throw_error_if_free_the_n600_and_n100_address_twice(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400,*allocatedMemory500,*allocatedMemory600,*allocatedMemory700,*allocatedMemory800;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock2 ptrBlock2 = {.header[49] = "##########" , .memory[199] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "@@@@@@@@@@" , .memory[399] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock5 ptrBlock5 = {.header[49] = "@@@@@@@@@@" , .memory[499] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock6 ptrBlock6 = {.header[49] = "%%%%%%%%%%" , .memory[599] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock7 ptrBlock7 = {.header[49] = "%%%%%%%%%%" , .memory[699] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock8 ptrBlock8 = {.header[49] = "%%%%%%%%%%" , .memory[799] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),((char*)sizeof(ptrBlock6.memory))-50);
+	allocatedMemory600 = (char*)safeMalloc(600);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
+	allocatedMemory100 = (char*)safeMalloc(100);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
+	allocatedMemory200 = (char*)safeMalloc(200);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
+	allocatedMemory400 = (char*)safeMalloc(400);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+700+FOOTER_SIZE)),((char*)sizeof(ptrBlock7.memory))-50);
+	allocatedMemory700 = (char*)safeMalloc(700);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),((char*)sizeof(ptrBlock8.memory))-50);
+	allocatedMemory800 = (char*)safeMalloc(800);
+	
+	safeFree(allocatedMemory600);
+	//AllocatedPool
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory700,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//FreePool
+	TEST_ASSERT_NOT_NULL(freePool);
+	TEST_ASSERT_EQUAL(allocatedMemory600,memoryAddr(freePool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
+	
+	safeFree(allocatedMemory100);
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory700,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//FreePool
+	TEST_ASSERT_NOT_NULL(freePool);
+	TEST_ASSERT_EQUAL(allocatedMemory600,memoryAddr(freePool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftFreePool));
+	TEST_ASSERT_EQUAL_NODE(leftFreePool,NULL,'b',freePool);
+	
+	
+	Try{
+		safeFree(allocatedMemory100);
+		TEST_FAIL_MESSAGE("Should not free same address");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
+	}
+	
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedMemory600);
+    freeMemory(allocatedMemory600);
+	_free_Expect(allocatedMemory700);
+    freeMemory(allocatedMemory700);
+	_free_Expect(allocatedMemory800);
+    freeMemory(allocatedMemory800);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+	_free_Expect(freePool);
+    freeMemory(freePool);
+}
+
+void test_safeFree_should_throw_error_if_free_the_n100_then_n400_address_twice(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400,*allocatedMemory500,*allocatedMemory600,*allocatedMemory700,*allocatedMemory800;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock2 ptrBlock2 = {.header[49] = "##########" , .memory[199] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "@@@@@@@@@@" , .memory[399] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock5 ptrBlock5 = {.header[49] = "@@@@@@@@@@" , .memory[499] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock6 ptrBlock6 = {.header[49] = "%%%%%%%%%%" , .memory[599] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock7 ptrBlock7 = {.header[49] = "%%%%%%%%%%" , .memory[699] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock8 ptrBlock8 = {.header[49] = "%%%%%%%%%%" , .memory[799] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),((char*)sizeof(ptrBlock6.memory))-50);
+	allocatedMemory600 = (char*)safeMalloc(600);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
+	allocatedMemory100 = (char*)safeMalloc(100);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
+	allocatedMemory200 = (char*)safeMalloc(200);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
+	allocatedMemory400 = (char*)safeMalloc(400);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+700+FOOTER_SIZE)),((char*)sizeof(ptrBlock7.memory))-50);
+	allocatedMemory700 = (char*)safeMalloc(700);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),((char*)sizeof(ptrBlock8.memory))-50);
+	allocatedMemory800 = (char*)safeMalloc(800);
+	
+	safeFree(allocatedMemory100);
+	//AllocatedPool
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory600,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//FreePool
+	TEST_ASSERT_NOT_NULL(freePool);
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(freePool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
+	
+	safeFree(allocatedMemory400);
+	TEST_ASSERT_NOT_NULL(allocatedPool);
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory700,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL(allocatedMemory600,memoryAddr(rightLeftChildPool));
+	TEST_ASSERT_EQUAL(allocatedMemory800,memoryAddr(rightChildPool));
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
+	
+	//FreePool
+	TEST_ASSERT_NOT_NULL(freePool);
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(freePool));
+	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(rightFreePool));
+	TEST_ASSERT_EQUAL_NODE(rightFreePool,NULL,'b',freePool);
+	
+	
+	Try{
+		safeFree(allocatedMemory100);
+		TEST_FAIL_MESSAGE("Should not free same address");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
+	}
+	
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedMemory600);
+    freeMemory(allocatedMemory600);
+	_free_Expect(allocatedMemory700);
+    freeMemory(allocatedMemory700);
+	_free_Expect(allocatedMemory800);
+    freeMemory(allocatedMemory800);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+	_free_Expect(freePool);
+    freeMemory(freePool);
+}
+/*
+void test_safeFree_should_free_record_from_allocatedPool_to_freePool(void){
+	initializePool();
+	char *allocatedMemory;
+	MemoryBlock1 ptrBlock = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock.memory))-50);
+	allocatedMemory = (char*)safeMalloc(100);
+	safeFree(allocatedMemory);
+	
+	TEST_ASSERT_NULL(allocatedPool);
+	TEST_ASSERT_NOT_NULL(freePool);
+	TEST_ASSERT_EQUAL(allocatedMemory,memoryAddr(freePool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
+	
+	_free_Expect(allocatedMemory);
+    freeMemory(allocatedMemory);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+	_free_Expect(freePool);
+    freeMemory(freePool);
+}
+
+void test_safeFree_should_throw_error_if_free_null_allocatedPool(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory = (char*)500;
+	
+	Try{
+		safeFree(allocatedMemory);
+		TEST_FAIL_MESSAGE("Should not free allocatedPool");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_INVALID_POOL,e);
+	}
+}
+
+void test_safeFree_should_throw_error_if_free_address_not_in_the_allocatedPool(void){
+	initializePool();
+	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory400,*allocatedMemory500,*allocatedMemory600,*randomAddr;
+	randomAddr = (char*)350;
+	ErrorCode e;
+	
+	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock2 ptrBlock2 = {.header[49] = "##########" , .memory[199] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock4 ptrBlock4 = {.header[49] = "@@@@@@@@@@" , .memory[399] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock5 ptrBlock5 = {.header[49] = "##########" , .memory[499] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock6 ptrBlock6 = {.header[49] = "%%%%%%%%%%" , .memory[599] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
+	allocatedMemory100 = (char*)safeMalloc(100);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
+	allocatedMemory400 = (char*)safeMalloc(400);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
+	allocatedMemory200 = (char*)safeMalloc(200);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),((char*)sizeof(ptrBlock6.memory))-50);
+	allocatedMemory600 = (char*)safeMalloc(600);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+500+FOOTER_SIZE)),((char*)sizeof(ptrBlock5.memory))-50);
+	allocatedMemory500 = (char*)safeMalloc(500);
+	
+	Try{
+		safeFree(randomAddr);
+		TEST_FAIL_MESSAGE("Should not free address not in pool");
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS,e);
 	}
 	
 	_free_Expect(allocatedMemory100);
     freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory400);
+    freeMemory(allocatedMemory400);
+	_free_Expect(allocatedMemory500);
+    freeMemory(allocatedMemory500);
+	_free_Expect(allocatedMemory600);
+    freeMemory(allocatedMemory600);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+}
+
+
+
+void test_safeFree_should_throw_error_if_free_between_the_memoryAddr(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory100,*allocatedMemory300;
+	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
+	allocatedMemory100 = (char*)safeMalloc(100);
+	
+	Try{
+		safeFree(allocatedMemory300+100);
+		TEST_FAIL_MESSAGE("Should not free between address");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_INCORRECT_ADDRESS,e);
+	}
+	
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+}
+
+void test_safeFree_should_throw_error_if_free_between_the_memoryAddr_on_left_node(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory100,*allocatedMemory300;
+	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
+	allocatedMemory100 = (char*)safeMalloc(100);
+	Try{
+		safeFree(allocatedMemory100+50);
+		TEST_FAIL_MESSAGE("Should not free between address");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS,e);
+	}
+	
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+}
+
+void test_safeFree_should_throw_error_if_free_header_address(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory100,*allocatedMemory300;
+	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.memory);
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.memory);
+	allocatedMemory100 = (char*)safeMalloc(100);
+	
+	Try{
+		safeFree(allocatedMemory100-50);
+		TEST_FAIL_MESSAGE("Should not free header address");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS,e);
+	}
+	
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+}
+
+void test_safeFree_should_throw_error_if_free_footer_address(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory100,*allocatedMemory300;
+	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
+	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.memory);
+	allocatedMemory300 = (char*)safeMalloc(300);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.memory);
+	allocatedMemory100 = (char*)safeMalloc(100);
+	
+	Try{
+		safeFree(allocatedMemory100+100);
+		TEST_FAIL_MESSAGE("Should not free header address");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS,e);
+	}
+	
+	_free_Expect(allocatedMemory100);
+    freeMemory(allocatedMemory100);
+	_free_Expect(allocatedMemory300);
+    freeMemory(allocatedMemory300);
 	_free_Expect(allocatedPool);
     freeMemory(allocatedPool);
 }
@@ -427,14 +1065,10 @@ void test_safeFree_should_free_few_record_from_allocatedPool_to_freePool(void){
 	safeFree(allocatedMemory100);
 	//AllocatedPool
 	TEST_ASSERT_NOT_NULL(allocatedPool);
-	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(allocatedPool));
-	TEST_ASSERT_EQUAL_NODE(NULL,rightPool,'b',allocatedPool);
-	
-	//RightPool
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(leftPool));
 	TEST_ASSERT_EQUAL(allocatedMemory500,memoryAddr(rightPool));
-	TEST_ASSERT_EQUAL_NODE(rightLeftChildPool,NULL,'b',rightPool);
-	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(rightLeftChildPool));
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightLeftChildPool);
+	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
 	
 	//FreePool
 	TEST_ASSERT_NOT_NULL(freePool);

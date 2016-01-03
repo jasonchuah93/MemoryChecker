@@ -346,3 +346,38 @@ void test_for_safeFree(void){
 	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',removedNode);
 }
 
+/**
+*   root                 root                    root
+*    |    remove n400     |                       |
+*    v    ----------->    v      leftRotate       v
+*   n600                 n600    ---------->    n700
+*   /  \                 / \                    /   \
+* n400  n700            -  n700               n600  n800
+*        \                   \
+*        n800               n800
+**/
+void test_for_del_left_node_should_balance_the_tree(void){
+	Record r400 = {.memoryAllocateAddr =(void*)400};
+	Record r600 = {.memoryAllocateAddr =(void*)600};
+	Record r700 = {.memoryAllocateAddr =(void*)700};
+	Record r800 = {.memoryAllocateAddr =(void*)800};
+	
+	Node n400 = {.data=&r400 ,.color='r'};
+	Node n600 = {.data=&r600 ,.color='r'};
+	Node n700 = {.data=&r700 ,.color='r'};
+	Node n800 = {.data=&r800 ,.color='r'};
+	
+	Node *root = NULL; 
+	addRecord(&root,&n600);
+	addRecord(&root,&n400);
+	addRecord(&root,&n700);
+	addRecord(&root,&n800);
+	
+	Node *removedNode = removeRecord(&root,&n400);
+	
+	TEST_ASSERT_EQUAL(&n700,root);
+	TEST_ASSERT_EQUAL(&n400,removedNode);
+	TEST_ASSERT_EQUAL_NODE(&n600,&n800,'b',root);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',&n600);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',&n800);
+}
