@@ -12,7 +12,7 @@ void test_allocateMemoryTest_should_allocate_user_input_size_and_return_pointer_
     Allocation *ptr;
     MemoryBlock1 ptrBlock = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "##########"};
     _malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock.header);
-	ptr = allocateMemoryTest(100);
+	ptr = allocateMemory(100);
     
     TEST_ASSERT_NOT_NULL(ptr);
     TEST_ASSERT_EQUAL(ptrBlock.header,ptr->headerAddr);
@@ -35,7 +35,7 @@ void test_createRecord_should_create_descriptor_with_allocated_size_and_memory(v
     MemoryBlock2 ptrBlock = {.header[49] = "$$$$$$$$$$" , .memory[199] = "abcdef123456", .footer[49] = "$$$$$$$$$$"};
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock.header);
     
-    ptr = allocateMemoryTest(200);
+    ptr = allocateMemory(200);
     TEST_ASSERT_NOT_NULL(ptr);
     TEST_ASSERT_EQUAL(ptrBlock.header,ptr->headerAddr);
     TEST_ASSERT_EQUAL(ptrBlock.memory,ptr->memoryAllocateAddr);

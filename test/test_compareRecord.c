@@ -74,12 +74,12 @@ void test_addRecordCompare_should_return_1_if_recordInRedBlackTree_is_larger_tha
     Node *ptrNode1,*ptrNode2;
     
     _malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
-	ptr1 = allocateMemoryTest(100);
+	ptr1 = allocateMemory(100);
     ptrRecord1 = createRecord(ptr1);
     ptrNode1 = createNode(ptrRecord1);
     
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	ptr2 = allocateMemoryTest(200);
+	ptr2 = allocateMemory(200);
 	ptrRecord2 = createRecord(ptr2);
     ptrNode2 = createNode(ptrRecord2);
     

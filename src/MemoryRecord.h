@@ -2,7 +2,6 @@
 #define MemoryRecord_H
 
 #define createRecord(memoryBlock) _createRecord(memoryBlock,__LINE__,__FILE__)
-#define allocateMemoryTest(size) _allocateMemoryTest(size,__LINE__,__FILE__)
 #define allocateMemory(size) _allocateMemory(size,__LINE__,__FILE__)
 
 #include <stdlib.h>
@@ -30,7 +29,6 @@ struct Record{
     char *fileName;
 };
 
-Allocation *_allocateMemoryTest(int unsigned size,int lineNumber,char *fileName);
 Allocation *_allocateMemory(int unsigned size,int lineNumber,char *fileName);
 Record *_createRecord(Allocation *memoryBlock,int lineNumber,char *fileName);
 void freeMemory(void *memoryPtr);
