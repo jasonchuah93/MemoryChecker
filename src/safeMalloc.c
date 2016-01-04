@@ -2,7 +2,8 @@
 #include "safeMalloc.h"
 
 /*********************************************************************
-* This function will initialize allocated pool to null
+* This function will initialize allocated pool and 
+  free pool to null
 *	Destroy: none
 **********************************************************************/
 void initializePool(){

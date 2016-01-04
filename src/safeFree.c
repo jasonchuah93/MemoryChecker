@@ -22,7 +22,7 @@ void _safeFree(void *memoryToFree,int lineNumber,char *fileName){
 			if(freePool!=NULL){
 				freePoolCompare = find(&freePool,memoryToFree);
 				if(freePoolCompare == 1){
-					printf("Trying to free the same address twice at file: %s,line: %d\n",fileName,lineNumber);
+					printf("Trying to free the same address twice in allocatedPool at file: %s,line: %d\n",fileName,lineNumber);
 					Throw(ERR_FREED_TWICE);
 					return;
 				}
@@ -41,14 +41,14 @@ void _safeFree(void *memoryToFree,int lineNumber,char *fileName){
 				return;
 			}else if(compareHeaderStr != 0){
 				if(compareFooterStr != 0){
-					printf("Header and Fotter memory had been edited at file: %s,line: %d\n",fileName,lineNumber);
+					printf("Header and Footer memory had been modified in freePool at file: %s,line: %d\n",fileName,lineNumber);
 					Throw(ERR_CORRUPTED_HEADER_FOOTER_MEMORY);
 				}else{
-					printf("Header memory had been edited at file: %s,line: %d\n",fileName,lineNumber);
+					printf("Header memory had been modified in freePool at file: %s,line: %d\n",fileName,lineNumber);
 					Throw(ERR_CORRUPTED_HEADER_MEMORY);
 				}
 			}else if(compareFooterStr != 0){
-				printf("Footer memory had been edited at file: %s,line: %d\n",fileName,lineNumber);
+				printf("Footer memory had been modified in freePool at file: %s,line: %d\n",fileName,lineNumber);
 				Throw(ERR_CORRUPTED_FOOTER_MEMORY);
 			}
 		
