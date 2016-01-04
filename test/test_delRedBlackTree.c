@@ -103,14 +103,14 @@ void test_removeRecord_remove_roots_and_add_into_new_root(void){
     addRecord(&root,&n200);
     addRecord(&root,&n100);
 	
+    Node *removedNode2 = removeRecord(&root,&n200);
 	Node *removedNode1 = removeRecord(&root,&n100);
-	Node *removedNode2 = removeRecord(&root,&n200);
 	
-	TEST_ASSERT_EQUAL_PTR(root,NULL);
+    TEST_ASSERT_EQUAL_PTR(root,NULL);
 	TEST_ASSERT_EQUAL_PTR(removedNode1,&n100);
 	TEST_ASSERT_EQUAL_PTR(removedNode2,&n200);
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',removedNode1);
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',removedNode2);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',removedNode1);
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',removedNode2);
 	
 	Node *newRoot = NULL;
 	addRecord(&newRoot,removedNode1);

@@ -23,12 +23,12 @@ void tearDown(void){}
 #define rightLeftChildPool allocatedPool->right->left
 
 
-void test_safeMalloc_allocate_size_100_should_create_record_descriptor_and_add_into_allocated_pool(void){
+void test_safeMallocTest_allocate_size_100_should_create_record_descriptor_and_add_into_allocated_pool(void){
 	initializePool();
 	char *allocatedMemory;
 	MemoryBlock1 ptrBlock = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock.memory))-50);
-	allocatedMemory =(char*)safeMalloc(100);
+	allocatedMemory =(char*)safeMallocTest(100);
 	
 	TEST_ASSERT_NOT_NULL(allocatedPool);
 	TEST_ASSERT_EQUAL(50,allocatedMemory-50);
@@ -44,7 +44,7 @@ void test_safeMalloc_allocate_size_100_should_create_record_descriptor_and_add_i
     freeMemory(allocatedPool);
 }
 
-void test_safeMalloc_allocate_size_100_and_200_should_create_descriptor_and_add_into_allocated_pool(void){
+void test_safeMallocTest_allocate_size_100_and_200_should_create_descriptor_and_add_into_allocated_pool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200;
 	
@@ -52,9 +52,9 @@ void test_safeMalloc_allocate_size_100_and_200_should_create_descriptor_and_add_
 	MemoryBlock2 ptrBlock2 = {.header[49] = "@@@@@@@@@@" , .memory[199] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
-	allocatedMemory100 = (char*)safeMalloc(100);
+	allocatedMemory100 = (char*)safeMallocTest(100);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	allocatedMemory200 = (char*)safeMalloc(200);
+	allocatedMemory200 = (char*)safeMallocTest(200);
 	
 	TEST_ASSERT_NOT_NULL(allocatedPool);
 	TEST_ASSERT_EQUAL(100,memorySize(allocatedPool));
@@ -75,7 +75,7 @@ void test_safeMalloc_allocate_size_100_and_200_should_create_descriptor_and_add_
     freeMemory(allocatedPool);
 }
 
-void test_safeMalloc_allocate_size_200_and_100_should_create_descriptor_and_add_into_allocated_pool(void){
+void test_safeMallocTest_allocate_size_200_and_100_should_create_descriptor_and_add_into_allocated_pool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200;
 	
@@ -83,9 +83,9 @@ void test_safeMalloc_allocate_size_200_and_100_should_create_descriptor_and_add_
 	MemoryBlock2 ptrBlock2 = {.header[49] = "##########" , .memory[199] = "abcdef", .footer[49] = "$$$$$$$$$$"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	allocatedMemory200 = (char*)safeMalloc(200);
+	allocatedMemory200 = (char*)safeMallocTest(200);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
-	allocatedMemory100 = (char*)safeMalloc(100);
+	allocatedMemory100 = (char*)safeMallocTest(100);
 	
 	TEST_ASSERT_NOT_NULL(allocatedPool);
 	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));
@@ -103,7 +103,7 @@ void test_safeMalloc_allocate_size_200_and_100_should_create_descriptor_and_add_
     freeMemory(allocatedPool);
 }
 
-void test_safeMalloc_allocate_size_200_and_100_and_300_should_create_descriptor_and_add_into_allocated_pool(void){
+void test_safeMallocTest_allocate_size_200_and_100_and_300_should_create_descriptor_and_add_into_allocated_pool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300;
 	
@@ -112,11 +112,11 @@ void test_safeMalloc_allocate_size_200_and_100_and_300_should_create_descriptor_
 	MemoryBlock3 ptrBlock3 = {.header[49] = "%%%%%%%%%%" , .memory[299] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	allocatedMemory200 = (char*)safeMalloc(200);
+	allocatedMemory200 = (char*)safeMallocTest(200);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
-	allocatedMemory100 = (char*)safeMalloc(100);
+	allocatedMemory100 = (char*)safeMallocTest(100);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
-	allocatedMemory300 = (char*)safeMalloc(300);
+	allocatedMemory300 = (char*)safeMallocTest(300);
 	
 	TEST_ASSERT_NOT_NULL(allocatedPool);
 	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));
@@ -140,7 +140,7 @@ void test_safeMalloc_allocate_size_200_and_100_and_300_should_create_descriptor_
     freeMemory(allocatedPool);
 }
 
-void test_safeMalloc_allocate_size_200_and_300_and_100_should_create_descriptor_and_add_into_allocated_pool(void){
+void test_safeMallocTest_allocate_size_200_and_300_and_100_should_create_descriptor_and_add_into_allocated_pool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300;
 	
@@ -149,11 +149,11 @@ void test_safeMalloc_allocate_size_200_and_300_and_100_should_create_descriptor_
 	MemoryBlock3 ptrBlock3 = {.header[49] = "%%%%%%%%%%" , .memory[299] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	allocatedMemory200 = (char*)safeMalloc(200);
+	allocatedMemory200 = (char*)safeMallocTest(200);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
-	allocatedMemory300 = (char*)safeMalloc(300);
+	allocatedMemory300 = (char*)safeMallocTest(300);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
-	allocatedMemory100 = (char*)safeMalloc(100);
+	allocatedMemory100 = (char*)safeMallocTest(100);
 	
 	TEST_ASSERT_NOT_NULL(allocatedPool);
 	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));
@@ -177,7 +177,7 @@ void test_safeMalloc_allocate_size_200_and_300_and_100_should_create_descriptor_
     freeMemory(allocatedPool);
 }
 
-void test_safeMalloc_allocate_size_200_and_300_and_400_should_create_descriptor_and_add_into_allocated_pool(void){
+void test_safeMallocTest_allocate_size_200_and_300_and_400_should_create_descriptor_and_add_into_allocated_pool(void){
 	initializePool();
 	char *allocatedMemory200,*allocatedMemory300,*allocatedMemory400;
 	
@@ -186,11 +186,11 @@ void test_safeMalloc_allocate_size_200_and_300_and_400_should_create_descriptor_
 	MemoryBlock4 ptrBlock4 = {.header[49] = "%%%%%%%%%%" , .memory[399] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	allocatedMemory200 = (char*)safeMalloc(200);
+	allocatedMemory200 = (char*)safeMallocTest(200);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
-	allocatedMemory300 = (char*)safeMalloc(300);
+	allocatedMemory300 = (char*)safeMallocTest(300);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
-	allocatedMemory400 = (char*)safeMalloc(400);
+	allocatedMemory400 = (char*)safeMallocTest(400);
 	
 	TEST_ASSERT_NOT_NULL(allocatedPool);
 	TEST_ASSERT_EQUAL(300,memorySize(allocatedPool));
@@ -214,7 +214,7 @@ void test_safeMalloc_allocate_size_200_and_300_and_400_should_create_descriptor_
     freeMemory(allocatedPool);
 }
 
-void test_safeMalloc_allocate_size_400_and_300_and_200_should_create_descriptor_and_add_into_allocated_pool(void){
+void test_safeMallocTest_allocate_size_400_and_300_and_200_should_create_descriptor_and_add_into_allocated_pool(void){
 	initializePool();
 	char *allocatedMemory200,*allocatedMemory300,*allocatedMemory400;
 	
@@ -223,11 +223,11 @@ void test_safeMalloc_allocate_size_400_and_300_and_200_should_create_descriptor_
 	MemoryBlock4 ptrBlock4 = {.header[49] = "%%%%%%%%%%" , .memory[399] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
-	allocatedMemory400 = (char*)safeMalloc(400);
+	allocatedMemory400 = (char*)safeMallocTest(400);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
-	allocatedMemory300 = (char*)safeMalloc(300);
+	allocatedMemory300 = (char*)safeMallocTest(300);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	allocatedMemory200 = (char*)safeMalloc(200);
+	allocatedMemory200 = (char*)safeMallocTest(200);
 	
 	TEST_ASSERT_NOT_NULL(allocatedPool);
 	TEST_ASSERT_EQUAL(300,memorySize(allocatedPool));
@@ -251,7 +251,7 @@ void test_safeMalloc_allocate_size_400_and_300_and_200_should_create_descriptor_
     freeMemory(allocatedPool);
 }
 
-void test_safeMalloc_allocate_size_300_and_100_and_200_should_create_descriptor_and_add_into_allocated_pool(void){
+void test_safeMallocTest_allocate_size_300_and_100_and_200_should_create_descriptor_and_add_into_allocated_pool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300;
 	
@@ -260,11 +260,11 @@ void test_safeMalloc_allocate_size_300_and_100_and_200_should_create_descriptor_
 	MemoryBlock3 ptrBlock3 = {.header[49] = "%%%%%%%%%%" , .memory[299] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
-	allocatedMemory300 = (char*)safeMalloc(300);
+	allocatedMemory300 = (char*)safeMallocTest(300);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
-	allocatedMemory100 = (char*)safeMalloc(100);
+	allocatedMemory100 = (char*)safeMallocTest(100);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	allocatedMemory200 = (char*)safeMalloc(200);
+	allocatedMemory200 = (char*)safeMallocTest(200);
 	
 	TEST_ASSERT_NOT_NULL(allocatedPool);
 	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));
@@ -288,7 +288,7 @@ void test_safeMalloc_allocate_size_300_and_100_and_200_should_create_descriptor_
     freeMemory(allocatedPool);
 }
 
-void test_safeMalloc_allocate_size_100_and_400_and_200_should_create_descriptor_and_add_into_allocated_pool(void){
+void test_safeMallocTest_allocate_size_100_and_400_and_200_should_create_descriptor_and_add_into_allocated_pool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory400;
 	
@@ -297,11 +297,11 @@ void test_safeMalloc_allocate_size_100_and_400_and_200_should_create_descriptor_
 	MemoryBlock4 ptrBlock4 = {.header[49] = "%%%%%%%%%%" , .memory[399] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
-	allocatedMemory100 = (char*)safeMalloc(100);
+	allocatedMemory100 = (char*)safeMallocTest(100);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
-	allocatedMemory400 = (char*)safeMalloc(400);
+	allocatedMemory400 = (char*)safeMallocTest(400);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	allocatedMemory200 = (char*)safeMalloc(200);
+	allocatedMemory200 = (char*)safeMallocTest(200);
 	
 	TEST_ASSERT_NOT_NULL(allocatedPool);
 	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));
@@ -325,7 +325,7 @@ void test_safeMalloc_allocate_size_100_and_400_and_200_should_create_descriptor_
     freeMemory(allocatedPool);
 }
 
-void test_safeMalloc_allocate_size_400_and_200_and_300_and_100_should_create_descriptor_and_add_into_allocated_pool(void){
+void test_safeMallocTest_allocate_size_400_and_200_and_300_and_100_should_create_descriptor_and_add_into_allocated_pool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400;
 	
@@ -335,13 +335,13 @@ void test_safeMalloc_allocate_size_400_and_200_and_300_and_100_should_create_des
 	MemoryBlock4 ptrBlock4 = {.header[49] = "%%%%%%%%%%" , .memory[399] = "abcdef123456", .footer[49] = "&&&&&&&&&&"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
-	allocatedMemory400 = (char*)safeMalloc(400);
+	allocatedMemory400 = (char*)safeMallocTest(400);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	allocatedMemory200 = (char*)safeMalloc(200);
+	allocatedMemory200 = (char*)safeMallocTest(200);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
-	allocatedMemory300 = (char*)safeMalloc(300);
+	allocatedMemory300 = (char*)safeMallocTest(300);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
-	allocatedMemory100 = (char*)safeMalloc(100);
+	allocatedMemory100 = (char*)safeMallocTest(100);
 	
 	
 	TEST_ASSERT_NOT_NULL(allocatedPool);
@@ -372,7 +372,7 @@ void test_safeMalloc_allocate_size_400_and_200_and_300_and_100_should_create_des
     freeMemory(allocatedPool);
 }
 
-void test_safeMalloc_allocate_size_500_400_and_200_and_300_and_100_should_create_descriptor_and_add_into_allocated_pool(void){
+void test_safeMallocTest_allocate_size_500_400_and_200_and_300_and_100_should_create_descriptor_and_add_into_allocated_pool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400,*allocatedMemory500;
 	
@@ -383,15 +383,15 @@ void test_safeMalloc_allocate_size_500_400_and_200_and_300_and_100_should_create
 	MemoryBlock5 ptrBlock5 = {.header[49] = "%%%%%%%%%%" , .memory[499] = "abcdef123456789", .footer[49] = "&&&&&&&&&&"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+500+FOOTER_SIZE)),((char*)sizeof(ptrBlock5.memory))-50);
-	allocatedMemory500 = (char*)safeMalloc(500);
+	allocatedMemory500 = (char*)safeMallocTest(500);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),((char*)sizeof(ptrBlock4.memory))-50);
-	allocatedMemory400 = (char*)safeMalloc(400);
+	allocatedMemory400 = (char*)safeMallocTest(400);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
-	allocatedMemory300 = (char*)safeMalloc(300);
+	allocatedMemory300 = (char*)safeMallocTest(300);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	allocatedMemory200 = (char*)safeMalloc(200);
+	allocatedMemory200 = (char*)safeMallocTest(200);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
-	allocatedMemory100 = (char*)safeMalloc(100);
+	allocatedMemory100 = (char*)safeMallocTest(100);
 	
 	TEST_ASSERT_NOT_NULL(allocatedPool);
 	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));

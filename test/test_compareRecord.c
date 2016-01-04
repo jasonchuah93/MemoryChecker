@@ -11,11 +11,14 @@
 void setUp(void){}
 void tearDown(void){}
 
+MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "##########"};
+MemoryBlock2 ptrBlock2 = {.header[49] = "$$$$$$$$$$" , .memory[199] = "abcdef123456", .footer[49] = "$$$$$$$$$$"};
+
 void test_findRecordCompare_should_return_1_if_recordInRedBlackTree_is_larger_than_targetMemory(void){
 	int compare;
     char *targetMemory = (void*)100;
-	MemoryBlock2 ptrBlock = {.header[49] = "$$$$$$$$$$" , .memory[199] = "abcdef123456", .footer[49] = "$$$$$$$$$$"};
-	Allocation block = {.memoryAllocateAddr = (char*)sizeof(ptrBlock.memory)};
+	
+	Allocation block = {.memoryAllocateAddr = (char*)sizeof(ptrBlock2.memory)};
 	Record *ptrRecord = createRecord(&block);
     Node *ptrNode = createNode(ptrRecord);
     compare = findRecordCompare(&ptrNode,targetMemory);
@@ -31,8 +34,8 @@ void test_findRecordCompare_should_return_1_if_recordInRedBlackTree_is_larger_th
 void test_findRecordCompare_should_return_negative_1_if_recordInRedBlackTree_is_smaller_than_targetMemory(void){
 	int compare;
 	char *targetMemory = (void*)300;
-    MemoryBlock1 ptrBlock = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "##########"};
-	Allocation block = {.memoryAllocateAddr = (char*)sizeof(ptrBlock.memory)};
+    
+	Allocation block = {.memoryAllocateAddr = (char*)sizeof(ptrBlock1.memory)};
     Record *ptrRecord = createRecord(&block);
     Node *ptrNode = createNode(ptrRecord);
     
@@ -49,8 +52,8 @@ void test_findRecordCompare_should_return_negative_1_if_recordInRedBlackTree_is_
 void test_findRecordCompare_should_return_0_if_recordInRedBlackTree_is_equal_to_targetMemory(void){
     int compare;
     char *targetMemory = (void*)100;
-    MemoryBlock1 ptrBlock = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "##########"};
-    Allocation block = {.memoryAllocateAddr = (char*)sizeof(ptrBlock.memory)};
+    
+    Allocation block = {.memoryAllocateAddr = (char*)sizeof(ptrBlock1.memory)};
     Record *ptrRecord = createRecord(&block);
     Node *ptrNode = createNode(ptrRecord);
     
@@ -69,16 +72,14 @@ void test_addRecordCompare_should_return_1_if_recordInRedBlackTree_is_larger_tha
     Allocation *ptr1,*ptr2;
 	Record *ptrRecord1,*ptrRecord2;
     Node *ptrNode1,*ptrNode2;
-    MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "##########"};
-    MemoryBlock2 ptrBlock2 = {.header[49] = "$$$$$$$$$$" , .memory[199] = "abcdef123456", .footer[49] = "$$$$$$$$$$"};
-	
+    
     _malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
-	ptr1 = allocateMemory(100);
+	ptr1 = allocateMemoryTest(100);
     ptrRecord1 = createRecord(ptr1);
     ptrNode1 = createNode(ptrRecord1);
     
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	ptr2 = allocateMemory(200);
+	ptr2 = allocateMemoryTest(200);
 	ptrRecord2 = createRecord(ptr2);
     ptrNode2 = createNode(ptrRecord2);
     
@@ -100,9 +101,7 @@ void test_addRecordCompare_should_return_negative_1_if_recordInRedBlackTree_is_s
 	int compare;
     Record *ptrRecord1,*ptrRecord2;
     Node *ptrNode1,*ptrNode2;
-    MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "##########"};
-    MemoryBlock2 ptrBlock2 = {.header[49] = "$$$$$$$$$$" , .memory[199] = "abcdef123456", .footer[49] = "$$$$$$$$$$"};
-	
+    
     Allocation block1 = {.memoryAllocateAddr = (char*)sizeof(ptrBlock1.memory)};
     ptrRecord1 = createRecord(&block1);
     ptrNode1 = createNode(ptrRecord1);
@@ -129,7 +128,7 @@ void test_addRecordCompare_should_return_0_if_recordInRedBlackTree_is_equal_to_t
     int compare;
 	
 	MemoryBlock1 ptrBlock = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "##########"};
-    Allocation block = {.memoryAllocateAddr = (char*)sizeof(ptrBlock.memory)};
+    Allocation block = {.memoryAllocateAddr = (char*)sizeof(ptrBlock1.memory)};
     Record *ptrRecord = createRecord(&block);
     Node *ptrNode = createNode(ptrRecord);
     

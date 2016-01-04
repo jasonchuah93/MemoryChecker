@@ -9,7 +9,7 @@ void _safeFree(void *memoryToFree,int lineNumber,char *fileName){
 	char *headerContent = HEADERCONTENT,*footerContent = FOOTERCONTENT;
 	Node *freeNode,*foundNode,*headerFooterNode;
 	if(allocatedPool == NULL){
-		printf("Trying to free NULL allocatedPool at file: %s,line: %d\n",fileName,lineNumber);
+		printf("Trying to free NULL allocatedPool at file: %s,line: %d\n\n",fileName,lineNumber);
 		Throw(ERR_INVALID_POOL);
 		return;
 	}else{
@@ -22,12 +22,12 @@ void _safeFree(void *memoryToFree,int lineNumber,char *fileName){
 			if(freePool!=NULL){
 				freePoolCompare = find(&freePool,memoryToFree);
 				if(freePoolCompare == 1){
-					printf("Trying to free the same address twice in allocatedPool at file: %s,line: %d\n",fileName,lineNumber);
+					printf("Trying to free the same address twice \nin allocatedPool at file: %s,line: %d\n\n",fileName,lineNumber);
 					Throw(ERR_FREED_TWICE);
 					return;
 				}
 			}
-			printf("Trying to free incorrect memory address at file: %s,line: %d\n",fileName,lineNumber);
+			printf("Trying to free incorrect memory address \nat file: %s,line: %d\n\n",fileName,lineNumber);
 			Throw(ERR_INVALID_ADDRESS);
 			return;
 		}
@@ -41,14 +41,14 @@ void _safeFree(void *memoryToFree,int lineNumber,char *fileName){
 				return;
 			}else if(compareHeaderStr != 0){
 				if(compareFooterStr != 0){
-					printf("Header and Footer memory had been modified in freePool at file: %s,line: %d\n",fileName,lineNumber);
+					printf("Header and Footer memory had been modified in freePool \nat file: %s,line: %d\n\n",fileName,lineNumber);
 					Throw(ERR_CORRUPTED_HEADER_FOOTER_MEMORY);
 				}else{
-					printf("Header memory had been modified in freePool at file: %s,line: %d\n",fileName,lineNumber);
+					printf("Header memory had been modified in freePool \nat file: %s,line: %d\n\n",fileName,lineNumber);
 					Throw(ERR_CORRUPTED_HEADER_MEMORY);
 				}
 			}else if(compareFooterStr != 0){
-				printf("Footer memory had been modified in freePool at file: %s,line: %d\n",fileName,lineNumber);
+				printf("Footer memory had been modified in freePool \nat file: %s,line: %d\n\n",fileName,lineNumber);
 				Throw(ERR_CORRUPTED_FOOTER_MEMORY);
 			}
 		
@@ -63,7 +63,7 @@ void _safeFreeTest(void *memoryToFree,int lineNumber,char *fileName){
 	int allocatedPoolCompare,freePoolCompare,compare;
 	Node *freeNode,*foundNode;
 	if(allocatedPool == NULL){
-		printf("Trying to free NULL allocatedPool at file: %s,line: %d\n",fileName,lineNumber);
+		printf("Trying to free NULL allocatedPool at file: %s,line: %d\n\n",fileName,lineNumber);
 		Throw(ERR_INVALID_POOL);
 		return;
 	}else{
@@ -76,12 +76,12 @@ void _safeFreeTest(void *memoryToFree,int lineNumber,char *fileName){
 			if(freePool!=NULL){
 				freePoolCompare = find(&freePool,memoryToFree);
 				if(freePoolCompare == 1){
-					printf("Trying to free the same address twice at file: %s,line: %d\n",fileName,lineNumber);
+					printf("Trying to free the same address twice at file: %s,line: %d\n\n",fileName,lineNumber);
 					Throw(ERR_FREED_TWICE);
 					return;
 				}
 			}
-			printf("Trying to free incorrect memory address at file: %s,line: %d\n",fileName,lineNumber);
+			printf("Trying to free incorrect memory address at file: %s,line: %d\n\n",fileName,lineNumber);
 			Throw(ERR_INVALID_ADDRESS);
 			return;
 		}

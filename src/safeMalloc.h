@@ -12,18 +12,14 @@
 #include "redBlackTree.h"
 #include "RestructureNode.h"
 
+#define safeMallocTest(size) _safeMallocTest(size,__LINE__,__FILE__)
 #define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
 
 Node *allocatedPool,*freePool;
 
 //Functions
 void initializePool();
+void *_safeMallocTest(int unsigned size,int lineNumber, char *fileName);
 void *_safeMalloc(int unsigned size,int lineNumber, char *fileName);
-
-//void resetAllocatedPool();
-//void _checkHeaderMemoryContent(void *record,int lineNumber, char *fileName);
-//void _checkFooterMemoryContent(void *record,int lineNumber, char *fileName);
-//void saveSummary();
-
 
 #endif // safeMalloc_H

@@ -36,13 +36,11 @@ void test_findRecord_find_n200_in_root_should_return_1_if_found(void){
 	int compare ; 
 	MemoryBlock2 ptrBlock = {.header[49] = "##########" , .memory[199] = "abcdef", .footer[49] = "$$$$$$$$$$"};
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock.memory))-50);
-	allocatedMemory =(char*)safeMalloc(200);
+	allocatedMemory =(char*)safeMallocTest(200);
 	
-	//targetNode = findRecord(&allocatedPool,allocatedMemory);
 	compare = find(&allocatedPool,allocatedMemory);
 	
-	//TEST_ASSERT_EQUAL(targetNode,allocatedPool);
-	TEST_ASSERT_EQUAL(compare,1);
+    TEST_ASSERT_EQUAL(compare,1);
 	
 	_free_Expect(allocatedMemory);
     freeMemory(allocatedMemory);
@@ -75,11 +73,11 @@ void test_find_find_n100_in_root_should_return_1_if_found(void){
 	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
-	allocatedMemory200 =(char*)safeMalloc(200);
+	allocatedMemory200 =(char*)safeMallocTest(200);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
-	allocatedMemory100 = (char*)safeMalloc(100);
+	allocatedMemory100 = (char*)safeMallocTest(100);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
-	allocatedMemory300 = (char*)safeMalloc(300);
+	allocatedMemory300 = (char*)safeMallocTest(300);
 	
 	compare = find(&allocatedPool,allocatedMemory100);
 	
