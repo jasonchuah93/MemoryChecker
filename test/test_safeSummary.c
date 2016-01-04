@@ -195,3 +195,100 @@ void test_safeSummary_will_throw_error_if_header_and_footer_content_of_the_right
 	_free_Expect(allocatedPool);
     freeMemory(allocatedPool);
 }
+
+void test_safeSummary_will_throw_error_if_header_content_of_the_left_node_been_modified(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory200,*allocatedMemory600,*allocatedMemory800;
+	
+    MemoryBlock2 ptrBlock2 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
+    MemoryBlock6 ptrBlock6 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
+    MemoryBlock8 ptrBlock8 = {.header[49] = "&*&(*&*&(*&(*&(" , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
+	
+    _malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	allocatedMemory600 = (char*)safeMalloc(600);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	allocatedMemory200 = (char*)safeMalloc(200);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	allocatedMemory800 = (char*)safeMalloc(800);
+	
+    Try{
+		safeSummary();
+		TEST_FAIL_MESSAGE("Header memory edited");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_CORRUPTED_HEADER_MEMORY,e);
+	}
+	
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory600);
+    freeMemory(allocatedMemory600);
+    _free_Expect(allocatedMemory800);
+    freeMemory(allocatedMemory800);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+}
+
+void test_safeSummary_will_throw_error_if_footer_content_of_the_left_node_been_modified(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory200,*allocatedMemory600,*allocatedMemory800;
+	
+    MemoryBlock2 ptrBlock2 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
+    MemoryBlock6 ptrBlock6 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
+    MemoryBlock8 ptrBlock8 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = "$%^$%^$%^$%^$%^%^"};
+	
+    _malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	allocatedMemory600 = (char*)safeMalloc(600);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	allocatedMemory200 = (char*)safeMalloc(200);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	allocatedMemory800 = (char*)safeMalloc(800);
+	
+    Try{
+		safeSummary();
+		TEST_FAIL_MESSAGE("Footer memory edited");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_CORRUPTED_FOOTER_MEMORY,e);
+	}
+	
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory600);
+    freeMemory(allocatedMemory600);
+    _free_Expect(allocatedMemory800);
+    freeMemory(allocatedMemory800);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+}
+
+void test_safeSummary_will_throw_error_if_header_and_footer_content_of_the_left_node_been_modified(void){
+	initializePool();
+	ErrorCode e;
+	char *allocatedMemory200,*allocatedMemory600,*allocatedMemory800;
+	
+	MemoryBlock2 ptrBlock2 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
+    MemoryBlock6 ptrBlock6 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
+    MemoryBlock8 ptrBlock8 = {.header[49] =  "&*&(*&*&(*&(*&("  , .memory[199] = "abcdef", .footer[49] = "$%^$%^$%^$%^$%^%^"};
+	
+    _malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	allocatedMemory600 = (char*)safeMalloc(600);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	allocatedMemory200 = (char*)safeMalloc(200);
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	allocatedMemory800 = (char*)safeMalloc(800);
+	
+	Try{
+		safeSummary();
+		TEST_FAIL_MESSAGE("Header and footer memory edited");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_CORRUPTED_HEADER_FOOTER_MEMORY,e);
+	}
+	
+	_free_Expect(allocatedMemory200);
+    freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory800);
+    freeMemory(allocatedMemory800);
+	_free_Expect(allocatedPool);
+    freeMemory(allocatedPool);
+}

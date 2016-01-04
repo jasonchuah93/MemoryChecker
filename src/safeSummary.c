@@ -29,7 +29,7 @@ void _safeSummary(int lineNumber,char *fileName){
 		compareFooterStr = strcmp(memoryAddr(allocatedPool->left)+memorySize(allocatedPool->left),footerContent);
 		if(compareHeaderStr != 0){
 			if(compareFooterStr !=0){
-				printf("Header and Footer memory had been modified in left node of the allocatedPool \nat file: %s,line: %d\n",fileName,lineNumber);
+				printf("Header and Footer memory had been modified in left node of \nthe allocatedPool at file: %s,line: %d\n",fileName,lineNumber);
 				Throw(ERR_CORRUPTED_HEADER_FOOTER_MEMORY);
 			}else{
 				printf("Header memory had been modified in left node of the allocatedPool \nat file: %s,line: %d\n",fileName,lineNumber);
@@ -45,7 +45,7 @@ void _safeSummary(int lineNumber,char *fileName){
 		compareFooterStr = strcmp(memoryAddr(allocatedPool->right)+memorySize(allocatedPool->right),footerContent);
 		if(compareHeaderStr != 0){
 			if(compareFooterStr !=0){
-				printf("Header and Footer memory had been modified in right node of the allocatedPool \nat file: %s,line: %d\n",fileName,lineNumber);
+				printf("Header and Footer memory had been modified in right node of \nthe allocatedPool at file: %s,line: %d\n",fileName,lineNumber);
 				Throw(ERR_CORRUPTED_HEADER_FOOTER_MEMORY);
 			}else{
 				printf("Header memory had been modified in right node of the allocatedPool \nat file: %s,line: %d\n",fileName,lineNumber);
