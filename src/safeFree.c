@@ -41,7 +41,7 @@ void _safeFree(void *memoryToFree,int lineNumber,char *fileName){
 				return;
 			}else if(compareHeaderStr != 0){
 				if(compareFooterStr != 0){
-					printf("Header and Footer memory had been modified in freePool at file: %s,line: %d\n",fileName,lineNumber);
+					printf("Header and Footer memory had been modified in freePool \nat file: %s,line: %d\n",fileName,lineNumber);
 					Throw(ERR_CORRUPTED_HEADER_FOOTER_MEMORY);
 				}else{
 					printf("Header memory had been modified in freePool at file: %s,line: %d\n",fileName,lineNumber);
