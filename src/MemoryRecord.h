@@ -1,8 +1,8 @@
 #ifndef MemoryRecord_H
 #define MemoryRecord_H
 
-#define HEADERCONTENT "#############################5A5A5A5A5A5A5A5A5A5A"
-#define FOOTERCONTENT "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&5A5A5A5A5A5A5A5A5A5A"
+#define HEADERCONTENT "1############################5A5A5A5A5A5A5A5A5A5A"
+#define FOOTERCONTENT "1&&&&&&&&&&&&&&&&&&&&&&&&&&&&5A5A5A5A5A5A5A5A5A5A"
 #define createRecord(memoryBlock) _createRecord(memoryBlock,__LINE__,__FILE__)
 #define allocateMemory(size) _allocateMemory(size,__LINE__,__FILE__)
 

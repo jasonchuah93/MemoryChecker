@@ -72,4 +72,12 @@ struct MemoryBlock8{
     char footer[FOOTER_SIZE];
 };
 
+typedef struct MemoryBlock15 MemoryBlock15;
+struct MemoryBlock15{
+	//Block 15
+	char header[HEADER_SIZE];
+	char memory[15];
+    char footer[FOOTER_SIZE];
+};
+
 #endif // MemoryBlocks_H

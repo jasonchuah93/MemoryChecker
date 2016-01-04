@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "MemoryBlocks.h"
-#include "MallocWrapper.h"
+#include "mock_MallocWrapper.h"
 #include "Node.h"
 #include "Rotation.h"
 #include "MemoryRecord.h"
@@ -21,9 +21,12 @@ void tearDown(void){}
 
 void test_safeMalloc_should_allocate_size_15(void){
 	char *allocated15;
-	allocated15 = safeMalloc(15);
+	MemoryBlock15 ptrBlock = {.header[49] = HEADERCONTENT , .memory[9] = "abcdef", .footer[49] = FOOTERCONTENT};
+	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+15+FOOTER_SIZE)),(char*)ptrBlock.header);
+	allocated15 = (char*)safeMalloc(15);
 	
-	printf("header content : %s",allocated15-50);
 	TEST_ASSERT_EQUAL(allocated15,memoryAddr(allocatedPool));
 	TEST_ASSERT_EQUAL(15,memorySize(allocatedPool));
+	TEST_ASSERT_EQUAL_STRING(HEADERCONTENT,allocated15-50);
+	TEST_ASSERT_EQUAL_STRING(FOOTERCONTENT,allocated15+15);
 }
