@@ -65,7 +65,6 @@ void test_safeFree_should_throw_error_if_header_memory_of_the_left_node_in_freeP
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory300;
 	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@", .memory[99] = "abcdef123", .footer[49] = FOOTERCONTENT};
-	MemoryBlock3 ptrBlock3 = {.header[49] = HEADERCONTENT, .memory[299] = "abcdef", .footer[49] = FOOTERCONTENT};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
@@ -900,8 +899,8 @@ void test_safeFree_should_throw_error_if_free_footer_address(void){
 	initializePool();
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory300;
-	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[49] = "&&&&&&&&&&"};
-	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock1 ptrBlock1 = {.header[29] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[29] = "&&&&&&&&&&"};
+	MemoryBlock3 ptrBlock3 = {.header[29] = "##########" , .memory[299] = "abcdef", .footer[29] = "$$$$$$$$$$"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
