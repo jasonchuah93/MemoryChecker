@@ -30,23 +30,23 @@ void tearDown(void){}
 #define rightFreePool freePool->right
 #define rightLeftChildFreePool freePool->right->left
 
-MemoryBlock1 ptrBlock1 = {.header[49] = HEADERCONTENT , .memory[99] = "abcdef", .footer[49] = FOOTERCONTENT};
-MemoryBlock2 ptrBlock2 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
-MemoryBlock3 ptrBlock3 = {.header[49] = HEADERCONTENT , .memory[299] = "abcdef", .footer[49] = FOOTERCONTENT};
-MemoryBlock4 ptrBlock4 = {.header[49] = HEADERCONTENT , .memory[399] = "abcdef123", .footer[49] = FOOTERCONTENT};
-MemoryBlock5 ptrBlock5 = {.header[49] = HEADERCONTENT , .memory[499] = "abcdef123", .footer[49] = FOOTERCONTENT};
-MemoryBlock6 ptrBlock6 = {.header[49] = HEADERCONTENT , .memory[599] = "abcdef123456", .footer[49] = FOOTERCONTENT};
-MemoryBlock7 ptrBlock7 = {.header[49] = HEADERCONTENT , .memory[699] = "abcdef123456", .footer[49] = FOOTERCONTENT};
-MemoryBlock8 ptrBlock8 = {.header[49] = HEADERCONTENT , .memory[799] = "abcdef123456", .footer[49] = FOOTERCONTENT};
+MemoryBlock1 ptrBlock1;
+MemoryBlock2 ptrBlock2;
+MemoryBlock3 ptrBlock3;
+MemoryBlock4 ptrBlock4; 
+MemoryBlock5 ptrBlock5;
+MemoryBlock6 ptrBlock6;
+MemoryBlock7 ptrBlock7;
+MemoryBlock8 ptrBlock8;
 	
 void test_safeFree_should_throw_error_if_header_memory_been_modified(void){
 	initializePool();
 	ErrorCode e;
 	char *allocatedMemory100;
-	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@@@@@", .memory[99] = "abcdef123", .footer[49] = FOOTERCONTENT};
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	MemoryBlock1 ptrBlock1; 
+	_malloc_ExpectAndReturn((HEADER_SIZE+100+FOOTER_SIZE),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	
+	strcpy((char*)&ptrBlock1.header,"@@@@@@@@@@@@@@");
 	Try{
 		safeFree(allocatedMemory100);
 		TEST_FAIL_MESSAGE("Header memory edited");
@@ -64,11 +64,12 @@ void test_safeFree_should_throw_error_if_header_memory_of_the_left_node_in_freeP
 	initializePool();
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory300;
-	MemoryBlock1 ptrBlock1 = {.header[49] = "@@@@@@@@@@", .memory[99] = "abcdef123", .footer[49] = FOOTERCONTENT};
+	MemoryBlock1 ptrBlock1;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+100+FOOTER_SIZE),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	strcpy((char*)&ptrBlock1.header,"@@@@@@@@@@@@@@");
+	_malloc_ExpectAndReturn((HEADER_SIZE+300+FOOTER_SIZE),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
 	
 	safeFree(allocatedMemory300);
@@ -94,19 +95,17 @@ void test_safeFree_should_throw_error_if_detect_header_content_had_been_modified
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
 	
-	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = FOOTERCONTENT};
-	MemoryBlock3 ptrBlock3 = {.header[49] = HEADERCONTENT , .memory[299] = "abcdef", .footer[49] = FOOTERCONTENT};
-	MemoryBlock4 ptrBlock4 = {.header[49] = "@@@@@@@@@@" , .memory[399] = "abcdef123", .footer[49] = FOOTERCONTENT};
-	MemoryBlock6 ptrBlock6 = {.header[49] = "%%%%%%%%%%" , .memory[599] = "abcdef123456", .footer[49] = FOOTERCONTENT};
-	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+300+FOOTER_SIZE),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+400+FOOTER_SIZE),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	strcpy((char*)&ptrBlock4.header,"@@@@@@@@@@@@@@");
+	_malloc_ExpectAndReturn((HEADER_SIZE+600+FOOTER_SIZE),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	strcpy((char*)&ptrBlock6.header,"@@@@@@@@@@@@@@");
+	_malloc_ExpectAndReturn((HEADER_SIZE+100+FOOTER_SIZE),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
+	strcpy((char*)&ptrBlock1.header,"@@@@@@@@@@@@@@");
 	
 	Try{
 		safeFree(allocatedMemory600);
@@ -150,20 +149,25 @@ void test_safeFree_should_throw_error_if_detect_header_and_footer_content_had_be
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
 	
-	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
-	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
-	MemoryBlock4 ptrBlock4 = {.header[49] = "@@@@@@@@@@" , .memory[399] = "abcdef123", .footer[49] = "$$$$$$$$$$"};
-	MemoryBlock6 ptrBlock6 = {.header[49] = "%%%%%%%%%%" , .memory[599] = "abcdef123456", .footer[49] = "$$$$$$$$$$"};
-	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+300+FOOTER_SIZE),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
-	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
-	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
-	allocatedMemory100 = (char*)safeMalloc(100);
+	strcpy((char*)&ptrBlock3.header,"@@@@@@@@@@@@@@");
+	strcpy((char*)&ptrBlock3.footer,"@@@@@@@@@@@@@@123234345");
 	
+	_malloc_ExpectAndReturn((HEADER_SIZE+400+FOOTER_SIZE),(char*)ptrBlock4.header);
+	allocatedMemory400 = (char*)safeMalloc(400);
+	strcpy((char*)&ptrBlock4.header,"@@@@@@@@@@@@@@");
+	strcpy((char*)&ptrBlock4.footer,"@@@@@@@@@@@@@@123234345");
+	
+	_malloc_ExpectAndReturn((HEADER_SIZE+600+FOOTER_SIZE),(char*)ptrBlock6.header);
+	allocatedMemory600 = (char*)safeMalloc(600);
+	strcpy((char*)&ptrBlock6.header,"@@@@@@@@@@@@@@");
+	strcpy((char*)&ptrBlock6.footer,"@@@@@@@@@@@@@@123234345");
+	
+	_malloc_ExpectAndReturn((HEADER_SIZE+100+FOOTER_SIZE),(char*)ptrBlock1.header);
+	allocatedMemory100 = (char*)safeMalloc(100);
+	strcpy((char*)&ptrBlock1.header,"@@@@@@@@@@@@@@");
+	strcpy((char*)&ptrBlock1.footer,"@@@@@@@@@@@@@@123234345");
 	Try{
 		safeFree(allocatedMemory600);
 		TEST_FAIL_MESSAGE("Header and footer memory edited");
@@ -211,19 +215,15 @@ void test_safeFree_should_throw_error_if_footer_memory_been_modified(void){
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
 	
-	MemoryBlock1 ptrBlock1 = {.header[49] = HEADERCONTENT, .memory[99] = "abcdef123", .footer[49] = FOOTERCONTENT};
-	MemoryBlock3 ptrBlock3 = {.header[49] = HEADERCONTENT , .memory[299] = "abcdef", .footer[49] = FOOTERCONTENT};
-	MemoryBlock4 ptrBlock4 = {.header[49] = HEADERCONTENT, .memory[399] = "abcdef123", .footer[49] = FOOTERCONTENT};
-	MemoryBlock6 ptrBlock6 = {.header[49] = HEADERCONTENT , .memory[599] = "abcdef123456", .footer[49] = "$$$$$$$$$$"};
-	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+100+FOOTER_SIZE),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+300+FOOTER_SIZE),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+400+FOOTER_SIZE),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+600+FOOTER_SIZE),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
+	strcpy((char*)&ptrBlock6.footer,"@@@@@@@@@@@@@@123234345");
 	
 	safeFree(allocatedMemory300);
 	safeFree(allocatedMemory400);
@@ -250,17 +250,16 @@ void test_safeFree_should_throw_error_if_footer_memory_been_modified(void){
     freeMemory(freePool);
 }
 
-
 void test_safeFree_should_throw_error_if_free_the_same_address_twice(void){
 	initializePool();
 	ErrorCode e;
 	char *allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
 	
 	safeFree(allocatedMemory400);
@@ -288,11 +287,11 @@ void test_safeFree_should_throw_error_if_free_the_same_address_twice_right_node(
 	ErrorCode e;
 	char *allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
 	
 	safeFree(allocatedMemory600);
@@ -321,11 +320,11 @@ void test_safeFree_should_throw_error_if_free_the_same_address_twice_left_node(v
 	ErrorCode e;
 	char *allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
 	
 	safeFree(allocatedMemory300);
@@ -354,13 +353,13 @@ void test_safeFree_should_throw_error_if_free_the_same_address_twice_leftChild_n
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
 	
 	safeFree(allocatedMemory100);
@@ -391,13 +390,13 @@ void test_safeFree_should_throw_error_if_free_the_same_address_twice_leftRightCh
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
 	
 	safeFree(allocatedMemory300);
@@ -428,13 +427,13 @@ void test_safeFree_should_throw_error_if_free_the_same_address_twice_rightChild_
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
 	
 	safeFree(allocatedMemory600);
@@ -465,13 +464,13 @@ void test_safeFree_should_throw_error_if_free_the_same_address_twice_rightLeftCh
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory300,*allocatedMemory400,*allocatedMemory600;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
 	
 	safeFree(allocatedMemory400);
@@ -502,19 +501,19 @@ void test_safeFree_should_throw_error_if_free_the_n800_address_twice(void){
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400,*allocatedMemory500,*allocatedMemory600,*allocatedMemory700,*allocatedMemory800;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+700+FOOTER_SIZE)),(char*)ptrBlock7.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+700+FOOTER_SIZE)),(char*)ptrBlock7.header);
 	allocatedMemory700 = (char*)safeMalloc(700);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
 	
 	safeFree(allocatedMemory800);
@@ -551,19 +550,19 @@ void test_safeFree_should_throw_error_if_free_the_n600_and_n100_address_twice(vo
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400,*allocatedMemory500,*allocatedMemory600,*allocatedMemory700,*allocatedMemory800;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+700+FOOTER_SIZE)),(char*)ptrBlock7.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+700+FOOTER_SIZE)),(char*)ptrBlock7.header);
 	allocatedMemory700 = (char*)safeMalloc(700);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
 	
 	safeFree(allocatedMemory600);
@@ -601,19 +600,19 @@ void test_safeFree_should_throw_error_if_free_the_n100_then_n400_address_twice(v
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400,*allocatedMemory500,*allocatedMemory600,*allocatedMemory700,*allocatedMemory800;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+700+FOOTER_SIZE)),(char*)ptrBlock7.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+700+FOOTER_SIZE)),(char*)ptrBlock7.header);
 	allocatedMemory700 = (char*)safeMalloc(700);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
 	
 	safeFree(allocatedMemory100);
@@ -651,19 +650,19 @@ void test_safeFree_should_throw_error_if_free_the_n100_n400_then_n800_address_tw
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400,*allocatedMemory500,*allocatedMemory600,*allocatedMemory700,*allocatedMemory800;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+700+FOOTER_SIZE)),(char*)ptrBlock7.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+700+FOOTER_SIZE)),(char*)ptrBlock7.header);
 	allocatedMemory700 = (char*)safeMalloc(700);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
 	
 	safeFree(allocatedMemory100);
@@ -702,25 +701,25 @@ void test_safeFree_should_throw_error_if_free_the_n100_n400_n800_then_n700_addre
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400,*allocatedMemory500,*allocatedMemory600,*allocatedMemory700,*allocatedMemory800;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+300+FOOTER_SIZE),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+600+FOOTER_SIZE),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+100+FOOTER_SIZE),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+200+FOOTER_SIZE),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+400+FOOTER_SIZE),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+700+FOOTER_SIZE)),(char*)ptrBlock7.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+700+FOOTER_SIZE),(char*)ptrBlock7.header);
 	allocatedMemory700 = (char*)safeMalloc(700);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	_malloc_ExpectAndReturn((HEADER_SIZE+800+FOOTER_SIZE),(char*)ptrBlock8.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
 	
 	safeFree(allocatedMemory100);
-	safeFree(allocatedMemory400);
 	safeFree(allocatedMemory800);
 	safeFree(allocatedMemory700);
+	safeFree(allocatedMemory600);
 	
 	Try{
 		safeFree(allocatedMemory700);
@@ -753,7 +752,7 @@ void test_safeFree_should_free_record_from_allocatedPool_to_freePool(void){
 	initializePool();
 	char *allocatedMemory;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory = (char*)safeMalloc(100);
 	safeFree(allocatedMemory);
 	
@@ -789,15 +788,15 @@ void test_safeFree_should_throw_error_if_free_address_not_in_the_allocatedPool(v
 	randomAddr = (char*)350;
 	ErrorCode e;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+500+FOOTER_SIZE)),(char*)ptrBlock5.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+500+FOOTER_SIZE)),(char*)ptrBlock5.header);
 	allocatedMemory500 = (char*)safeMalloc(500);
 	
 	Try{
@@ -826,9 +825,9 @@ void test_safeFree_should_throw_error_if_free_between_the_memoryAddr(void){
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory300;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
 	
 	Try{
@@ -851,9 +850,9 @@ void test_safeFree_should_throw_error_if_free_between_the_memoryAddr_on_left_nod
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory300;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
 	Try{
 		safeFree(allocatedMemory100+50);
@@ -875,9 +874,9 @@ void test_safeFree_should_throw_error_if_free_header_address(void){
 	ErrorCode e;
 	char *allocatedMemory100,*allocatedMemory300;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
 	
 	Try{
@@ -902,9 +901,9 @@ void test_safeFree_should_throw_error_if_free_footer_address(void){
 	MemoryBlock1 ptrBlock1 = {.header[29] = "@@@@@@@@@@" , .memory[99] = "abcdef123", .footer[29] = "&&&&&&&&&&"};
 	MemoryBlock3 ptrBlock3 = {.header[29] = "##########" , .memory[299] = "abcdef", .footer[29] = "$$$$$$$$$$"};
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
 	
 	Try{
@@ -926,11 +925,11 @@ void test_safeFree_should_free_left_record_from_allocatedPool_to_freePool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory500;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+500+FOOTER_SIZE)),(char*)ptrBlock5.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+500+FOOTER_SIZE)),(char*)ptrBlock5.header);
 	allocatedMemory500 = (char*)safeMalloc(500);
 	
 	safeFree(allocatedMemory100);
@@ -962,11 +961,11 @@ void test_safeFree_should_free_right_record_from_allocatedPool_to_freePool(void)
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory500;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+500+FOOTER_SIZE)),(char*)ptrBlock5.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+500+FOOTER_SIZE)),(char*)ptrBlock5.header);
 	allocatedMemory500 = (char*)safeMalloc(500);
 	
 	safeFree(allocatedMemory500);
@@ -998,11 +997,11 @@ void test_safeFree_should_free_n200_and_n100_from_allocatedPool_to_freePool(void
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
 	
 	safeFree(allocatedMemory200);
@@ -1048,11 +1047,11 @@ void test_safeFree_should_free_root_only_from_allocatedPool_to_freePool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory400;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
 	
 	safeFree(allocatedMemory200);
@@ -1085,83 +1084,20 @@ void test_safeFree_should_free_few_record_from_allocatedPool_to_freePool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400,*allocatedMemory500;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+500+FOOTER_SIZE)),(char*)ptrBlock5.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+500+FOOTER_SIZE)),(char*)ptrBlock5.header);
 	allocatedMemory500 = (char*)safeMalloc(500);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
 	
-	//AllocatedPool
-	TEST_ASSERT_NOT_NULL(allocatedPool);
-	TEST_ASSERT_EQUAL(200,memorySize(allocatedPool));
-	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(allocatedPool));
-	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
-	//LeftPool
-	TEST_ASSERT_EQUAL(100,memorySize(leftPool));
-	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',leftPool);
-	//RightPool
-	TEST_ASSERT_EQUAL(400,memorySize(rightPool));
-	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(rightPool));
-	TEST_ASSERT_EQUAL_NODE(rightLeftChildPool,rightChildPool,'b',rightPool);
-	TEST_ASSERT_EQUAL(300,memorySize(rightLeftChildPool));
-	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(rightLeftChildPool));
-	TEST_ASSERT_EQUAL(500,memorySize(rightChildPool));
-	TEST_ASSERT_EQUAL(allocatedMemory500,memoryAddr(rightChildPool));
-	
-	//Remove n400 from allocatedPool
 	safeFree(allocatedMemory400);
-	//AllocatedPool
-	TEST_ASSERT_NOT_NULL(allocatedPool);
-	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(allocatedPool));
-	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
-	//LeftPool
-	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',leftPool);
-	//RightPool
-	TEST_ASSERT_EQUAL(allocatedMemory500,memoryAddr(rightPool));
-	TEST_ASSERT_EQUAL_NODE(rightLeftChildPool,NULL,'b',rightPool);
-	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(rightLeftChildPool));
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightLeftChildPool);
-	//FreePool
-	TEST_ASSERT_NOT_NULL(freePool);
-	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(freePool));
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
-	
-	//Remove n100 from allocatedPool
 	safeFree(allocatedMemory100);
-	//AllocatedPool
-	TEST_ASSERT_NOT_NULL(allocatedPool);
-	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
-	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(leftPool));
-	TEST_ASSERT_EQUAL(allocatedMemory500,memoryAddr(rightPool));
-	TEST_ASSERT_EQUAL_NODE(leftPool,rightPool,'b',allocatedPool);
-	//FreePool
-	TEST_ASSERT_NOT_NULL(freePool);
-	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(freePool));
-	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftFreePool));
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftFreePool);
-	TEST_ASSERT_EQUAL_NODE(leftFreePool,NULL,'b',freePool);
-	
-	//Remove n200 from allocatedPool
 	safeFree(allocatedMemory200);
-	TEST_ASSERT_NOT_NULL(allocatedPool);
-	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
-	TEST_ASSERT_EQUAL(allocatedMemory500,memoryAddr(rightPool));
-	TEST_ASSERT_EQUAL_NODE(NULL,rightPool,'b',allocatedPool);
-	//FreePool
-	TEST_ASSERT_NOT_NULL(freePool);
-	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(freePool));
-	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftFreePool));
-	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(rightFreePool));
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftFreePool);
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightFreePool);
-	TEST_ASSERT_EQUAL_NODE(leftFreePool,rightFreePool,'b',freePool);
 	
 	_free_Expect(allocatedMemory100);
     freeMemory(allocatedMemory100);

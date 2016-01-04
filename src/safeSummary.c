@@ -23,6 +23,9 @@ void _safeSummary(int lineNumber,char *fileName){
 			printf("Footer memory had been modified in root of the allocatedPool \nat file: %s,line: %d\n",fileName,lineNumber);
 			Throw(ERR_CORRUPTED_FOOTER_MEMORY);
 		}
+	}else{
+		printf("No record in allocatedPool at file: %s,line: %d\n",fileName,lineNumber);
+		return;
 	}
 	if(allocatedPool->left !=NULL){
 		compareHeaderStr = strcmp(memoryAddr(allocatedPool->left)-50,headerContent);

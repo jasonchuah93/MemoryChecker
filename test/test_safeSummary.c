@@ -19,21 +19,21 @@
 void setUp(void){}
 void tearDown(void){}
 
-MemoryBlock1 ptrBlock1 = {.header[49] = HEADERCONTENT , .memory[99] = "abcdefghijklmnop", .footer[49] = FOOTERCONTENT};
-MemoryBlock2 ptrBlock2 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
-MemoryBlock3 ptrBlock3 = {.header[49] = HEADERCONTENT , .memory[299] = "abcdef", .footer[49] = FOOTERCONTENT};
-MemoryBlock4 ptrBlock4 = {.header[49] = HEADERCONTENT , .memory[399] = "abcdef123", .footer[49] = FOOTERCONTENT};
-MemoryBlock5 ptrBlock5 = {.header[49] = HEADERCONTENT , .memory[499] = "abcdef123", .footer[49] = FOOTERCONTENT};
-MemoryBlock6 ptrBlock6 = {.header[49] = HEADERCONTENT , .memory[599] = "abcdef123456", .footer[49] = FOOTERCONTENT};
-MemoryBlock7 ptrBlock7 = {.header[49] = HEADERCONTENT , .memory[699] = "abcdef123456", .footer[49] = FOOTERCONTENT};
-MemoryBlock8 ptrBlock8 = {.header[49] = HEADERCONTENT , .memory[799] = "abcdef123456", .footer[49] = FOOTERCONTENT};
+MemoryBlock1 ptrBlock1;
+MemoryBlock2 ptrBlock2;
+MemoryBlock3 ptrBlock3;
+MemoryBlock4 ptrBlock4;
+MemoryBlock5 ptrBlock5;
+MemoryBlock6 ptrBlock6;
+MemoryBlock7 ptrBlock7;
+MemoryBlock8 ptrBlock8;
 	
 void test_safeSummary_will_check_header_content_of_the_root_in_allocated_pool(void){
 	initializePool();
 	ErrorCode e;
 	char *allocatedMemory100;
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
 	safeSummary();
 	
@@ -49,8 +49,9 @@ void test_safeSummary_will_throw_error_if_header_content_of_the_root_been_modifi
 	char *allocatedMemory300;
 	MemoryBlock3 ptrBlock = {.header[49] = "&*&(*&*&(*&(*&(" , .memory[299] = "abcdefghijklmnop", .footer[49] = FOOTERCONTENT};
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
+	strcpy(ptrBlock.header,"modifiedThePattern");
 	
 	Try{
 		safeSummary();
@@ -71,8 +72,9 @@ void test_safeSummary_will_throw_error_if_footer_content_of_the_root_been_modifi
 	char *allocatedMemory500;
 	MemoryBlock5 ptrBlock = {.header[49] = HEADERCONTENT , .memory[499] = "abcdefghijklmnop", .footer[49] = "$%^$%^$%^$%^$%^%^"};
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+500+FOOTER_SIZE)),(char*)ptrBlock.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+500+FOOTER_SIZE)),(char*)ptrBlock.header);
 	allocatedMemory500 = (char*)safeMalloc(500);
+	strcpy(ptrBlock.footer,"modifiedThePattern");
 	
 	Try{
 		safeSummary();
@@ -93,8 +95,10 @@ void test_safeSummary_will_throw_error_if_header_and_footer_content_of_the_root_
 	char *allocatedMemory800;
 	MemoryBlock8 ptrBlock = {.header[49] = "&*&(*&*&(*&(*&(" , .memory[799] = "abcdefghijklmnop", .footer[49] = "$%^$%^$%^$%^$%^%^"};
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
+	strcpy(ptrBlock.header,"modifiedThePattern");
+	strcpy(ptrBlock.footer,"modifiedThePattern");
 	
 	Try{
 		safeSummary();
@@ -114,14 +118,13 @@ void test_safeSummary_will_throw_error_if_header_content_of_the_right_node_been_
 	ErrorCode e;
 	char *allocatedMemory200,*allocatedMemory600,*allocatedMemory800;
 	
-	MemoryBlock2 ptrBlock2 = {.header[49] = "&*&(*&*&(*&(*&(" , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
-	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
+	strcpy(ptrBlock2.header,"modifiedThePattern");
 	
 	Try{
 		safeSummary();
@@ -145,12 +148,13 @@ void test_safeSummary_will_throw_error_if_footer_content_of_the_right_node_been_
 	
 	MemoryBlock2 ptrBlock2 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = "$%^$%^$%^$%^$%^%^"};
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
+	strcpy(ptrBlock2.footer,"modifiedThePattern");
 	
 	Try{
 		safeSummary();
@@ -174,12 +178,14 @@ void test_safeSummary_will_throw_error_if_header_and_footer_content_of_the_right
 	
 	MemoryBlock2 ptrBlock2 = {.header[49] = "&*&(*&*&(*&(*&(" , .memory[199] = "abcdef", .footer[49] = "$%^$%^$%^$%^$%^%^"};
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
+	strcpy(ptrBlock2.header,"modifiedThePattern");
+	strcpy(ptrBlock2.footer,"modifiedThePattern");
 	
 	Try{
 		safeSummary();
@@ -205,12 +211,13 @@ void test_safeSummary_will_throw_error_if_header_content_of_the_left_node_been_m
     MemoryBlock6 ptrBlock6 = {.header[49] = HEADERCONTENT , .memory[599] = "abcdef", .footer[49] = FOOTERCONTENT};
     MemoryBlock8 ptrBlock8 = {.header[49] = "&*&(*&*&(*&(*&(" , .memory[799] = "abcdef", .footer[49] = FOOTERCONTENT};
 	
-    _malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+    _malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
+	strcpy(ptrBlock8.header,"modifiedThePattern");
 	
     Try{
 		safeSummary();
@@ -238,12 +245,13 @@ void test_safeSummary_will_throw_error_if_footer_content_of_the_left_node_been_m
     MemoryBlock6 ptrBlock6 = {.header[49] = HEADERCONTENT , .memory[599] = "abcdef", .footer[49] = FOOTERCONTENT};
     MemoryBlock8 ptrBlock8 = {.header[49] = HEADERCONTENT , .memory[799] = "abcdef", .footer[49] = "$%^$%^$%^$%^$%^%^"};
 	
-    _malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+    _malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
+	strcpy(ptrBlock8.footer,"modifiedThePattern");
 	
     Try{
 		safeSummary();
@@ -269,13 +277,14 @@ void test_safeSummary_will_throw_error_if_header_and_footer_content_of_the_left_
 	
 	MemoryBlock8 ptrBlock8 = {.header[49] =  "&*&(*&*&(*&(*&("  , .memory[799] = "abcdef", .footer[49] = "$%^$%^$%^$%^$%^%^"};
 	
-    _malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
+    _malloc_ExpectAndReturn(((HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
+	_malloc_ExpectAndReturn(((HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
-	
+	strcpy(ptrBlock8.header,"modifiedThePattern");
+	strcpy(ptrBlock8.footer,"modifiedThePattern");
 	
 	Try{
 		safeSummary();

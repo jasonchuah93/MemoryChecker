@@ -15,8 +15,8 @@ void test_createNode_should_store_record_descriptor_inside_the_node(void){
     Allocation *ptr;
     Record *ptrRecord;
     Node *ptrNode;
-    MemoryBlock2 ptrBlock = {.header[49] = "$$$$$$$$$$" , .memory[199] = "abcdef123456", .footer[49] = "$$$$$$$$$$"};
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock.memory))-50);
+    MemoryBlock2 ptrBlock = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef123456", .footer[49] = FOOTERCONTENT};
+	_malloc_ExpectAndReturn((HEADER_SIZE+200+FOOTER_SIZE),(char*)ptrBlock.header);
     
     ptr = allocateMemory(200);
     ptrRecord = createRecord(ptr);
@@ -39,8 +39,8 @@ void test_createNode_should_create_Node_and_show_content(void){
     Allocation *ptr;
     Record *ptrRecord;
     Node *ptrNode;
-    MemoryBlock2 ptrBlock = {.header[49] = "$$$$$$$$$$" , .memory[199] = "abcdef123456", .footer[49] = "$$$$$$$$$$"};
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock.header);
+    MemoryBlock2 ptrBlock = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef123456", .footer[49] = FOOTERCONTENT};
+	_malloc_ExpectAndReturn((HEADER_SIZE+200+FOOTER_SIZE),(char*)ptrBlock.header);
     
     ptr = allocateMemory(200);
     ptrRecord = createRecord(ptr);

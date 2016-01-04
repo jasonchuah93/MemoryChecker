@@ -13,11 +13,13 @@
 #include "RestructureNode.h"
 
 #define safeMalloc(size) _safeMalloc(size,__LINE__,__FILE__)
+#define safeMallocTest(size) _safeMallocTest(size,__LINE__,__FILE__)
 
 Node *allocatedPool,*freePool;
 
 //Functions
 void initializePool();
 void *_safeMalloc(int unsigned size,int lineNumber, char *fileName);
+void *_safeMallocTest(int unsigned size,int lineNumber, char *fileName);
 
 #endif // safeMalloc_H

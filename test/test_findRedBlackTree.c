@@ -34,8 +34,8 @@ void test_findRecord_find_n200_in_root_should_return_1_if_found(void){
 	Node *targetNode;
 	char *allocatedMemory;
 	int compare ; 
-	MemoryBlock2 ptrBlock = {.header[49] = "##########" , .memory[199] = "abcdef", .footer[49] = "$$$$$$$$$$"};
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock.memory))-50);
+	MemoryBlock2 ptrBlock = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
+	_malloc_ExpectAndReturn((HEADER_SIZE+200+FOOTER_SIZE),(char*)ptrBlock.header);
 	allocatedMemory =(char*)safeMalloc(200);
 	
 	compare = find(&allocatedPool,allocatedMemory);
@@ -68,15 +68,15 @@ void test_find_find_n100_in_root_should_return_1_if_found(void){
 	int compare ; 
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300;
 	
-	MemoryBlock1 ptrBlock1 = {.header[49] = "##########" , .memory[99] = "abcdef", .footer[49] = "$$$$$$$$$$"};
-	MemoryBlock2 ptrBlock2 = {.header[49] = "##########" , .memory[199] = "abcdef", .footer[49] = "$$$$$$$$$$"};
-	MemoryBlock3 ptrBlock3 = {.header[49] = "##########" , .memory[299] = "abcdef", .footer[49] = "$$$$$$$$$$"};
+	MemoryBlock1 ptrBlock1 = {.header[49] = HEADERCONTENT , .memory[99] = "abcdef", .footer[49] = FOOTERCONTENT};
+	MemoryBlock2 ptrBlock2 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
+	MemoryBlock3 ptrBlock3 = {.header[49] = HEADERCONTENT, .memory[299] = "abcdef", .footer[49] = FOOTERCONTENT};
 	
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+200+FOOTER_SIZE)),((char*)sizeof(ptrBlock2.memory))-50);
+	_malloc_ExpectAndReturn((HEADER_SIZE+200+FOOTER_SIZE),(char*)ptrBlock2.header);
 	allocatedMemory200 =(char*)safeMalloc(200);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+100+FOOTER_SIZE)),((char*)sizeof(ptrBlock1.memory))-50);
+	_malloc_ExpectAndReturn((HEADER_SIZE+100+FOOTER_SIZE),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
-	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),((char*)sizeof(ptrBlock3.memory))-50);
+	_malloc_ExpectAndReturn((HEADER_SIZE+300+FOOTER_SIZE),(char*)ptrBlock3.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
 	
 	compare = find(&allocatedPool,allocatedMemory100);
