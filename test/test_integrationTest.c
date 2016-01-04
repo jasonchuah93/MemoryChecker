@@ -205,6 +205,38 @@ void test_safeFree_then_safeSummary_should_throw_error_if_nodes_in_tree_header_f
 		TEST_ASSERT_EQUAL(ERR_CORRUPTED_HEADER_FOOTER_MEMORY,e);
 	}
 	
-	safeSummary();
+	Try{
+		safeSummary();
+		TEST_FAIL_MESSAGE("Footer content modified");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_CORRUPTED_FOOTER_MEMORY,e);
+	}
+}
+
+void test_safeMalloc_write_into_footer_block_safeFree_should_throw_error(void){
+	initializePool();
+	ErrorCode e;
+	char *allocated15 = (char*)safeMalloc(15);
+	strcpy(allocated15,"now writing into footer block");
 	
+	Try{
+		safeFree(allocated15);
+		TEST_FAIL_MESSAGE("Footer content modified");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_CORRUPTED_FOOTER_MEMORY,e);
+	}
+}
+
+void test_safeMalloc_write_into_footer_block_safeSummary_should_throw_error(void){
+	initializePool();
+	ErrorCode e;
+	char *allocated15 = (char*)safeMalloc(15);
+	strcpy(allocated15,"now writing into footer block");
+	
+	Try{
+		safeSummary();
+		TEST_FAIL_MESSAGE("Footer content modified");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_CORRUPTED_FOOTER_MEMORY,e);
+	}
 }
