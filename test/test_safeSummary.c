@@ -47,7 +47,7 @@ void test_safeSummary_will_throw_error_if_header_content_of_the_root_been_modifi
 	initializePool();
 	ErrorCode e;
 	char *allocatedMemory300;
-	MemoryBlock3 ptrBlock = {.header[49] = "&*&(*&*&(*&(*&(" , .memory[99] = "abcdefghijklmnop", .footer[49] = FOOTERCONTENT};
+	MemoryBlock3 ptrBlock = {.header[49] = "&*&(*&*&(*&(*&(" , .memory[299] = "abcdefghijklmnop", .footer[49] = FOOTERCONTENT};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock.header);
 	allocatedMemory300 = (char*)safeMalloc(300);
@@ -69,7 +69,7 @@ void test_safeSummary_will_throw_error_if_footer_content_of_the_root_been_modifi
 	initializePool();
 	ErrorCode e;
 	char *allocatedMemory500;
-	MemoryBlock5 ptrBlock = {.header[49] = HEADERCONTENT , .memory[99] = "abcdefghijklmnop", .footer[49] = "$%^$%^$%^$%^$%^%^"};
+	MemoryBlock5 ptrBlock = {.header[49] = HEADERCONTENT , .memory[499] = "abcdefghijklmnop", .footer[49] = "$%^$%^$%^$%^$%^%^"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+500+FOOTER_SIZE)),(char*)ptrBlock.header);
 	allocatedMemory500 = (char*)safeMalloc(500);
@@ -91,7 +91,7 @@ void test_safeSummary_will_throw_error_if_header_and_footer_content_of_the_root_
 	initializePool();
 	ErrorCode e;
 	char *allocatedMemory800;
-	MemoryBlock8 ptrBlock = {.header[49] = "&*&(*&*&(*&(*&(" , .memory[99] = "abcdefghijklmnop", .footer[49] = "$%^$%^$%^$%^$%^%^"};
+	MemoryBlock8 ptrBlock = {.header[49] = "&*&(*&*&(*&(*&(" , .memory[799] = "abcdefghijklmnop", .footer[49] = "$%^$%^$%^$%^$%^%^"};
 	
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
@@ -202,8 +202,8 @@ void test_safeSummary_will_throw_error_if_header_content_of_the_left_node_been_m
 	char *allocatedMemory200,*allocatedMemory600,*allocatedMemory800;
 	
     MemoryBlock2 ptrBlock2 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
-    MemoryBlock6 ptrBlock6 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
-    MemoryBlock8 ptrBlock8 = {.header[49] = "&*&(*&*&(*&(*&(" , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
+    MemoryBlock6 ptrBlock6 = {.header[49] = HEADERCONTENT , .memory[599] = "abcdef", .footer[49] = FOOTERCONTENT};
+    MemoryBlock8 ptrBlock8 = {.header[49] = "&*&(*&*&(*&(*&(" , .memory[799] = "abcdef", .footer[49] = FOOTERCONTENT};
 	
     _malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
@@ -235,8 +235,8 @@ void test_safeSummary_will_throw_error_if_footer_content_of_the_left_node_been_m
 	char *allocatedMemory200,*allocatedMemory600,*allocatedMemory800;
 	
     MemoryBlock2 ptrBlock2 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
-    MemoryBlock6 ptrBlock6 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
-    MemoryBlock8 ptrBlock8 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = "$%^$%^$%^$%^$%^%^"};
+    MemoryBlock6 ptrBlock6 = {.header[49] = HEADERCONTENT , .memory[599] = "abcdef", .footer[49] = FOOTERCONTENT};
+    MemoryBlock8 ptrBlock8 = {.header[49] = HEADERCONTENT , .memory[799] = "abcdef", .footer[49] = "$%^$%^$%^$%^$%^%^"};
 	
     _malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
@@ -267,9 +267,7 @@ void test_safeSummary_will_throw_error_if_header_and_footer_content_of_the_left_
 	ErrorCode e;
 	char *allocatedMemory200,*allocatedMemory600,*allocatedMemory800;
 	
-	MemoryBlock2 ptrBlock2 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
-    MemoryBlock6 ptrBlock6 = {.header[49] = HEADERCONTENT , .memory[199] = "abcdef", .footer[49] = FOOTERCONTENT};
-    MemoryBlock8 ptrBlock8 = {.header[49] =  "&*&(*&*&(*&(*&("  , .memory[199] = "abcdef", .footer[49] = "$%^$%^$%^$%^$%^%^"};
+	MemoryBlock8 ptrBlock8 = {.header[49] =  "&*&(*&*&(*&(*&("  , .memory[799] = "abcdef", .footer[49] = "$%^$%^$%^$%^$%^%^"};
 	
     _malloc_ExpectAndReturn((sizeof(HEADER_SIZE+600+FOOTER_SIZE)),(char*)ptrBlock6.header);
 	allocatedMemory600 = (char*)safeMalloc(600);
@@ -277,6 +275,7 @@ void test_safeSummary_will_throw_error_if_header_and_footer_content_of_the_left_
 	allocatedMemory200 = (char*)safeMalloc(200);
 	_malloc_ExpectAndReturn((sizeof(HEADER_SIZE+800+FOOTER_SIZE)),(char*)ptrBlock8.header);
 	allocatedMemory800 = (char*)safeMalloc(800);
+	
 	
 	Try{
 		safeSummary();
@@ -287,6 +286,8 @@ void test_safeSummary_will_throw_error_if_header_and_footer_content_of_the_left_
 	
 	_free_Expect(allocatedMemory200);
     freeMemory(allocatedMemory200);
+	_free_Expect(allocatedMemory600);
+    freeMemory(allocatedMemory600);
 	_free_Expect(allocatedMemory800);
     freeMemory(allocatedMemory800);
 	_free_Expect(allocatedPool);

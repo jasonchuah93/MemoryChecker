@@ -54,6 +54,7 @@ void _safeSummary(int lineNumber,char *fileName){
 		}else if(compareFooterStr !=0){
 			printf("Footer memory had been modified in right node of the allocatedPool \nat file: %s,line: %d\n",fileName,lineNumber);
 			Throw(ERR_CORRUPTED_FOOTER_MEMORY);
+			
 		}
 	}
 }

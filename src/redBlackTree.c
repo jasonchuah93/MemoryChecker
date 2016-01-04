@@ -150,8 +150,8 @@ Node *_genericDelRedBlackTree(Node **rootPtr,Node *delNode, int(*compareRecord)(
  *			targerMemory	the memory user want to look for in tree
  			compare			pointer to a function to decide the rules to find record
  *	
- *	Output: found return 1
- *			Not found return 0
+ *	Output: foundNode       the node found in the tree will be returned 
+ *			                as output
  *
  *	Destroy: none
  *	
@@ -160,23 +160,6 @@ Node *_genericDelRedBlackTree(Node **rootPtr,Node *delNode, int(*compareRecord)(
 Node *genericFindRedBlackTree(Node **rootPtr,void *targetMemory,int(*findRecordCompare)(Node **rootPtr,void *targetMemory)){
     int compare ;
 	Node *foundNode;
-	/*
-	if((char*)targetMemory > memoryAddr(*rootPtr)){
-		if(rightChild->left == NULL && rightChild->right == NULL){
-			if((char*)targetMemory != memoryAddr(rightChild)){
-				Throw(ERR_INVALID_ADDRESS);
-				return;
-			}
-		}
-	}else if((char*)targetMemory < memoryAddr(*rootPtr)){
-		if(leftChild->left == NULL && leftChild->right == NULL){
-			if((char*)targetMemory != memoryAddr(leftChild)){
-				Throw(ERR_INVALID_ADDRESS);
-				return;
-			}
-		}
-	}
-	*/
 	compare = findRecordCompare(rootPtr,targetMemory);
     if(compare == 0){
 		foundNode = *rootPtr;
@@ -189,6 +172,19 @@ Node *genericFindRedBlackTree(Node **rootPtr,void *targetMemory,int(*findRecordC
 	return foundNode;
 }
 
+/*********************************************************************
+ * This function will find record in the red black tree
+ *
+ *	Input: 	rootPtr			the root of the tree
+ *			targerMemory	the memory user want to look for in tree
+ 			compare			pointer to a function to decide the rules to find record
+ *	
+ *	Output: found return 1
+ *			Not found return 0
+ *
+ *	Destroy: none
+ *	
+**********************************************************************/
 int findRedBlackTree(Node **rootPtr,void *targetMemory,int(*findRecordCompare)(Node **rootPtr,void *targetMemory)){
     int compare ;
 	
@@ -209,7 +205,6 @@ int findRedBlackTree(Node **rootPtr,void *targetMemory,int(*findRecordCompare)(N
 			}
 		}
 	}
-	
 	compare = findRecordCompare(rootPtr,targetMemory);
     if(compare == 0){
 		return 1;
