@@ -167,7 +167,44 @@ void test_safeFree_should_throw_error_if_nodes_in_tree_header_footer_content_mod
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_CORRUPTED_HEADER_FOOTER_MEMORY,e);
 	}
+}
+
+void test_safeFree_then_safeSummary_should_throw_error_if_nodes_in_tree_header_footer_content_modified_2(void){
+	initializePool();
+	ErrorCode e;
 	
+	char * allocated10 = (char*)safeMalloc(10);
+	char * allocated20 = (char*)safeMalloc(20);
+	char * allocated30 = (char*)safeMalloc(30);
+	char * allocated40 = (char*)safeMalloc(40);
+	char * allocated50 = (char*)safeMalloc(50);
 	
+	strcpy(allocated10-50,"modifiedTheHeaderPatternInHeader");
+	strcpy(allocated20+20,"modifiedTheHeaderPatternInFooter");
+	strcpy(allocated30-50,"modifiedTheHeaderPatternInHeader");
+	strcpy(allocated30+30,"modifiedTheHeaderPatternInFooter");
+	
+	Try{
+		safeFree(allocated10);
+		TEST_FAIL_MESSAGE("Header content modified");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_CORRUPTED_HEADER_MEMORY,e);
+	}
+	
+	Try{
+		safeFree(allocated20);
+		TEST_FAIL_MESSAGE("Footer content modified");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_CORRUPTED_FOOTER_MEMORY,e);
+	}
+	
+	Try{
+		safeFree(allocated30);
+		TEST_FAIL_MESSAGE("Header and Footer content modified");
+	}Catch(e){
+		TEST_ASSERT_EQUAL(ERR_CORRUPTED_HEADER_FOOTER_MEMORY,e);
+	}
+	
+	safeSummary();
 	
 }
