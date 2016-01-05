@@ -19,7 +19,7 @@
 void setUp(void){}
 void tearDown(void){}
 
-/*
+
 void test_safeMalloc_should_allocate_size_15_and_move_into_allocatedPool(void){
 	initializePool();
 	
@@ -35,7 +35,7 @@ void test_safeMalloc_should_allocate_size_15_and_move_into_allocatedPool(void){
 	freeMemory(allocated15);
 	freeMemory(allocatedPool);
 }
-
+/*
 void test_safeMalloc_should_allocate_size_15_and_safeFree_to_freePool(void){
 	initializePool();
 	char *allocated15;
