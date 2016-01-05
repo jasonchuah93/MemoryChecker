@@ -33,7 +33,7 @@ void test_safeMalloc_should_allocate_size_15_and_move_into_allocatedPool(void){
 	TEST_ASSERT_EQUAL_STRING(FOOTERCONTENT,allocated15+15);
 
 }
-/*
+
 void test_safeMalloc_should_allocate_size_15_and_safeFree_to_freePool(void){
 	initializePool();
 	char *allocated15;
@@ -49,8 +49,6 @@ void test_safeMalloc_should_allocate_size_15_and_safeFree_to_freePool(void){
 	TEST_ASSERT_EQUAL_STRING(FOOTERCONTENT,allocated15+15);
 	
 	freeMemory(allocated15);
-	freeMemory(allocatedPool);
-	freeMemory(freePool);
 }
 
 void test_safeMalloc_should_allocate_size_15_and_safeSummary_to_check_for_error(void){
@@ -75,7 +73,6 @@ void test_safeMalloc_should_allocate_size_15_safeFree_to_freePool_and_safeSummar
 	safeSummary();
 	
 	freeMemory(allocated15);
-	freeMemory(allocatedPool);
 }
 
 void test_safeFree_should_throw_error_if_header_content_modified(void){
@@ -91,8 +88,6 @@ void test_safeFree_should_throw_error_if_header_content_modified(void){
 	}
 	
 	freeMemory(allocated15);
-	freeMemory(allocatedPool);
-	freeMemory(freePool);
 }
 
 void test_safeFree_should_throw_error_if_footer_content_modified(void){
@@ -108,8 +103,6 @@ void test_safeFree_should_throw_error_if_footer_content_modified(void){
 	}
 	
 	freeMemory(allocated50);
-	freeMemory(allocatedPool);
-	freeMemory(freePool);
 }
 
 void test_safeFree_should_throw_error_if_header_footer_content_modified(void){
@@ -126,8 +119,6 @@ void test_safeFree_should_throw_error_if_header_footer_content_modified(void){
 	}
 	
 	freeMemory(allocated50);
-	freeMemory(allocatedPool);
-	freeMemory(freePool);
 }
 
 void test_safeFree_should_throw_error_if_nodes_in_tree_header_footer_content_modified(void){
@@ -154,8 +145,6 @@ void test_safeFree_should_throw_error_if_nodes_in_tree_header_footer_content_mod
 	freeMemory(allocated30);
 	freeMemory(allocated40);
 	freeMemory(allocated50);
-	freeMemory(allocatedPool);
-	freeMemory(freePool);
 }
 
 void test_safeFree_should_throw_error_if_nodes_in_tree_header_footer_content_modified_2(void){
@@ -199,8 +188,6 @@ void test_safeFree_should_throw_error_if_nodes_in_tree_header_footer_content_mod
 	freeMemory(allocated30);
 	freeMemory(allocated40);
 	freeMemory(allocated50);
-	freeMemory(allocatedPool);
-	freeMemory(freePool);
 }
 
 void test_safeFree_then_safeSummary_should_throw_error_if_nodes_in_tree_header_footer_content_modified_2(void){
@@ -251,8 +238,6 @@ void test_safeFree_then_safeSummary_should_throw_error_if_nodes_in_tree_header_f
 	freeMemory(allocated30);
 	freeMemory(allocated40);
 	freeMemory(allocated50);
-	freeMemory(allocatedPool);
-	freeMemory(freePool);
 }
 
 void test_safeMalloc_write_into_footer_block_safeFree_should_throw_error(void){
@@ -269,8 +254,6 @@ void test_safeMalloc_write_into_footer_block_safeFree_should_throw_error(void){
 	}
 	
 	freeMemory(allocated15);
-	freeMemory(allocatedPool);
-	freeMemory(freePool);
 }
 
 void test_safeMalloc_write_into_footer_block_safeSummary_should_throw_error(void){
@@ -287,7 +270,4 @@ void test_safeMalloc_write_into_footer_block_safeSummary_should_throw_error(void
 	}
 	
 	freeMemory(allocated15);
-	freeMemory(allocatedPool);
-	freeMemory(freePool);
 }
-*/
