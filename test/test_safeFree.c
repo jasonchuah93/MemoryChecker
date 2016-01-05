@@ -249,7 +249,7 @@ void test_safeFree_should_throw_error_if_footer_memory_been_modified(void){
 	_free_Expect(freePool);
     freeMemory(freePool);
 }
-/*
+
 void test_safeFree_should_throw_error_if_free_the_same_address_twice(void){
 	initializePool();
 	ErrorCode e;
@@ -747,7 +747,7 @@ void test_safeFree_should_throw_error_if_free_the_n100_n400_n800_then_n700_addre
 	_free_Expect(freePool);
     freeMemory(freePool);
 }
-
+/*
 void test_safeFree_should_free_record_from_allocatedPool_to_freePool(void){
 	initializePool();
 	char *allocatedMemory;
