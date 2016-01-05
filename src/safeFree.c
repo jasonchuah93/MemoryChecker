@@ -4,6 +4,11 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
+/***
+	This function will free the allocated memory in the allocatedPool
+	to freePool.
+	This function also will check the header and footer content
+**/
 void _safeFree(void *memoryToFree,int lineNumber,char *fileName){
 	int allocatedPoolCompare,freePoolCompare,compare,compareHeaderStr,compareFooterStr;
 	char *headerContent = HEADERCONTENT,*footerContent = FOOTERCONTENT;

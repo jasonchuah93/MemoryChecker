@@ -5,6 +5,11 @@
 #include "ErrorCode.h"
 #include "CException.h"
 
+/** 
+	This function will be call to check 
+	the header and footer content of the record in allocatedPool 
+	and freePool. 
+**/
 void _safeSummary(int lineNumber,char *fileName){
 	int compareHeaderStr,compareFooterStr;
 	char *headerContent = HEADERCONTENT,*footerContent = FOOTERCONTENT;

@@ -32,7 +32,6 @@ void rightRotate(Node **nodePtr){
 *	Destroy: none
 *	
 **********************************************************************/
-
 void leftRotate(Node **nodePtr){
 	Node *currentRoot = (*nodePtr)->right;
 	Node *newRoot = currentRoot->left;
@@ -54,7 +53,6 @@ void leftRotate(Node **nodePtr){
 *	Destroy: none
 *	
 **********************************************************************/
-
 void leftRightRotate(Node **nodePtr){
 	Node *currentRoot = *nodePtr;
 	leftRotate(&currentRoot->left);
@@ -69,7 +67,6 @@ void leftRightRotate(Node **nodePtr){
 *	Destroy: none
 *	
 **********************************************************************/
-
 void rightLeftRotate(Node **nodePtr){
 	Node *currentRoot = *nodePtr;
 	rightRotate(&currentRoot->right);
@@ -89,7 +86,6 @@ void rightLeftRotate(Node **nodePtr){
 *	Destroy: none
 *	
 **********************************************************************/
-
 void rightRotateVer2(Node **nodePtr){
 	Node *currentRoot = (*nodePtr)->left; 
 	Node *newRoot = currentRoot->right;
@@ -106,7 +102,6 @@ void rightRotateVer2(Node **nodePtr){
 *	Destroy: none
 *	
 **********************************************************************/
-
 void leftRotateVer2(Node **nodePtr){
 	Node *currentRoot = (*nodePtr)->right;
 	Node *newRoot = currentRoot->left;
@@ -123,7 +118,6 @@ void leftRotateVer2(Node **nodePtr){
 *	Destroy: none
 *	
 **********************************************************************/
-
 void leftRightRotateVer2(Node **nodePtr){
 	Node *currentRoot = *nodePtr;
 	leftRotateVer2(&currentRoot->left);
@@ -138,7 +132,6 @@ void leftRightRotateVer2(Node **nodePtr){
 *	Destroy: none
 *	
 **********************************************************************/
-
 void rightLeftRotateVer2(Node **nodePtr){
 	Node *currentRoot = *nodePtr;
 	rightRotateVer2(&currentRoot->right);

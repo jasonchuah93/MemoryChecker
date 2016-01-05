@@ -59,7 +59,7 @@ void test_safeFree_should_throw_error_if_header_memory_been_modified(void){
 	_free_Expect(allocatedPool);
     freeMemory(allocatedPool);
 }
-/*
+
 void test_safeFree_should_throw_error_if_header_memory_of_the_left_node_in_freePool_been_modified(void){
 	initializePool();
 	ErrorCode e;
@@ -249,7 +249,7 @@ void test_safeFree_should_throw_error_if_footer_memory_been_modified(void){
 	_free_Expect(freePool);
     freeMemory(freePool);
 }
-
+/*
 void test_safeFree_should_throw_error_if_free_the_same_address_twice(void){
 	initializePool();
 	ErrorCode e;

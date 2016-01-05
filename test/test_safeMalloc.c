@@ -64,8 +64,6 @@ void test_safeMallocTest_allocate_size_100_and_200_should_create_descriptor_and_
 	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightPool);
 	TEST_ASSERT_EQUAL_NODE(NULL,rightPool,'b',allocatedPool);
 	
-	//printf("root address : %d \n",memoryAddr(allocatedPool));
-	//printf("right address : %d \n",memoryAddr(rightPool));
 	//Free memory and pool 
 	_free_Expect(allocatedMemory100);
     freeMemory(allocatedMemory100);
