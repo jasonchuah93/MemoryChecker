@@ -53,7 +53,7 @@ void test_safeMalloc_should_allocate_size_15_and_safeFree_to_freePool(void){
 	freeMemory(allocatedPool);
 	freeMemory(freePool);
 }
-
+/*
 void test_safeMalloc_should_allocate_size_15_and_safeSummary_to_check_for_error(void){
 	initializePool();
 	char *allocated15;
@@ -291,3 +291,4 @@ void test_safeMalloc_write_into_footer_block_safeSummary_should_throw_error(void
 	freeMemory(allocatedPool);
 	freeMemory(freePool);
 }
+*/
