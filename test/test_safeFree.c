@@ -964,6 +964,10 @@ void test_safeFree_should_free_right_record_from_allocatedPool_to_freePool(void)
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory500;
 	
+    MemoryBlock1 ptrBlock1;
+    MemoryBlock2 ptrBlock2;
+    MemoryBlock5 ptrBlock5;
+    
 	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
 	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
@@ -975,9 +979,9 @@ void test_safeFree_should_free_right_record_from_allocatedPool_to_freePool(void)
 	//AllocatedPool
 	TEST_ASSERT_NOT_NULL(allocatedPool);
 	TEST_ASSERT_EQUAL(ptrBlock2.memory,memoryAddr(allocatedPool));
-	TEST_ASSERT_EQUAL_NODE(leftPool,NULL,'b',allocatedPool);
-	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
+	TEST_ASSERT_EQUAL_NODE(NULL,rightPool,'b',allocatedPool);
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(rightPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightPool);
 	
 	//FreePool
 	TEST_ASSERT_NOT_NULL(freePool);
@@ -1000,6 +1004,10 @@ void test_safeFree_should_free_n200_and_n100_from_allocatedPool_to_freePool(void
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300;
 	
+    MemoryBlock1 ptrBlock1;
+    MemoryBlock2 ptrBlock2;
+    MemoryBlock3 ptrBlock3;
+    
 	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
 	_malloc_ExpectAndReturn(((HEADER_SIZE+300+FOOTER_SIZE)),(char*)ptrBlock3.header);
@@ -1010,9 +1018,9 @@ void test_safeFree_should_free_n200_and_n100_from_allocatedPool_to_freePool(void
 	safeFree(allocatedMemory200);
 	//AllocatedPool
 	TEST_ASSERT_NOT_NULL(allocatedPool);
-	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(allocatedPool));
 	TEST_ASSERT_EQUAL_NODE(leftPool,NULL,'b',allocatedPool);
-	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory300,memoryAddr(leftPool));
 	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
 	//FreePool
 	TEST_ASSERT_NOT_NULL(freePool);
@@ -1027,11 +1035,11 @@ void test_safeFree_should_free_n200_and_n100_from_allocatedPool_to_freePool(void
 	//FreePool
 	TEST_ASSERT_NOT_NULL(freePool);
 	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(freePool));
-	TEST_ASSERT_EQUAL_NODE(leftFreePool,NULL,'b',freePool);
+	TEST_ASSERT_EQUAL_NODE(NULL,rightFreePool,'b',freePool);
 	//LeftFreePool
-	TEST_ASSERT_NOT_NULL(leftFreePool);
-	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftFreePool));
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftFreePool);
+	TEST_ASSERT_NOT_NULL(rightFreePool);
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(rightFreePool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightFreePool);
 	
 	//Free memory and pool 
 	_free_Expect(allocatedMemory100);
@@ -1050,6 +1058,10 @@ void test_safeFree_should_free_root_only_from_allocatedPool_to_freePool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory400;
 	
+    MemoryBlock1 ptrBlock1;
+    MemoryBlock2 ptrBlock2;
+    MemoryBlock4 ptrBlock4;
+    
 	_malloc_ExpectAndReturn(((HEADER_SIZE+400+FOOTER_SIZE)),(char*)ptrBlock4.header);
 	allocatedMemory400 = (char*)safeMalloc(400);
 	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
@@ -1060,10 +1072,10 @@ void test_safeFree_should_free_root_only_from_allocatedPool_to_freePool(void){
 	safeFree(allocatedMemory200);
 	//AllocatedPool
 	TEST_ASSERT_NOT_NULL(allocatedPool);
-	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(allocatedPool));
 	TEST_ASSERT_EQUAL_NODE(leftPool,NULL,'b',allocatedPool);
 	//LeftPool
-	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL(allocatedMemory400,memoryAddr(leftPool));
 	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
 	//FreePool
 	TEST_ASSERT_NOT_NULL(freePool);
@@ -1082,11 +1094,16 @@ void test_safeFree_should_free_root_only_from_allocatedPool_to_freePool(void){
 	_free_Expect(freePool);
     freeMemory(freePool);
 }
-/*
+
 void test_safeFree_should_free_few_record_from_allocatedPool_to_freePool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400,*allocatedMemory500;
-	
+	MemoryBlock1 ptrBlock1;
+    MemoryBlock2 ptrBlock2;
+    MemoryBlock3 ptrBlock3;
+    MemoryBlock4 ptrBlock4;
+    MemoryBlock5 ptrBlock5;
+    
 	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
 	allocatedMemory100 = (char*)safeMalloc(100);
 	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
@@ -1117,4 +1134,3 @@ void test_safeFree_should_free_few_record_from_allocatedPool_to_freePool(void){
 	_free_Expect(freePool);
     freeMemory(freePool);
 }
-*/
