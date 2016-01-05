@@ -14,14 +14,14 @@ void _safeSummary(int lineNumber,char *fileName){
 		compareFooterStr = strcmp(memoryAddr(allocatedPool)+memorySize(allocatedPool),footerContent);
 		if(compareHeaderStr != 0){
 			if(compareFooterStr !=0){
-				printf("Header and Footer memory had been modified in root of the allocatedPool \nat file: %s,line: %d\n",fileName,lineNumber);
+				printf("Header and Footer memory had been modified in root of the \nallocatedPool at file: %s,line: %d\n",fileName,lineNumber);
 				Throw(ERR_CORRUPTED_HEADER_FOOTER_MEMORY);
 			}else{
-				printf("Header memory had been modified in root of the allocatedPool \nat file: %s,line: %d\n",fileName,lineNumber);
+				printf("Header memory had been modified in root of the \nallocatedPool at file: %s,line: %d\n",fileName,lineNumber);
 				Throw(ERR_CORRUPTED_HEADER_MEMORY);
 			}
 		}else if(compareFooterStr !=0){
-			printf("Footer memory had been modified in root of the allocatedPool \nat file: %s,line: %d\n",fileName,lineNumber);
+			printf("Warning! Write into Footer memory in root of the \nallocatedPool at file: %s,line: %d\n",fileName,lineNumber);
 			Throw(ERR_CORRUPTED_FOOTER_MEMORY);
 		}
 	}else{
@@ -40,7 +40,7 @@ void _safeSummary(int lineNumber,char *fileName){
 				Throw(ERR_CORRUPTED_HEADER_MEMORY);
 			}
 		}else if(compareFooterStr !=0){
-			printf("Footer memory had been modified in left node of the allocatedPool \nat file: %s,line: %d\n",fileName,lineNumber);
+			printf("Warning! Write into Footer memory in left node of the allocatedPool \nat file: %s,line: %d\n",fileName,lineNumber);
 			Throw(ERR_CORRUPTED_FOOTER_MEMORY);
 		}
 	}
@@ -56,7 +56,7 @@ void _safeSummary(int lineNumber,char *fileName){
 				Throw(ERR_CORRUPTED_HEADER_MEMORY);
 			}
 		}else if(compareFooterStr !=0){
-			printf("Footer memory had been modified in right node of the allocatedPool \nat file: %s,line: %d\n",fileName,lineNumber);
+			printf("Warning! Write into Footer memory in right node of the allocatedPool \nat file: %s,line: %d\n",fileName,lineNumber);
 			Throw(ERR_CORRUPTED_FOOTER_MEMORY);
 			
 		}
@@ -74,7 +74,7 @@ void _safeSummary(int lineNumber,char *fileName){
 				Throw(ERR_CORRUPTED_HEADER_MEMORY);
 			}
 		}else if(compareFooterStr !=0){
-			printf("Footer memory had been modified in root of the freePool \nat file: %s,line: %d\n",fileName,lineNumber);
+			printf("Warning! Write into Footer memory in root of the freePool \nat file: %s,line: %d\n",fileName,lineNumber);
 			Throw(ERR_CORRUPTED_FOOTER_MEMORY);
 		}
 	}else{
@@ -93,7 +93,7 @@ void _safeSummary(int lineNumber,char *fileName){
 				Throw(ERR_CORRUPTED_HEADER_MEMORY);
 			}
 		}else if(compareFooterStr !=0){
-			printf("Footer memory had been modified in left node of the freePool \nat file: %s,line: %d\n",fileName,lineNumber);
+			printf("Warning! Write into Footer memory in left node of the freePool \nat file: %s,line: %d\n",fileName,lineNumber);
 			Throw(ERR_CORRUPTED_FOOTER_MEMORY);
 		}
 	}
@@ -109,7 +109,7 @@ void _safeSummary(int lineNumber,char *fileName){
 				Throw(ERR_CORRUPTED_HEADER_MEMORY);
 			}
 		}else if(compareFooterStr !=0){
-			printf("Footer memory had been modified in right node of the freePool \nat file: %s,line: %d\n",fileName,lineNumber);
+			printf("Warning! Write into Footer memory in right node of the freePool \nat file: %s,line: %d\n",fileName,lineNumber);
 			Throw(ERR_CORRUPTED_FOOTER_MEMORY);
 			
 		}
