@@ -31,9 +31,7 @@ void test_safeMalloc_should_allocate_size_15_and_move_into_allocatedPool(void){
 	TEST_ASSERT_EQUAL(15,memorySize(allocatedPool));
 	TEST_ASSERT_EQUAL_STRING(HEADERCONTENT,allocated15-50);
 	TEST_ASSERT_EQUAL_STRING(FOOTERCONTENT,allocated15+15);
-	
-	//freeMemory(allocated15);
-	freeMemory(allocatedPool);
+
 }
 /*
 void test_safeMalloc_should_allocate_size_15_and_safeFree_to_freePool(void){
