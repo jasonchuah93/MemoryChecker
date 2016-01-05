@@ -34,7 +34,7 @@ Allocation *_allocateMemory(int unsigned size,int lineNumber,char *fileName){
 
 /**
     This function will allocateMemory when user input size
-    This function use real malloc and will be tested at
+    This function use mock to test the allocate memory
     test_integrationTest.c
     Return information in Record type when the function end.
 	Input : size		the size allocated by user
@@ -81,6 +81,9 @@ Record *_createRecord(Allocation *memoryBlock,int lineNumber,char *fileName){
 	return descriptor;
 }
 
+/** 
+	This function act as free function 
+**/
 void freeMemory(void *memoryPtr){
     _free(memoryPtr);
 }    

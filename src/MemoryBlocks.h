@@ -7,7 +7,6 @@
 
 //The memory blocks below act as the memory addr to 
 //use for testing purpose
-
 typedef struct MemoryBlock1 MemoryBlock1;
 struct MemoryBlock1{
 	//Block 1
@@ -69,14 +68,6 @@ struct MemoryBlock8{
 	//Block 8
 	char header[HEADER_SIZE];
 	char memory[800];
-    char footer[FOOTER_SIZE];
-};
-
-typedef struct MemoryBlock15 MemoryBlock15;
-struct MemoryBlock15{
-	//Block 15
-	char header[HEADER_SIZE];
-	char memory[15];
     char footer[FOOTER_SIZE];
 };
 
