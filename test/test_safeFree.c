@@ -819,7 +819,7 @@ void test_safeFree_should_throw_error_if_free_address_not_in_the_allocatedPool(v
 	_free_Expect(allocatedPool);
     freeMemory(allocatedPool);
 }
-/*
+
 void test_safeFree_should_throw_error_if_free_between_the_memoryAddr(void){
 	initializePool();
 	ErrorCode e;
@@ -1079,7 +1079,7 @@ void test_safeFree_should_free_root_only_from_allocatedPool_to_freePool(void){
 	_free_Expect(freePool);
     freeMemory(freePool);
 }
-
+/*
 void test_safeFree_should_free_few_record_from_allocatedPool_to_freePool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory300,*allocatedMemory400,*allocatedMemory500;
