@@ -924,7 +924,10 @@ void test_safeFree_should_throw_error_if_free_footer_address(void){
 void test_safeFree_should_free_left_record_from_allocatedPool_to_freePool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory500;
-	
+	MemoryBlock1 ptrBlock1;
+    MemoryBlock2 ptrBlock2;
+    MemoryBlock5 ptrBlock5;
+    
 	_malloc_ExpectAndReturn(((HEADER_SIZE+200+FOOTER_SIZE)),(char*)ptrBlock2.header);
 	allocatedMemory200 = (char*)safeMalloc(200);
 	_malloc_ExpectAndReturn(((HEADER_SIZE+100+FOOTER_SIZE)),(char*)ptrBlock1.header);
@@ -936,9 +939,9 @@ void test_safeFree_should_free_left_record_from_allocatedPool_to_freePool(void){
 	//AllocatedPool
 	TEST_ASSERT_NOT_NULL(allocatedPool);
 	TEST_ASSERT_EQUAL(ptrBlock2.memory,memoryAddr(allocatedPool));
-	TEST_ASSERT_EQUAL_NODE(NULL,rightPool,'b',allocatedPool);
-	TEST_ASSERT_EQUAL(allocatedMemory500,memoryAddr(rightPool));
-	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightPool);
+	TEST_ASSERT_EQUAL_NODE(leftPool,NULL,'b',allocatedPool);
+	TEST_ASSERT_EQUAL(allocatedMemory500,memoryAddr(leftPool));
+	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
 	
 	//FreePool
 	TEST_ASSERT_NOT_NULL(freePool);
