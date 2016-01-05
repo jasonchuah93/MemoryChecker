@@ -935,7 +935,7 @@ void test_safeFree_should_free_left_record_from_allocatedPool_to_freePool(void){
 	safeFree(allocatedMemory100);
 	//AllocatedPool
 	TEST_ASSERT_NOT_NULL(allocatedPool);
-	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(ptrBlock2.memory,memoryAddr(allocatedPool));
 	TEST_ASSERT_EQUAL_NODE(NULL,rightPool,'b',allocatedPool);
 	TEST_ASSERT_EQUAL(allocatedMemory500,memoryAddr(rightPool));
 	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightPool);
@@ -971,7 +971,7 @@ void test_safeFree_should_free_right_record_from_allocatedPool_to_freePool(void)
 	safeFree(allocatedMemory500);
 	//AllocatedPool
 	TEST_ASSERT_NOT_NULL(allocatedPool);
-	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(allocatedPool));
+	TEST_ASSERT_EQUAL(ptrBlock2.memory,memoryAddr(allocatedPool));
 	TEST_ASSERT_EQUAL_NODE(leftPool,NULL,'b',allocatedPool);
 	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftPool));
 	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftPool);
