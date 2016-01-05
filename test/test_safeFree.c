@@ -747,7 +747,7 @@ void test_safeFree_should_throw_error_if_free_the_n100_n400_n800_then_n700_addre
 	_free_Expect(freePool);
     freeMemory(freePool);
 }
-/*
+
 void test_safeFree_should_free_record_from_allocatedPool_to_freePool(void){
 	initializePool();
 	char *allocatedMemory;
@@ -781,7 +781,7 @@ void test_safeFree_should_throw_error_if_free_null_allocatedPool(void){
 		TEST_ASSERT_EQUAL(ERR_INVALID_POOL,e);
 	}
 }
-
+/*
 void test_safeFree_should_throw_error_if_free_address_not_in_the_allocatedPool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory400,*allocatedMemory500,*allocatedMemory600,*randomAddr;
