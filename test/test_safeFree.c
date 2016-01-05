@@ -781,7 +781,7 @@ void test_safeFree_should_throw_error_if_free_null_allocatedPool(void){
 		TEST_ASSERT_EQUAL(ERR_INVALID_POOL,e);
 	}
 }
-/*
+
 void test_safeFree_should_throw_error_if_free_address_not_in_the_allocatedPool(void){
 	initializePool();
 	char *allocatedMemory100,*allocatedMemory200,*allocatedMemory400,*allocatedMemory500,*allocatedMemory600,*randomAddr;
@@ -819,7 +819,7 @@ void test_safeFree_should_throw_error_if_free_address_not_in_the_allocatedPool(v
 	_free_Expect(allocatedPool);
     freeMemory(allocatedPool);
 }
-
+/*
 void test_safeFree_should_throw_error_if_free_between_the_memoryAddr(void){
 	initializePool();
 	ErrorCode e;
