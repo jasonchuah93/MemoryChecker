@@ -32,7 +32,7 @@ void test_safeMalloc_should_allocate_size_15_and_move_into_allocatedPool(void){
 	TEST_ASSERT_EQUAL_STRING(HEADERCONTENT,allocated15-50);
 	TEST_ASSERT_EQUAL_STRING(FOOTERCONTENT,allocated15+15);
 	
-	freeMemory(allocated15);
+	//freeMemory(allocated15);
 	freeMemory(allocatedPool);
 }
 /*
