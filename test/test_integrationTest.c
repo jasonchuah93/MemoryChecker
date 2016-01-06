@@ -51,7 +51,7 @@ void test_safeMalloc_should_allocate_size_15_and_safeFree_to_freePool(void){
 	
 	
 }
-/*
+
 void test_safeMalloc_should_allocate_size_15_and_safeSummary_to_check_for_error(void){
 	initializePool();
 	char *allocated15;
@@ -73,7 +73,7 @@ void test_safeMalloc_should_allocate_size_15_safeFree_to_freePool_and_safeSummar
 	safeFree(allocated15);
 	safeSummary();
 	
-	freeMemory(allocated15);
+	
 }
 
 void test_safeFree_should_throw_error_if_header_content_modified(void){
@@ -88,7 +88,7 @@ void test_safeFree_should_throw_error_if_header_content_modified(void){
 		TEST_ASSERT_EQUAL(ERR_CORRUPTED_HEADER_MEMORY,e);
 	}
 	
-	freeMemory(allocated15);
+	
 }
 
 void test_safeFree_should_throw_error_if_footer_content_modified(void){
@@ -103,7 +103,7 @@ void test_safeFree_should_throw_error_if_footer_content_modified(void){
 		TEST_ASSERT_EQUAL(ERR_CORRUPTED_FOOTER_MEMORY,e);
 	}
 	
-	freeMemory(allocated50);
+
 }
 
 void test_safeFree_should_throw_error_if_header_footer_content_modified(void){
@@ -119,7 +119,7 @@ void test_safeFree_should_throw_error_if_header_footer_content_modified(void){
 		TEST_ASSERT_EQUAL(ERR_CORRUPTED_HEADER_FOOTER_MEMORY,e);
 	}
 	
-	freeMemory(allocated50);
+	
 }
 
 void test_safeFree_should_throw_error_if_nodes_in_tree_header_footer_content_modified(void){
@@ -141,11 +141,7 @@ void test_safeFree_should_throw_error_if_nodes_in_tree_header_footer_content_mod
 		TEST_ASSERT_EQUAL(ERR_CORRUPTED_HEADER_FOOTER_MEMORY,e);
 	}
 	
-	freeMemory(allocated10);
-	freeMemory(allocated20);
-	freeMemory(allocated30);
-	freeMemory(allocated40);
-	freeMemory(allocated50);
+	
 }
 
 void test_safeFree_should_throw_error_if_nodes_in_tree_header_footer_content_modified_2(void){
@@ -184,11 +180,7 @@ void test_safeFree_should_throw_error_if_nodes_in_tree_header_footer_content_mod
 		TEST_ASSERT_EQUAL(ERR_CORRUPTED_HEADER_FOOTER_MEMORY,e);
 	}
 	
-	freeMemory(allocated10);
-	freeMemory(allocated20);
-	freeMemory(allocated30);
-	freeMemory(allocated40);
-	freeMemory(allocated50);
+	
 }
 
 void test_safeFree_then_safeSummary_should_throw_error_if_nodes_in_tree_header_footer_content_modified_2(void){
@@ -234,11 +226,7 @@ void test_safeFree_then_safeSummary_should_throw_error_if_nodes_in_tree_header_f
 		TEST_ASSERT_EQUAL(ERR_CORRUPTED_FOOTER_MEMORY,e);
 	}
 	
-	freeMemory(allocated10);
-	freeMemory(allocated20);
-	freeMemory(allocated30);
-	freeMemory(allocated40);
-	freeMemory(allocated50);
+	
 }
 
 void test_safeMalloc_write_into_footer_block_safeFree_should_throw_error(void){
@@ -254,7 +242,7 @@ void test_safeMalloc_write_into_footer_block_safeFree_should_throw_error(void){
 		TEST_ASSERT_EQUAL(ERR_CORRUPTED_FOOTER_MEMORY,e);
 	}
 	
-	freeMemory(allocated15);
+	
 }
 
 void test_safeMalloc_write_into_footer_block_safeSummary_should_throw_error(void){
@@ -270,6 +258,5 @@ void test_safeMalloc_write_into_footer_block_safeSummary_should_throw_error(void
 		TEST_ASSERT_EQUAL(ERR_CORRUPTED_FOOTER_MEMORY,e);
 	}
 	
-	freeMemory(allocated15);
+	
 }
-*/
