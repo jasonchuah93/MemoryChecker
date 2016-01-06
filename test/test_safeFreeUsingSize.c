@@ -71,17 +71,6 @@ void test_safeFreeTest_should_throw_error_if_free_the_same_address_twice(void){
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
 	}
-	
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_the_same_address_twice_right_node(void){
@@ -120,17 +109,6 @@ void test_safeFreeTest_should_throw_error_if_free_the_same_address_twice_right_n
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
 	}
-	
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_the_same_address_twice_left_node(void){
@@ -169,17 +147,6 @@ void test_safeFreeTest_should_throw_error_if_free_the_same_address_twice_left_no
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
 	}
-	
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_the_same_address_twice_leftChild_node(void){
@@ -221,19 +188,6 @@ void test_safeFreeTest_should_throw_error_if_free_the_same_address_twice_leftChi
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_the_same_address_twice_leftRightChild_node(void){
@@ -275,19 +229,6 @@ void test_safeFreeTest_should_throw_error_if_free_the_same_address_twice_leftRig
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_the_same_address_twice_rightChild_node(void){
@@ -329,19 +270,6 @@ void test_safeFreeTest_should_throw_error_if_free_the_same_address_twice_rightCh
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_the_same_address_twice_rightLeftChild_node(void){
@@ -383,19 +311,6 @@ void test_safeFreeTest_should_throw_error_if_free_the_same_address_twice_rightLe
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_the_n800_address_twice(void){
@@ -446,25 +361,6 @@ void test_safeFreeTest_should_throw_error_if_free_the_n800_address_twice(void){
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory200);
-    freeMemory(allocatedMemory200);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
-	_free_Expect(allocatedMemory700);
-    freeMemory(allocatedMemory700);
-	_free_Expect(allocatedMemory800);
-    freeMemory(allocatedMemory800);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_the_n600_and_n100_address_twice(void){
@@ -529,25 +425,6 @@ void test_safeFreeTest_should_throw_error_if_free_the_n600_and_n100_address_twic
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory200);
-    freeMemory(allocatedMemory200);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
-	_free_Expect(allocatedMemory700);
-    freeMemory(allocatedMemory700);
-	_free_Expect(allocatedMemory800);
-    freeMemory(allocatedMemory800);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_the_n100_then_n400_address_twice(void){
@@ -614,25 +491,6 @@ void test_safeFreeTest_should_throw_error_if_free_the_n100_then_n400_address_twi
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory200);
-    freeMemory(allocatedMemory200);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
-	_free_Expect(allocatedMemory700);
-    freeMemory(allocatedMemory700);
-	_free_Expect(allocatedMemory800);
-    freeMemory(allocatedMemory800);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_the_n100_n400_then_n800_address_twice(void){
@@ -711,25 +569,6 @@ void test_safeFreeTest_should_throw_error_if_free_the_n100_n400_then_n800_addres
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory200);
-    freeMemory(allocatedMemory200);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
-	_free_Expect(allocatedMemory700);
-    freeMemory(allocatedMemory700);
-	_free_Expect(allocatedMemory800);
-    freeMemory(allocatedMemory800);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_the_n100_n400_n800_then_n700_address_twice(void){
@@ -821,25 +660,6 @@ void test_safeFreeTest_should_throw_error_if_free_the_n100_n400_n800_then_n700_a
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_FREED_TWICE,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory200);
-    freeMemory(allocatedMemory200);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
-	_free_Expect(allocatedMemory700);
-    freeMemory(allocatedMemory700);
-	_free_Expect(allocatedMemory800);
-    freeMemory(allocatedMemory800);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_free_record_from_allocatedPool_to_freePool(void){
@@ -854,13 +674,6 @@ void test_safeFreeTest_should_free_record_from_allocatedPool_to_freePool(void){
 	TEST_ASSERT_NOT_NULL(freePool);
 	TEST_ASSERT_EQUAL(allocatedMemory,memoryAddr(freePool));
 	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
-	
-	_free_Expect(allocatedMemory);
-    freeMemory(allocatedMemory);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_null_allocatedPool(void){
@@ -905,19 +718,6 @@ void test_safeFreeTest_should_throw_error_if_free_address_not_in_the_allocatedPo
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory200);
-    freeMemory(allocatedMemory200);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory500);
-    freeMemory(allocatedMemory500);
-	_free_Expect(allocatedMemory600);
-    freeMemory(allocatedMemory600);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
 }
 
 
@@ -939,13 +739,6 @@ void test_safeFreeTest_should_throw_error_if_free_between_the_memoryAddr(void){
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_between_the_memoryAddr_on_left_node(void){
@@ -965,13 +758,6 @@ void test_safeFreeTest_should_throw_error_if_free_between_the_memoryAddr_on_left
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_header_address(void){
@@ -992,13 +778,6 @@ void test_safeFreeTest_should_throw_error_if_free_header_address(void){
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
 }
 
 void test_safeFreeTest_should_throw_error_if_free_footer_address(void){
@@ -1019,13 +798,6 @@ void test_safeFreeTest_should_throw_error_if_free_footer_address(void){
 	}Catch(e){
 		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS,e);
 	}
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
 }
 
 void test_safeFreeTest_should_free_left_record_from_allocatedPool_to_freePool(void){
@@ -1055,17 +827,6 @@ void test_safeFreeTest_should_free_left_record_from_allocatedPool_to_freePool(vo
 	TEST_ASSERT_NOT_NULL(freePool);
 	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(freePool));
 	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory200);
-    freeMemory(allocatedMemory200);
-	_free_Expect(allocatedMemory500);
-    freeMemory(allocatedMemory500);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_free_right_record_from_allocatedPool_to_freePool(void){
@@ -1095,17 +856,6 @@ void test_safeFreeTest_should_free_right_record_from_allocatedPool_to_freePool(v
 	TEST_ASSERT_NOT_NULL(freePool);
 	TEST_ASSERT_EQUAL(allocatedMemory500,memoryAddr(freePool));
 	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory200);
-    freeMemory(allocatedMemory200);
-	_free_Expect(allocatedMemory500);
-    freeMemory(allocatedMemory500);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_free_n200_and_n100_from_allocatedPool_to_freePool(void){
@@ -1148,18 +898,6 @@ void test_safeFreeTest_should_free_n200_and_n100_from_allocatedPool_to_freePool(
 	TEST_ASSERT_NOT_NULL(leftFreePool);
 	TEST_ASSERT_EQUAL(allocatedMemory100,memoryAddr(leftFreePool));
 	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftFreePool);
-	
-	//Free memory and pool 
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory200);
-    freeMemory(allocatedMemory200);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_free_root_only_from_allocatedPool_to_freePool(void){
@@ -1188,18 +926,6 @@ void test_safeFreeTest_should_free_root_only_from_allocatedPool_to_freePool(void
 	TEST_ASSERT_NOT_NULL(freePool);
 	TEST_ASSERT_EQUAL(allocatedMemory200,memoryAddr(freePool));
 	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'b',freePool);
-	
-	//Free memory and pool 
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory200);
-    freeMemory(allocatedMemory200);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
 
 void test_safeFreeTest_should_free_few_record_from_allocatedPool_to_freePool(void){
@@ -1289,19 +1015,4 @@ void test_safeFreeTest_should_free_few_record_from_allocatedPool_to_freePool(voi
 	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',leftFreePool);
 	TEST_ASSERT_EQUAL_NODE(NULL,NULL,'r',rightFreePool);
 	TEST_ASSERT_EQUAL_NODE(leftFreePool,rightFreePool,'b',freePool);
-	
-	_free_Expect(allocatedMemory100);
-    freeMemory(allocatedMemory100);
-	_free_Expect(allocatedMemory200);
-    freeMemory(allocatedMemory200);
-	_free_Expect(allocatedMemory300);
-    freeMemory(allocatedMemory300);
-	_free_Expect(allocatedMemory400);
-    freeMemory(allocatedMemory400);
-	_free_Expect(allocatedMemory500);
-    freeMemory(allocatedMemory500);
-	_free_Expect(allocatedPool);
-    freeMemory(allocatedPool);
-	_free_Expect(freePool);
-    freeMemory(freePool);
 }
